@@ -42,23 +42,24 @@ class Author(models.Model):
         return self.name
 
 
+class ArticleImage(models.Model):
+    image = models.ImageField(blank=True)
+    alt = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
+
+
 class Article(models.Model):
     category = models.ForeignKey(SemiCategory, verbose_name='Категория', on_delete=models.SET_NULL, null=True, related_name='semi_category')
     title = models.CharField(max_length=250, verbose_name='Название', unique=True)
     slug = models.SlugField(blank=True, unique=True)
     content = RichTextField(verbose_name='Описание', null=True, blank=True)
     short_description = models.CharField(verbose_name='Краткое описание', max_length=300, blank=True)
-    image = models.ImageField(blank=True)
+    preview_image = models.ForeignKey(ArticleImage, on_delete=models.CASCADE, blank=True, null=True)
     update_date = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(Author, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
-    rating_choices = [
-    ('1', 'very bad'),
-    ('2', 'bad'),
-    ('3', 'good'),
-    ('4', 'very good'),
-    ('5', 'excellent'),
-]
-    rating = models.CharField(verbose_name='Рейтинг', max_length=10, choices=rating_choices)
 
     class Meta:
         verbose_name = 'Статья'
@@ -73,3 +74,18 @@ class Article(models.Model):
         if not self.short_description:
             self.short_description = self.content
         super().save(*args, **kwargs)
+
+
+class Comment(models.Model):
+    author = models.CharField(max_length=200)
+    create_date = models.DateTimeField(auto_now_add=True)
+    comment = RichTextField()
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    rating_choices = [
+        ('1', 'very bad'),
+        ('2', 'bad'),
+        ('3', 'good'),
+        ('4', 'very good'),
+        ('5', 'excellent'),
+    ]
+    rating = models.CharField(verbose_name='Рейтинг', max_length=10, choices=rating_choices, null=True)
