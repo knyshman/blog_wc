@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %} Blog {% endblock title %}
+
+
+{% block content %}
+<div class="left-ads-display col-lg-9">
+        <div class="row">
+            {% for obj in object_list %}
+            <h3><a href="{% url 'article_detail' obj.slug %}">{{ obj.title }}</a></h3>
+            {% csrf_token %}
+            {{company.description.media}}
+            <p>{{ obj.short_description|safe }}</p>
+            <p>{{ obj.author.name }} | {{ obj.update_date }}</p>
+            {% trans 'Подробнее' as value %}
+            <input type="button" value="value" class="btn btn-outline-light">
+            <p></p>
+
+            {% endfor %}
+        </div>
+{% endblock %}

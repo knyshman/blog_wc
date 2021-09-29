@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.urls import reverse
+from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from django.db import models
 from ckeditor.fields import RichTextField
@@ -8,7 +10,7 @@ User = get_user_model()
 
 
 class Category(models.Model):
-    name = models.CharField(verbose_name=_('Категория'), max_length=200)
+    name = models.CharField(verbose_name=_('Категория'), max_length=200, unique=True)
 
     class Meta:
         verbose_name = 'Категория'
@@ -21,6 +23,7 @@ class Category(models.Model):
 class SemiCategory(models.Model):
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=250, verbose_name='название')
+    slug = models.SlugField(unique=True)
 
     class Meta:
         verbose_name = 'Подкатегория'
@@ -42,22 +45,13 @@ class Author(models.Model):
         return self.name
 
 
-class ArticleImage(models.Model):
-    image = models.ImageField(blank=True)
-    alt = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = 'Изображение'
-        verbose_name_plural = 'Изображения'
-
-
 class Article(models.Model):
     category = models.ForeignKey(SemiCategory, verbose_name='Категория', on_delete=models.SET_NULL, null=True, related_name='semi_category')
     title = models.CharField(max_length=250, verbose_name='Название', unique=True)
     slug = models.SlugField(blank=True, unique=True)
     content = RichTextField(verbose_name='Описание', null=True, blank=True)
     short_description = models.CharField(verbose_name='Краткое описание', max_length=300, blank=True)
-    preview_image = models.ForeignKey(ArticleImage, on_delete=models.CASCADE, blank=True, null=True)
+    preview_image = models.ImageField(blank=True, null=True)
     update_date = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(Author, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
 
@@ -69,11 +63,24 @@ class Article(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = from_cyrillic_to_eng(str(self.title))
         if not self.short_description:
             self.short_description = self.content
+        if not self.slug:
+            self.slug = slugify(str(self.title).replace(' ', '-'))
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('article_detail', kwargs={'slug': self.slug})
+
+
+class ArticleImage(models.Model):
+    image = models.ImageField(blank=True)
+    alt = models.CharField(max_length=100)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
 
 
 class Comment(models.Model):

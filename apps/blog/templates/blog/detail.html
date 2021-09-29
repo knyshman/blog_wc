@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %} {{ object.title}} {% endblock title %}
+{% load static %}
+
+
+{% block content %}
+<h1>{{ object.title }}</h1>
+{% csrf_token %}
+{%if object.preview_image%}
+{% load thumbnail %}
+{% thumbnail object.preview_image "300" as im %}
+    <a href="{{ object.preview_image.url }}">
+        <p><img src="{{ im.url }}" class="image-detail"></p>
+    </a>
+{% endthumbnail %}
+{% endif %}
+<p>{{object.category.name}}</p>
+{{object.content.media}}
+<p>{{ object.content|safe }}</p>
+<p>{{ object.update_date }}</p>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans 'Редактирование статьи ' %}"{{ object.title }}"{% endblock %}
+{% block content %}
+<h1>{% trans 'Редактирование статьи ' %}"{{ object.title }}" </h1>
+{% trans 'Сохранить' as button %}
+{% include 'blog/art_form.html' with button=button %}
+{% endblock %}

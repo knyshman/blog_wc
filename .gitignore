@@ -212,3 +212,4 @@ ENV/
 # mkdocs documentation
 /site
 
+/locale/

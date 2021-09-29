@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-28 12:55+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2021-09-29 16:43+0300\n"
+"PO-Revision-Date: 2021-09-29 13:42+0000\n"
+"Last-Translator: Anonymous User <mr.knyshman@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,55 @@ msgstr ""
 "11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"X-Translated-Using: django-rosetta 0.9.7\n"
+
+#: apps/accounts/apps.py:8
+msgid "Аккаунты"
+msgstr ""
+
+#: apps/accounts/forms.py:11 apps/accounts/forms.py:36
+msgid "Имя пользователя"
+msgstr ""
+
+#: apps/accounts/forms.py:13 apps/accounts/forms.py:38
+msgid "Введите имя пользователя"
+msgstr ""
+
+#: apps/accounts/forms.py:15
+msgid "Пароль"
+msgstr ""
+
+#: apps/accounts/forms.py:17
+msgid "Введите пароль"
+msgstr ""
+
+#: apps/accounts/forms.py:26
+msgid "Такого пользователя нет"
+msgstr ""
+
+#: apps/accounts/forms.py:28
+msgid "Неверный пароль"
+msgstr ""
+
+#: apps/accounts/forms.py:31
+msgid "Данный пользователь не активен"
+msgstr ""
+
+#: apps/accounts/forms.py:45
+msgid "Подтверждение пароля"
+msgstr ""
+
+#: apps/accounts/forms.py:48
+msgid "Повторите пароль"
+msgstr ""
+
+#: apps/accounts/forms.py:58
+msgid "Пароли не совпадают"
+msgstr ""
+
+#: apps/accounts/models.py:13
+msgid "Users must have an email address"
+msgstr ""
 
 #: apps/accounts/templates/accounts/login.html:3
 #: apps/accounts/templates/accounts/login.html:6
@@ -27,56 +76,112 @@ msgid "Форма входа"
 msgstr "Форма входу"
 
 #: apps/accounts/templates/accounts/login.html:7
-#: apps/accounts/templates/accounts/register_done.html:7 templates/base.html:55
+#: apps/accounts/templates/accounts/register.html:8
+#: apps/accounts/templates/accounts/register_done.html:9 templates/base.html:58
 msgid "Войти"
 msgstr "Увійти"
 
-#: apps/accounts/templates/accounts/register.html:2
-#: apps/accounts/templates/accounts/register.html:5
-#: apps/accounts/templates/accounts/register_done.html:2
+#: apps/accounts/templates/accounts/register.html:3
+#: apps/accounts/templates/accounts/register.html:7
+#: apps/accounts/templates/accounts/register_done.html:3
 msgid "Форма регистрации"
 msgstr "Форма реєстрації"
 
-#: apps/accounts/templates/accounts/register_done.html:5
+#: apps/accounts/templates/accounts/register_done.html:7
 msgid "Приветствуем Вас, "
 msgstr "Вітаємо Вас, "
 
-#: apps/accounts/templates/accounts/register_done.html:7
+#: apps/accounts/templates/accounts/register_done.html:9
 msgid "Вы зарегистрировались. Теперь Вы можете "
 msgstr "Ви зареєструвались. Тепер Ви можете "
 
-#: templates/base.html:16
+#: apps/blog/apps.py:8 templates/base.html:19
 msgid "Блог"
 msgstr "Блог"
 
-#: templates/base.html:23
+#: apps/blog/forms.py:8
+msgid "Заголовок"
+msgstr ""
+
+#: apps/blog/forms.py:10
+msgid "Введите заголовок"
+msgstr ""
+
+#: apps/blog/forms.py:12
+msgid "Введите текст"
+msgstr ""
+
+#: apps/blog/forms.py:14
+#, fuzzy
+#| msgid "Авторы"
+msgid "Автор"
+msgstr "Автори"
+
+#: apps/blog/forms.py:18 apps/blog/models.py:13
+msgid "Категория"
+msgstr ""
+
+#: apps/blog/templates/blog/article_create.html:3
+#: apps/blog/templates/blog/article_create.html:5
+#, fuzzy
+#| msgid "Добавить статью"
+msgid "Новая статья"
+msgstr "Додати статтю"
+
+#: apps/blog/templates/blog/article_create.html:6
+#: apps/blog/templates/blog/article_update.html:6
+msgid "Сохранить"
+msgstr ""
+
+#: apps/blog/templates/blog/article_update.html:3
+#: apps/blog/templates/blog/article_update.html:5
+msgid "Редактирование статьи "
+msgstr ""
+
+#: apps/blog/templates/blog/home.html:15
+msgid "Подробнее"
+msgstr ""
+
+#: blog_wc/settings/local_settings.py:135 blog_wc/settings/production.py:129
+msgid "Русский"
+msgstr ""
+
+#: blog_wc/settings/local_settings.py:136 blog_wc/settings/production.py:130
+msgid "English"
+msgstr ""
+
+#: blog_wc/settings/local_settings.py:137 blog_wc/settings/production.py:131
+msgid "Украинский"
+msgstr ""
+
+#: templates/base.html:26
 msgid "Главная"
 msgstr "Головна"
 
-#: templates/base.html:26
+#: templates/base.html:29
 msgid "Авторы"
 msgstr "Автори"
 
-#: templates/base.html:29
+#: templates/base.html:32
 msgid "Статьи"
 msgstr "Статті"
 
-#: templates/base.html:39
+#: templates/base.html:42
 msgid "Добавить статью"
 msgstr "Додати статтю"
 
-#: templates/base.html:40
+#: templates/base.html:43
 msgid "Города"
 msgstr "Міста"
 
-#: templates/base.html:46
+#: templates/base.html:49
 msgid " Добавить"
 msgstr "Додати"
 
-#: templates/base.html:51
+#: templates/base.html:54
 msgid "Выйти"
 msgstr "Вийти"
 
-#: templates/base.html:58
+#: templates/base.html:61
 msgid "Регистрация"
 msgstr "Реєстрація"
