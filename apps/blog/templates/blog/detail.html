@@ -19,5 +19,43 @@
 {{object.content.media}}
 <p>{{ object.content|safe }}</p>
 <p>{{ object.update_date }}</p>
+{% if rating %}
+<p>Рейтинг: {{ rating }} {% endif %}{% if comments %} / всего оценок: {{ comments.count }}{% endif %}</p>
+<div class="row">
+    <div class="col-md-4">
+        <form action="{% url 'comment_create' object.slug %}" method="post"> {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p|safe }}
+        <button type="submit" class="btn btn-primary"> {% trans 'Отправить' %}</button>
+        </form>
+    </div>
+</div>
+{% for obj in object_list %}
+<div class="card">
+  <div class="card-header">
+{{ obj.author }} | {{ obj.create_date }}
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{ obj.comment|safe }}</p>
+    <p>Оценка: {{ obj.rating }}</p>
+  </div>
+</div>
+  {% if is_paginated %}
+      <div class="pagination">
+          <span class="page-links">
+              {% if page_obj.has_previous %}
+                  <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">предыдущая</a>
+              {% endif %}
+              <span class="page-current">
+                  Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+              </span>
+              {% if page_obj.has_next %}
+                  <a href="{{ request.path }}?page={{ page_obj.next_page_number }}{% if current_order %}&sort={{ current_order }}{% endif %}">следующая</a>
+              {% endif %}
+
+          </span>
+      </div>
+  {% endif %}
+{% endfor %}
 
 {% endblock %}
