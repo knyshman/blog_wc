@@ -1,10 +1,5 @@
 from modeltranslation.translator import register, TranslationOptions
-from .models import Author, Article, Category, SemiCategory
-
-
-@register(Author)
-class AuthorTranslationOptions(TranslationOptions):
-    fields = ('name', )
+from .models import Article, Category
 
 
 @register(Article)
@@ -17,7 +12,4 @@ class CategoryTranslationOptions(TranslationOptions):
     fields = ('name',)
 
 
-@register(SemiCategory)
-class SemiCategoryTranslationOptions(TranslationOptions):
-    fields = ('name', 'category')
 

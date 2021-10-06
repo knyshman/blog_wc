@@ -1,7 +1,9 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin, forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
-from .models import Article, Author, Category, SemiCategory, ArticleImage, Comment
+from .models import Article, Category, Comment, ArticleRating
+from treebeard.admin import TreeAdmin
+from treebeard.forms import movenodeform_factory
 
 
 class ArticleAdminForm(forms.ModelForm):
@@ -25,22 +27,11 @@ class CommentAdminForm(forms.ModelForm):
 
 
 @admin.register(Category)
-class CategoryAdmin(TranslationAdmin):
+class CategoryAdmin(TranslationAdmin, TreeAdmin):
     list_display = ('name',)
-    list_display_links = ('name',)
-
-
-@admin.register(SemiCategory)
-class SemiCategoryAdmin(TranslationAdmin):
-    list_display = ('name', )
     list_display_links = ('name',)
     prepopulated_fields = {'slug': ('name',)}
-
-
-@admin.register(Author)
-class AuthorAdmin(TranslationAdmin):
-    list_display = ('name',)
-    list_display_links = ('name',)
+    form = movenodeform_factory(Category)
 
 
 @admin.register(Article)
@@ -50,5 +41,5 @@ class ArticleAdmin(TranslationAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
-admin.site.register(ArticleImage)
 admin.site.register(Comment)
+admin.site.register(ArticleRating)

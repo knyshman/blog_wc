@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% trans 'Форма регистрации' as title%}
+{% block title %} title {% endblock %}
+
+{% block content %}
+<h1>{% trans 'Форма регистрации' %}</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form action="" method="post"> {% csrf_token %}
+            <div class="mb-3 form-check">
+            <p>{{ form.email }}</p>
+                </div>
+        <div class="mb-3 form-check">
+            <p>{{ form.password }}</p>
+<input type="checkbox" onchange="document.getElementById('password').type = this.checked ? 'text' : 'password'">{% trans ' Показать пароль' %}
+  </div>
+                    <div class="mb-3 form-check">
+            <p>{{ form.password2 }}</p>
+<input type="checkbox" onchange="document.getElementById('password2').type = this.checked ? 'text' : 'password'">{% trans ' Показать пароль 2' %}
+  </div>
+        <button type="submit" class="btn btn-primary">{% trans 'Зарегистрироваться' %}</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Форма входа' %}{% endblock %}
+
+{% block content %}
+<h1>{% trans 'Форма входа' %}</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form action="" method="post"> {% csrf_token %}
+            {{ form.as_p }}
+        <div class="mb-3 form-check">
+<input type="checkbox" onchange="document.getElementById('password').type = this.checked ? 'text' : 'password'">{% trans ' Показать пароль' %}
+  </div>
+
+        <button type="submit" class="btn btn-primary">{% trans 'Войти' %}</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

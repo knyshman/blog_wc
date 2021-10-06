@@ -19,21 +19,23 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import RedirectView
+from apps.accounts.views import RegisterView, MyLoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n', include('django.conf.urls.i18n')),
 
 ]
-
 if 'rosetta' in settings.INSTALLED_APPS:
     urlpatterns += [
         re_path(r'^rosetta/', include('rosetta.urls'))
     ]
 urlpatterns += i18n_patterns(
     path('blog/', include('apps.blog.urls')),
+    path('', RedirectView.as_view(url='blog/', permanent=True)),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('accounts/', include('apps.accounts.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls'))
 
 )
 

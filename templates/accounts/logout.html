@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<p>{% trans 'Вы не вошли на сайт!' %}</p>
+
+<a href="{% url 'login'%}">{% trans 'Нажмите чтобы войти' %}</a>
+{% endblock %}
+
+<p type="password" id="password">{{ form.password }}</p>

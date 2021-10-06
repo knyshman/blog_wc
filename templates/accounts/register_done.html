@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% endblock %}
+
+{% block content %}
+<h1>{% trans 'Спасибо за регистрацию!' %}</h1>
+
+<p>{% trans 'На Email указанный при регистрации было отправлено письмо для подтверждения почты  '%}<a href="{% url 'login'%}">{% trans 'Войти' %}</a> </p>
+
+{% endblock %}

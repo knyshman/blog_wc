@@ -9,7 +9,7 @@
         {{ filter.form }}
     </div>
 
-    <button type="submit">Найти</button>
+    <button type="submit" class="btn btn-outline-primary">Найти</button>
 </form>
 
 <div class="left-ads-display col-lg-9">
@@ -19,11 +19,13 @@
             {% csrf_token %}
             <p>{{company.description.media}}</p>
             <p>{{ obj.short_description|safe }}</p>
-            <p>{{ obj.author.name }} | {{ obj.update_date }}</p>
+            <p>{{ obj.author }} | {% trans 'Средний рейтинг: ' %}{{ obj.average_rating }}</p>
+            <p>{% trans 'Дата публикации' %}: {{ obj.create_date }} | {% trans 'Дата изменения' %}: {{ obj.update_date }}</p>
             <br>
             <p><button type="button" class="btn btn-outline-primary">{% trans 'Подробнее' %}</button></p>
             <br>
-
             {% endfor %}
+            {% include 'pagination.html'%}
         </div>
+     </div>
 {% endblock %}

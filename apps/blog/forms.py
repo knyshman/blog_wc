@@ -1,11 +1,9 @@
-from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
+from django_starfield import Stars
 from modeltranslation.forms import forms
 from ckeditor.fields import RichTextFormField
-from .models import Author, SemiCategory, Article, Category, Comment
+from .models import Article, Category, Comment, ArticleRating
 from ..accounts.models import MyUser
-
-User = get_user_model()
 
 
 class ArticleForm(forms.ModelForm):
@@ -16,46 +14,42 @@ class ArticleForm(forms.ModelForm):
     content = RichTextFormField(label=_('Введите текст'))
     author = forms.ModelChoiceField(
         label=_('Автор'),
-        queryset=Author.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'}
-    ))
-    category = forms.ModelChoiceField(label=_('Категория'), queryset=SemiCategory.objects.all(), widget=forms.Select(attrs={
+        queryset=MyUser.objects.all(),
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    category = forms.ModelChoiceField(label=_('Категория'), queryset=Category.objects.all(), widget=forms.Select(attrs={
         'class': 'form-control'
     }))
+    slug = forms.SlugField(required=False)
 
     class Meta:
         model = Article
-        fields = ('category', 'author', 'title', 'content', 'preview_image')
+        fields = ('category', 'author', 'title', 'short_description', 'content', 'images', 'slug' )
+        widgets = {
+            'images': RichTextFormField(),
+        }
 
+    def get_author(self):
+        self.author = self.request.user
+        return self.author
 
-class ArticleFilterForm(forms.Form):
-    author = forms.ModelChoiceField(
-        label='Автор', queryset=Author.objects.all(), widget=forms.Select(
-            attrs={'class': 'form-control js-example-basic-single'}
-        )
-    )
-    category = forms.ModelChoiceField(
-        label='Категория', queryset=Category.objects.all(), widget=forms.Select(
-            attrs={'class': 'form-control js-example-basic-single'}
-        )
-    )
-    semi_category = forms.ModelMultipleChoiceField(
-        label='Подкатегории', queryset=SemiCategory.objects.all(),
-        required=False, widget=forms.SelectMultiple(
-            attrs={'class': 'form-control js-example-basic-multiple'}
-        )
-    )
-    #
-    #
-    #     label=_('Автор'),
-    #     queryset=MyUser.objects.all(),
-    #     widget=forms.Select(attrs={'class': 'form-control'}
-    # )
 
 class CommentForm(forms.ModelForm):
-    comment = RichTextFormField(label=_('Введите текст'))
+    comment = RichTextFormField(label=_('Комментарий'))
     article = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=Article.objects.all())
+    author = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=MyUser.objects.all())
 
     class Meta:
         model = Comment
-        fields = ('comment', 'rating', 'article')
+        fields = ('comment', 'article', 'author')
+
+
+class RatingForm(forms.ModelForm):
+    rating = forms.IntegerField(widget=Stars, label='Оценка')
+    user = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=MyUser.objects.all())
+    article = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=Article.objects.all())
+
+    class Meta:
+        model = ArticleRating
+        fields = ('rating', 'article', 'user')
