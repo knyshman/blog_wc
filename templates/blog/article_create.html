@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
-{% load i18n %}
-{% block title %}{% trans 'Новая статья' %}{% endblock %}
+{% block title %}{{_('Новая статья') }}{% endblock %}
 {% block content %}
-<h1>{% trans 'Новая статья' %}</h1>
-{% trans 'Сохранить' as button %}
-{% include 'blog/art_form.html' with button=button %}
+<h1>{{_('Новая статья') }}</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form action="" method="post" > {% csrf_token %}
+            {{form.media}}
+            {{ form|safe}}
+            <br>
+        <button type="submit" class="btn btn-primary">{{ _('Сохранить')}}</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

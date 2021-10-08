@@ -29,7 +29,7 @@ class MyUserManager(BaseUserManager):
             email,
             password=password
         )
-        user.is_admin = True
+        user.is_superuser = True
         user.save(using=self._db)
         return user
 
@@ -41,7 +41,10 @@ class MyUser(AbstractBaseUser):
         unique=True,
     )
     is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    phone = models.SmallIntegerField(blank=True, null=True)
+    avatar = models.ImageField(blank=True, null=True)
+    subscribes = models.ManyToManyField('MyUser', blank=True)
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
@@ -64,4 +67,4 @@ class MyUser(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
-        return self.is_admin
+        return self.is_superuser

@@ -1,16 +1,15 @@
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import CreateView, TemplateView
-from .forms import UserLoginForm, UserRegistrationForm
-from django.contrib.auth.views import LoginView, LogoutView
+from .forms import UserLoginForm, UserRegistrationForm, MyPasswordChangeForm
+from django.contrib.auth.views import LoginView, LogoutView,PasswordChangeView
 
 
 class MyLoginView(LoginView):
     form_class = UserLoginForm
     authentication_form = UserLoginForm
     template_name = 'accounts/login.html'
-    redirect_authenticated_user = '/'
+    redirect_authenticated_user = True
 
 
 class MyLogoutView(LogoutView):
@@ -41,3 +40,14 @@ class RegisterView(CreateView):
 
 class RegisterDone(TemplateView):
     template_name = 'accounts/register_done.html'
+
+
+class PasswordChange(PasswordChangeView):
+    form_class = MyPasswordChangeForm
+    success_url = reverse_lazy('profile')
+    template_name = 'blog/profile.html'
+
+
+    def get_success_url(self):
+        # self.request.build_absolute_uri()
+        return reverse_lazy('profile')

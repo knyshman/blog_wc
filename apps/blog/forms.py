@@ -11,7 +11,6 @@ class ArticleForm(forms.ModelForm):
         'class': 'form-control',
         'placeholder': _('Введите заголовок')
     }))
-    content = RichTextFormField(label=_('Введите текст'))
     author = forms.ModelChoiceField(
         label=_('Автор'),
         queryset=MyUser.objects.all(),
@@ -25,10 +24,7 @@ class ArticleForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        fields = ('category', 'author', 'title', 'short_description', 'content', 'images', 'slug' )
-        widgets = {
-            'images': RichTextFormField(),
-        }
+        fields = ('category', 'author', 'title', 'short_description', 'content', 'slug', 'preview_image' )
 
     def get_author(self):
         self.author = self.request.user

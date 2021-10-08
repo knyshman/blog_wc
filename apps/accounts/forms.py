@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.hashers import check_password
 from django.utils.translation import gettext as _
 from .models import MyUser
@@ -67,10 +67,32 @@ class UserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError(_('Пароли не совпадают'))
         return data['password2']
 
-    # def save(self, form):
-    #     """Save the password."""
-    #     if form.is_valid()
 
-        # password = self.cleaned_data["password"]
-        # self.myuser.set_password(password)
-        # super().save()
+class MyPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label=_('Текущий пароль'), widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': _('Введите пароль'),
+            'name': 'old_password',
+            'id': 'old_password',
+        }))
+    new_password1 = forms.CharField(label=_('Новый пароль'), widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите пароль',
+            'name': 'new_password1',
+            'id': 'new_password1',
+    }))
+    new_password2 = forms.CharField(label=_('Подтверждение пароля'), widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': _('Повторите пароль'),
+            'name': 'new_password2',
+            'id': 'new_password2',
+        }))
+
+    def clean_password2(self):
+        data = self.cleaned_data
+        if data['new_password1'] != data['new_password2']:
+            raise forms.ValidationError(_('Пароли не совпадают'))
+        return data['new_password2']

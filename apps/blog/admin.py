@@ -7,9 +7,9 @@ from treebeard.forms import movenodeform_factory
 
 
 class ArticleAdminForm(forms.ModelForm):
-    description_ru = forms.CharField(label='Описание', widget=CKEditorUploadingWidget())
-    description_ua = forms.CharField(label='Опис', widget=CKEditorUploadingWidget())
-    description_en = forms.CharField(label='Description', widget=CKEditorUploadingWidget())
+    content_ru = forms.CharField(label='Описание', widget=CKEditorUploadingWidget())
+    content_ua = forms.CharField(label='Опис', widget=CKEditorUploadingWidget())
+    content_en = forms.CharField(label='Description', widget=CKEditorUploadingWidget())
 
     class Meta:
         model = Article

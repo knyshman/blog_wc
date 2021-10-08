@@ -1,14 +1,15 @@
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse_lazy, reverse
-from django.utils.text import slugify
+from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.views.generic.list import MultipleObjectMixin
 from .models import Article, Comment, ArticleRating
 from .forms import ArticleForm, CommentForm, RatingForm
 from django_filters.views import FilterView
 from .filters import ArticleFilter
-# from .utils import get_paginate_tags
+from .utils import get_paginate_tags
+from ..accounts.models import MyUser
+from ..accounts.forms import MyPasswordChangeForm
 
 
 class ArticleDetailView(MultipleObjectMixin, DetailView):
@@ -16,6 +17,7 @@ class ArticleDetailView(MultipleObjectMixin, DetailView):
     template_name = 'blog/detail.html'
     form_class = CommentForm
     paginate_by = 1
+    ordering = 'create_date'
 
     def get_context_data(self, **kwargs):
         object_list = Comment.objects.filter(article=self.get_object())
@@ -54,11 +56,8 @@ class ArticleListView(FilterView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        # tags = get_paginate_tags(self.request)
-        # context.update(**tags)
-        # print(tags)
-        print(context)
-        print(self.request.GET)
+        params = get_paginate_tags(self.request)
+        context.update(**params)
         return context
 
 
@@ -73,24 +72,6 @@ class ArticleCreateView(SuccessMessageMixin, CreateView):
         self.obj.author = self.request.user
         self.obj.save()
         return super().form_valid(form)
-
-    # def post(self, request, *args, **kwargs):
-    #     self.object = self.get_object()
-    #     form = self.get_form()
-    #     if form.is_valid():
-    #         return self.form_valid(form)
-    #     else:
-    #         return self.form_invalid(form)
-    #
-    # def form_valid(self, form):
-    #     self.art = form.save(commit=False)
-    #     self.art.author = self.request.user
-    #     self.art.slug = slugify(str(self.art.title).replace(' ', '-'))
-    #     self.art.save()
-    #     return super().form_valid(form)
-    #
-    # def get_success_url(self):
-    #     return reverse_lazy('article_detail', kwargs={'slug': self.object.slug})
 
 
 class ArticleUpdateView(SuccessMessageMixin, UpdateView):
@@ -126,3 +107,30 @@ class RatingCreateView(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('article_detail', kwargs={'slug': self.object.article.slug})
+
+
+class ProfileDetailView(DetailView):
+    model = MyUser
+    template_name = 'blog/profile.html'
+    # paginate_by = 1
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        # object_list = Article.objects.filter(author=self.request.user)
+        context = super().get_context_data()
+        context['form'] = MyPasswordChangeForm(user=self.request.user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.request.user
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def get_success_url(self):
+
+        return self.request.build_absolute_uri()

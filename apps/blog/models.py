@@ -1,7 +1,4 @@
-from django.core.exceptions import ValidationError
-from django.utils import timezone
 from ckeditor_uploader.fields import RichTextUploadingField
-from django.db.models import Avg
 from django.urls import reverse
 from django.template.defaultfilters import slugify
 from django.utils.translation import gettext as _
@@ -9,6 +6,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from treebeard.mp_tree import MP_Node
 from ..accounts.models import MyUser
+from .utils import from_cyrillic_to_eng
 
 
 class Category(MP_Node):
@@ -22,30 +20,19 @@ class Category(MP_Node):
     def __str__(self):
         return self.name
 
-#
-# class Author(models.Model):
-#     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-#     name = models.CharField(max_length=100, verbose_name=_('Название'), unique=True)
-#
-#     class Meta:
-#         verbose_name = 'Автор'
-#         verbose_name_plural = 'Авторы'
-#
-#     def __str__(self):
-#         return self.name
-
 
 class Article(models.Model):
     category = models.ForeignKey(Category, verbose_name=_('Категория'), on_delete=models.SET_NULL, null=True, related_name='category')
     title = models.CharField(max_length=250, verbose_name=_('Название'), unique=True)
     slug = models.SlugField(blank=True, null=True, unique=True)
-    content = RichTextField(verbose_name=_('Описание'), null=True, blank=True)
+    preview_image = models.ImageField(blank=True)
     short_description = models.CharField(verbose_name=_('Краткое описание'), max_length=300, blank=True)
-    images = RichTextUploadingField(blank=True, null=True)
+    content = RichTextUploadingField(verbose_name=_('Контент'))
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(MyUser, verbose_name=_('Автор'), on_delete=models.SET_NULL, null=True, related_name='article_author')
-    average_rating = models.FloatField(null=True, blank=True, default=0)
+    author = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True, verbose_name=_('Автор'))
+    average_rating = models.FloatField(default=0)
+    likes = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = _('Статья')
@@ -58,7 +45,7 @@ class Article(models.Model):
         if not self.short_description:
             self.short_description = self.content
         if not self.slug:
-            self.slug = slugify(str(self.title).replace(' ', '-'))
+            self.slug = slugify(from_cyrillic_to_eng(str(self.title)))
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -66,7 +53,7 @@ class Article(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(MyUser, max_length=200, on_delete=models.SET_NULL, blank=True, null=True)
+    author = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     create_date = models.DateTimeField(auto_now_add=True)
     comment = RichTextField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comment_set', related_query_name='comments_set')
@@ -75,13 +62,14 @@ class Comment(models.Model):
 
 class ArticleRating(models.Model):
     rating = models.IntegerField(verbose_name=_('Рейтинг'), default=0)
-    user = models.CharField(max_length=200)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='rating_set')
 
     def __str__(self):
         return str(self.rating)
 
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     self.article.average_rating = round((self.article.rating_set.aggregate(avg_rating=Avg('rating'))['avg_rating']), 2)
-    #     self.article.save()
+
+class Like(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    like = models.BooleanField()

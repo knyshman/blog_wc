@@ -1,5 +1,5 @@
 <!doctype html>
-{% load i18n %}
+{% set user = request.user %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -12,47 +12,49 @@
   <body>
     {% include 'languages.html' %}
       <nav class="navbar navbar-expand-lg navbar-light container" style="background-color: #e3f2fd;">
-      <a class="navbar-brand" href="{% url 'home' %}">{% trans 'Блог' %}</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="{{ url ('home') }}">{{ _('Блог') }}</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+              aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item ">
-            <a class="nav-link" href="#">{% trans 'Главная' %} </a>
+            <a class="nav-link" href="#">{{ _('Главная') }} </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">{% trans 'Авторы' %}</a>
+            <a class="nav-link" href="#">{{ _('Авторы') }}</a>
           </li>
 
-            <a class="nav-link" href="#">{% trans 'Статьи' %}</a>
+            <a class="nav-link" href="#">{{ _('Статьи') }}</a>
           </li>
           {% if user.is_authenticated%}
           <li class="nav-item dropdown
             ">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              Добавить
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">{% trans 'Добавить статью' %}</a>
-              <a class="dropdown-item" href="#">{% trans 'Города' %}</a>
+              <a class="dropdown-item" href="#">{{ _('Добавить статью') }}</a>
+              <a class="dropdown-item" href="#">{{ _('Города') }}</a>
             </div>
           </li>
           {% else %}
             <li class="nav-item ">
-            <a class="nav-link disabled" href="">{% trans ' Добавить' %}</a>
+            <a class="nav-link disabled" href="">{{ _(' Добавить') }}</a>
           </li>
             {% endif %}
           {% if user.is_authenticated%}
           <li class="nav-item ">
-            <a class="nav-link" href="{% url 'logout'%}">{% trans 'Выйти' %}</a>
+            <a class="nav-link" href="{{ url ('logout')}}">{{ _('Выйти') }}</a>
           </li>
           {% else %}
           <li class="nav-item ">
-            <a class="nav-link" href="{% url 'login'%}">{% trans 'Войти' %}</a>
+            <a class="nav-link" href="{{ url ('login')}}?next={{ request.get_full_path()}}">{{ _('Войти') }}</a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="{% url 'register'%}">{% trans 'Регистрация' %}</a>
+            <a class="nav-link" href="{{ url ('register')}}">{{ _('Регистрация') }}</a>
           </li>
           {% endif %}
         </ul>

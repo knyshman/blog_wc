@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %} {{ object.email}} {% endblock title %}
+
+{% block content %}
+<h1>{{ object.email }}</h1>
+{% csrf_token %}
+{% if object.avatar %}
+<p>{{object.avatar.url}}</p>{% endif %}
+{% if object.avatar and object.last_name  %}
+<p>{{ object.first_name }} {{ object.last_name }}</p>{% endif %}
+{% if object.avatar.phone %}
+<p>{{ object.phone}}</p>{% endif %}
+<h5>{{ _('Изменить пароль') }}</h5>
+<div class="row">
+    <div class="col-md-4">
+        <form action="{{ url ('password_change') }}" method="post"> {% csrf_token %}
+            <p>{{ form.old_password }}<input type="checkbox" onchange="document.getElementById('old_password').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>
+            <p>{{ form.new_password1 }}<input type="checkbox" onchange="document.getElementById('new_password1').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>
+            <p>{{ form.new_password2 }}<input type="checkbox" onchange="document.getElementById('new_password2').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>
+        <button type="submit" class="btn btn-primary">{{ _('Готово') }}</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

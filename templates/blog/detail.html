@@ -1,40 +1,30 @@
 {% extends "base.html" %}
-{% load i18n %}
 {% block title %} {{ object.title}} {% endblock title %}
-{% load static %}
-
 
 {% block content %}
 <h1>{{ object.title }}</h1>
 {% csrf_token %}
-{%if object.preview_image%}
-{% load thumbnail %}
-{% thumbnail object.preview_image "300" as im %}
-    <a href="{{ object.preview_image.url }}">
-        <p><img src="{{ im.url }}" class="image-detail"></p>
-    </a>
-{% endthumbnail %}
+{% if object.preview_image %}
+<p><img class="lazyOwl" src="{{ object.preview_image.url }}"></p>
 {% endif %}
 <p>{{object.category.name}}</p>
-{{object.content.media}}
 <p>{{ object.content|safe }}</p>
+
 <p>{{ object.update_date }}</p>
 <div class="row">
     <div class="col-md-4">
-        <form action="{% url 'rating' object.slug%}" method="post" name="rating"> {% csrf_token %}
-            {{ rating_form.media }}
+        <form action="{{ url ('rating', object.slug)}}" method="post" name="rating"> {% csrf_token %}
             {{ rating_form}}
-        <button type="submit" class="btn btn-primary"> {% trans 'Отправить' %}</button>
+        <button type="submit" class="btn btn-primary"> {{ _('Отправить') }}</button>
         </form>
     </div>
 </div>
-
 <div class="row">
     <div class="col-md-4">
-        <form action="{% url 'comment_create' object.slug %}" method="post"> {% csrf_token %}
+        <form action="{{ url ('comment_create', object.slug) }}" method="post"> {% csrf_token %}
             {{ form.media }}
-            {{ form.as_p|safe }}
-        <button type="submit" class="btn btn-primary"> {% trans 'Отправить' %}</button>
+            {{ form|safe}}
+        <button type="submit" class="btn btn-primary">{{ _('Отправить') }}</button>
         </form>
     </div>
 </div>
@@ -49,5 +39,5 @@
 </div>
 
 {% endfor %}
-{% include 'pagination.html' %}
+{% include 'pagination2.html' %}
 {% endblock %}

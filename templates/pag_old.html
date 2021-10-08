@@ -1,10 +1,11 @@
-{% if is_paginated %}
+  {% if is_paginated %}
+          {{ url ('home')}} as {{my_url }}
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
     <li class="page-item">
         {% if page_obj.has_previous %}
         {% if author != None %}
-        <a class="page-link" href="?page={{ page_obj.previous_page_number }}&author={{author}}&o={{o}}&category={{category}}&title={{title}}" aria-label="Previous">
+            <a class="page-link" href="{{ spurl path=my_url query="page={{page_obj.previous_page_number}}&author={{author}}&o={{o}}&category={{category}}&title={{title}}" }}"
         {% else %}<a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
         {% endif %}
         <span aria-hidden="true">&laquo;</span>
@@ -14,7 +15,7 @@
     {% for page in page_obj.paginator.page_range %}
         <li class="page-item {% if page == page_obj.number %} active {% endif %} ">
             {% if author != None %}
-             <a class="page-link" href="?page={{ page}}&author={{author}}&o={{o}}&category={{category}}&title={{title}}">
+            <a class="page-link" href="{{ spurl path=my_url query="page={{page}}&author={{author}}&o={{o}}&category={{category}}&title={{title}}" }}">
                 {{ page }}</a>
             {%else%}
             <a class="page-link" href="?page={{page}}">
@@ -28,7 +29,7 @@
     <li class="page-item">
         {% if page_obj.has_next %}
         {% if author != None %}
-             <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&author={{author}}&o={{o}}&category={{category}}&title={{title}}">
+      <a class="page-link" href={{ spurl path=my_url query="page={{ page_obj.paginator.num_pages }}&author={{author}}&o={{o}}&category={{category}}&title={{title}}"}}"
         {%else%}
         <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Previous">
         {% endif %}
