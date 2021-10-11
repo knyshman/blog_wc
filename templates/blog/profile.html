@@ -1,19 +1,36 @@
 {% extends "base.html" %}
-{% block title %} {{ object.email}} {% endblock title %}
+{% block title %} {{ request.user.email}} {% endblock title %}
 
 {% block content %}
-<h1>{{ object.email }}</h1>
 {% csrf_token %}
-{% if object.avatar %}
-<p>{{object.avatar.url}}</p>{% endif %}
-{% if object.avatar and object.last_name  %}
-<p>{{ object.first_name }} {{ object.last_name }}</p>{% endif %}
-{% if object.avatar.phone %}
-<p>{{ object.phone}}</p>{% endif %}
+{% if request.user.avatar %}
+<div class="card" style="width: 20rem;">
+    <img class="lazyOwl" src="{{ request.user.avatar.url }}" alt="avatar">
+  <div class="card-body">
+    <h5 class="card-title">{{ request.user.email }}</h5>
+  </div>
+</div>
+{% endif %}
+{% if request.user.first_name and request.user.last_name  %}
+<p>{{ request.user.first_name }} {{ request.user.last_name }}</p>{% endif %}
+{% if request.user.phone %}
+<p>{{ request.user.phone}}</p>{% endif %}
 <h5>{{ _('Изменить пароль') }}</h5>
+    <button type=button id=f2 onclick="func(2)">{{ _('Изменить пароль') }}</button>
+ <script type="text/javascript">
+    function func(a) {
+        if(a==1) {
+            document.getElementById("psf").style.display="none";
+        }
+        if(a==2) {
+            document.getElementById("psf").style.display="block";
+        }
+    }
+    </script>
 <div class="row">
     <div class="col-md-4">
-        <form action="{{ url ('password_change') }}" method="post"> {% csrf_token %}
+        <form id="psf" action="{{ url ('password_change', request.user.pk) }}" method="post" > {% csrf_token %}
+            <p>{{form.errors}}</p>
             <p>{{ form.old_password }}<input type="checkbox" onchange="document.getElementById('old_password').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>
             <p>{{ form.new_password1 }}<input type="checkbox" onchange="document.getElementById('new_password1').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>
             <p>{{ form.new_password2 }}<input type="checkbox" onchange="document.getElementById('new_password2').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>

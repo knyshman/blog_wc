@@ -3,13 +3,14 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.views.generic.list import MultipleObjectMixin
-from .models import Article, Comment, ArticleRating
-from .forms import ArticleForm, CommentForm, RatingForm
+from .models import Article, Comment, ArticleRating, Like
+from .forms import ArticleForm, CommentForm, RatingForm, LikeForm
 from django_filters.views import FilterView
 from .filters import ArticleFilter
 from .utils import get_paginate_tags
 from ..accounts.models import MyUser
 from ..accounts.forms import MyPasswordChangeForm
+from django.utils.translation import ugettext_lazy as _
 
 
 class ArticleDetailView(MultipleObjectMixin, DetailView):
@@ -24,6 +25,7 @@ class ArticleDetailView(MultipleObjectMixin, DetailView):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['form'] = CommentForm(initial={'article': self.object, 'author': self.request.user})
         context['rating_form'] = RatingForm(initial={'article': self.object, 'user': self.request.user, 'rating': 5} )
+        context['like_form'] = LikeForm(initial={'article': self.object, 'user': self.request.user, 'like': True})
         context['comments'] = self.object.comment_set.all()
         return context
 
@@ -43,6 +45,9 @@ class ArticleDetailView(MultipleObjectMixin, DetailView):
 
     def rating_form_valid(self, rating_form):
         return super().rating_form_valid(rating_form)
+
+    def like_form_valid(self, like_form):
+        return super().like_form_valid(like_form)
 
     def get_success_url(self):
         return reverse_lazy('article_detail', kwargs={'slug': self.object.slug})
@@ -109,9 +114,19 @@ class RatingCreateView(CreateView):
         return reverse_lazy('article_detail', kwargs={'slug': self.object.article.slug})
 
 
+class LikeCreateView(CreateView):
+    model = Like
+    form_class = LikeForm
+    template_name = 'blog/detail.html'
+
+    def get_success_url(self):
+        return reverse_lazy('article_detail', kwargs={'slug': self.object.article.slug})
+
+
 class ProfileDetailView(DetailView):
     model = MyUser
     template_name = 'blog/profile.html'
+    query_pk_and_slug = True
     # paginate_by = 1
 
     def get_object(self, queryset=None):
@@ -121,16 +136,16 @@ class ProfileDetailView(DetailView):
         # object_list = Article.objects.filter(author=self.request.user)
         context = super().get_context_data()
         context['form'] = MyPasswordChangeForm(user=self.request.user)
+        print(context)
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.request.user
-        form = self.get_form()
+        form = MyPasswordChangeForm(user=self.request.user)
         if form.is_valid():
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
 
     def get_success_url(self):
-
-        return self.request.build_absolute_uri()
+        return reverse_lazy('profile', kwargs={'pk': self.request.user.pk})

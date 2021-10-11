@@ -1,7 +1,7 @@
 from django.db.models import Avg
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
-from .models import ArticleRating
+from .models import ArticleRating, Like
 
 
 @receiver(pre_save, sender=ArticleRating)
@@ -22,3 +22,18 @@ def update_rating(sender, instance, **kwargs):
         parent.save()
     else:
         parent.average_rating = 0
+
+
+@receiver(pre_save, sender=Like)
+def save_like(sender, instance, **kwargs):
+    if Like.objects.filter(user=instance.user, article=instance.article, like=True):
+        Like.objects.filter(user=instance.user, article=instance.article, like=True).delete()
+        instance.like = False
+
+
+@receiver(post_save, sender=Like)
+def update_rating(sender, instance, **kwargs):
+    parent = instance.article
+    all_likes = Like.objects.filter(article=parent, like=True).select_related('article')
+    parent.likes = all_likes.count()
+    parent.save()

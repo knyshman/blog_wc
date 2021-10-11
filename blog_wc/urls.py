@@ -19,7 +19,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import RedirectView
-from apps.accounts.views import RegisterView, MyLoginView
+from apps.accounts.views import RegisterView, MyLoginView, PasswordChange
+from apps.blog.views import ProfileDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,7 +42,9 @@ urlpatterns += i18n_patterns(
     path('', RedirectView.as_view(url='blog/', permanent=True)),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('accounts/', include('apps.accounts.urls')),
-    path('ckeditor/', include('ckeditor_uploader.urls'))
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('profile/<int:pk>/', ProfileDetailView.as_view(), name='profile'),
+    path('profile/<int:pk>/password_change/', PasswordChange.as_view(), name='password_change'),
 
 )
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

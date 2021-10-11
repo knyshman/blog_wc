@@ -2,7 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_starfield import Stars
 from modeltranslation.forms import forms
 from ckeditor.fields import RichTextFormField
-from .models import Article, Category, Comment, ArticleRating
+from .models import Article, Category, Comment, ArticleRating, Like
 from ..accounts.models import MyUser
 
 
@@ -49,3 +49,13 @@ class RatingForm(forms.ModelForm):
     class Meta:
         model = ArticleRating
         fields = ('rating', 'article', 'user')
+
+
+class LikeForm(forms.ModelForm):
+    like = forms.BooleanField(label='Like', widget=forms.HiddenInput)
+    user = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=MyUser.objects.all())
+    article = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=Article.objects.all())
+
+    class Meta:
+        model = Like
+        fields = ('like', 'article', 'user')

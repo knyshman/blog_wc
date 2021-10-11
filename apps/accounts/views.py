@@ -1,4 +1,5 @@
 from django.contrib.auth.hashers import make_password
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 from .forms import UserLoginForm, UserRegistrationForm, MyPasswordChangeForm
@@ -42,12 +43,9 @@ class RegisterDone(TemplateView):
     template_name = 'accounts/register_done.html'
 
 
-class PasswordChange(PasswordChangeView):
+class PasswordChange(SuccessMessageMixin, PasswordChangeView):
     form_class = MyPasswordChangeForm
-    success_url = reverse_lazy('profile')
     template_name = 'blog/profile.html'
 
-
     def get_success_url(self):
-        # self.request.build_absolute_uri()
-        return reverse_lazy('profile')
+        return reverse_lazy('profile', kwargs={'pk': self.request.user.pk})

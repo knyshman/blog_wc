@@ -1,7 +1,7 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin, forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
-from .models import Article, Category, Comment, ArticleRating
+from .models import Article, Category, Comment, ArticleRating, Like
 from treebeard.admin import TreeAdmin
 from treebeard.forms import movenodeform_factory
 
@@ -43,3 +43,4 @@ class ArticleAdmin(TranslationAdmin):
 
 admin.site.register(Comment)
 admin.site.register(ArticleRating)
+admin.site.register(Like)

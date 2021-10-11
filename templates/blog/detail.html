@@ -3,11 +3,20 @@
 
 {% block content %}
 <h1>{{ object.title }}</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form action="{{ url ('like', object.slug) }}" method="post"> {% csrf_token %}
+            {{ like_form }}
+        <button type="submit" class="btn btn-primary">{{ _('Добавить в избраное') }}</button>
+        </form>
+    </div>
+</div>
 {% csrf_token %}
 {% if object.preview_image %}
 <p><img class="lazyOwl" src="{{ object.preview_image.url }}"></p>
 {% endif %}
-<p>{{object.category.name}}</p>
+<p>{{_('Категория: ')}}{{object.category.name}}</p>
+<p>{{_('Количество лайков: ')}}{{object.likes}}</p>
 <p>{{ object.content|safe }}</p>
 
 <p>{{ object.update_date }}</p>
