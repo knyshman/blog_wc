@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -40,10 +41,12 @@ class MyUser(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
+    name = models.CharField(max_length=100, blank=True, null=True)
+    last_name = models.CharField(max_length=200, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
-    phone = models.SmallIntegerField(blank=True, null=True)
-    avatar = models.ImageField(blank=True, null=True)
+    phone = models.CharField(verbose_name=_('Телефон'), max_length=10, blank=True, null=True)
+    avatar = models.ImageField(blank=True, default='default-avatar.jpg')
     subscribes = models.ManyToManyField('MyUser', blank=True)
     objects = MyUserManager()
 
@@ -52,6 +55,13 @@ class MyUser(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+
+    def clean(self):
+        if self.name:
+            self.name = self.name.title()
+        if self.last_name:
+            self.last_name = self.last_name.title()
+        return self.name, self.last_name
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-08 17:49+0300\n"
+"POT-Creation-Date: 2021-10-11 17:32+0300\n"
 "PO-Revision-Date: 2021-09-29 13:49+0000\n"
 "Last-Translator: Anonymous User <mr.knyshman@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgstr "Input your username"
 msgid "Пароль"
 msgstr "Password"
 
-#: apps/accounts/forms.py:16 apps/accounts/forms.py:75
+#: apps/accounts/forms.py:16
 msgid "Введите пароль"
 msgstr "Input password"
 
@@ -55,7 +55,7 @@ msgstr "This user is not active"
 msgid "Подтверждение пароля"
 msgstr "Password confirmation"
 
-#: apps/accounts/forms.py:55 apps/accounts/forms.py:89
+#: apps/accounts/forms.py:55
 msgid "Повторите пароль"
 msgstr "Confirm your password"
 
@@ -69,15 +69,31 @@ msgstr ""
 msgid "Текущий пароль"
 msgstr "Invalid password"
 
+#: apps/accounts/forms.py:75
+#, fuzzy
+#| msgid "Введите пароль"
+msgid "Введите текущий пароль"
+msgstr "Input password"
+
 #: apps/accounts/forms.py:79
 #, fuzzy
 #| msgid "Неверный пароль"
 msgid "Новый пароль"
 msgstr "Invalid password"
 
+#: apps/accounts/forms.py:89
+#, fuzzy
+#| msgid "Повторите пароль"
+msgid "Повторите новый пароль"
+msgstr "Confirm your password"
+
 #: apps/accounts/models.py:13
 msgid "Users must have an email address"
 msgstr "Users must have an email address"
+
+#: apps/accounts/models.py:47 apps/blog/forms.py:73
+msgid "Телефон"
+msgstr ""
 
 #: apps/blog/apps.py:8 templates/base.html:15
 msgid "Блог"
@@ -120,6 +136,36 @@ msgstr "Category"
 msgid "Комментарий"
 msgstr ""
 
+#: apps/blog/forms.py:65
+msgid "Имя"
+msgstr ""
+
+#: apps/blog/forms.py:67
+#, fuzzy
+#| msgid "Введите текст"
+msgid "Введите имя"
+msgstr "Input text"
+
+#: apps/blog/forms.py:69
+msgid "Фамилия"
+msgstr ""
+
+#: apps/blog/forms.py:71
+#, fuzzy
+#| msgid "Введите пароль"
+msgid "Введите фамилию"
+msgstr "Input password"
+
+#: apps/blog/forms.py:75
+#, fuzzy
+#| msgid "Введите пароль"
+msgid "Введите номер телефона"
+msgstr "Input password"
+
+#: apps/blog/forms.py:77
+msgid "Фото"
+msgstr ""
+
 #: apps/blog/models.py:18
 #, fuzzy
 #| msgid "Категория"
@@ -148,6 +194,14 @@ msgstr "Articles"
 msgid "Рейтинг"
 msgstr ""
 
+#: apps/blog/views.py:36
+msgid "дизлайкнуть"
+msgstr ""
+
+#: apps/blog/views.py:38
+msgid "лайкнуть"
+msgstr ""
+
 #: blog_wc/settings/local_settings.py:175 blog_wc/settings/production.py:129
 msgid "Русский"
 msgstr ""
@@ -173,8 +227,8 @@ msgid "Форма входа"
 msgstr "Login form"
 
 #: templates/accounts/login.html:10 templates/accounts/register.html:14
-#: templates/accounts/register.html:18 templates/blog/profile.html:17
-#: templates/blog/profile.html:18 templates/blog/profile.html:19
+#: templates/accounts/register.html:18 templates/blog/profile.html:54
+#: templates/blog/profile.html:55 templates/blog/profile.html:56
 #, fuzzy
 #| msgid "Повторите пароль"
 msgid " Показать пароль"
@@ -213,8 +267,8 @@ msgid ""
 msgstr ""
 
 #: templates/base.html:23
-msgid "Главная"
-msgstr "Main"
+msgid "Личный кабинет"
+msgstr ""
 
 #: templates/base.html:26
 msgid "Авторы"
@@ -252,7 +306,23 @@ msgstr "Save"
 msgid "Редактирование статьи "
 msgstr "Change article"
 
-#: templates/blog/detail.html:18 templates/blog/detail.html:27
+#: templates/blog/detail.html:18
+#, fuzzy
+#| msgid "Автор"
+msgid "Автор: "
+msgstr "Authors"
+
+#: templates/blog/detail.html:19
+#, fuzzy
+#| msgid "Категория"
+msgid "Категория: "
+msgstr "Category"
+
+#: templates/blog/detail.html:20
+msgid "Количество лайков: "
+msgstr ""
+
+#: templates/blog/detail.html:28 templates/blog/detail.html:37
 #, fuzzy
 #| msgid " Добавить"
 msgid "Отправить"
@@ -276,15 +346,31 @@ msgstr ""
 msgid "Подробнее"
 msgstr ""
 
-#: templates/blog/profile.html:13
+#: templates/blog/profile.html:21
+#, fuzzy
+#| msgid "Имя пользователя"
+msgid "Пользователь: "
+msgstr "Username"
+
+#: templates/blog/profile.html:25
+msgid "Телефон: "
+msgstr ""
+
+#: templates/blog/profile.html:37
+#, fuzzy
+#| msgid "Введите пароль"
+msgid "Изменить данные профиля"
+msgstr "Input password"
+
+#: templates/blog/profile.html:43 templates/blog/profile.html:57
+msgid "Готово"
+msgstr ""
+
+#: templates/blog/profile.html:51
 #, fuzzy
 #| msgid "Введите пароль"
 msgid "Изменить пароль"
 msgstr "Input password"
-
-#: templates/blog/profile.html:20
-msgid "Готово"
-msgstr ""
 
 #: user_classes.py:41
 msgid "No password set."
@@ -352,11 +438,11 @@ msgstr ""
 msgid "Password (again)"
 msgstr ""
 
+#~ msgid "Главная"
+#~ msgstr "Main"
+
 #~ msgid "Приветствуем Вас, "
 #~ msgstr "Hello, "
 
 #~ msgid "Вы зарегистрировались. Теперь Вы можете "
 #~ msgstr "You are log in. Now you can "
-
-#~ msgid "Введите текст"
-#~ msgstr "Input text"

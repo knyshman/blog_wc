@@ -19,9 +19,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item ">
-            <a class="nav-link" href="#">{{ _('Главная') }} </a>
-          </li>
+
           <li class="nav-item">
             <a class="nav-link" href="#">{{ _('Авторы') }}</a>
           </li>
@@ -29,29 +27,32 @@
             <a class="nav-link" href="#">{{ _('Статьи') }}</a>
           </li>
           {% if user.is_authenticated%}
-          <li class="nav-item dropdown
-            ">
+          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             Добавить
+               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{_('Мой профайл')}}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">{{ _('Добавить статью') }}</a>
+              <a class="dropdown-item" href="{{ url ('profile', request.user.pk) }}">{{ _('Личный кабинет') }} </a>
+              <a class="dropdown-item" href="{{ url ('favourite_articles', request.user.pk) }}">{{ _('Избранные статьи') }}</a>
               <a class="dropdown-item" href="#">{{ _('Города') }}</a>
             </div>
           </li>
+
           {% else %}
             <li class="nav-item ">
             <a class="nav-link disabled" href="">{{ _(' Добавить') }}</a>
           </li>
             {% endif %}
           {% if user.is_authenticated%}
+                    <li class="nav-item ">
+
+          </li>
           <li class="nav-item ">
             <a class="nav-link" href="{{ url ('logout')}}">{{ _('Выйти') }}</a>
           </li>
           {% else %}
           <li class="nav-item ">
-            <a class="nav-link" href="{{ url ('login')}}?next={{ request.get_full_path()}}">{{ _('Войти') }}</a>
+            <a class="nav-link" href="{{ url ('login')}}?next={% if request.get_full_path() == url('logout') %}{{url('home')}}{%else%}{{ request.get_full_path()}}{% endif %}">{{ _('Войти') }}</a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="{{ url ('register')}}">{{ _('Регистрация') }}</a>

@@ -1,10 +1,13 @@
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
-from django.views.generic.list import MultipleObjectMixin
+from django.views.generic.list import MultipleObjectMixin, ListView
 from .models import Article, Comment, ArticleRating, Like
-from .forms import ArticleForm, CommentForm, RatingForm, LikeForm
+from .forms import ArticleForm, CommentForm, RatingForm, LikeForm, ProfileForm
 from django_filters.views import FilterView
 from .filters import ArticleFilter
 from .utils import get_paginate_tags
@@ -24,12 +27,20 @@ class ArticleDetailView(MultipleObjectMixin, DetailView):
         object_list = Comment.objects.filter(article=self.get_object())
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['form'] = CommentForm(initial={'article': self.object, 'author': self.request.user})
-        context['rating_form'] = RatingForm(initial={'article': self.object, 'user': self.request.user, 'rating': 5} )
-        context['like_form'] = LikeForm(initial={'article': self.object, 'user': self.request.user, 'like': True})
-        context['comments'] = self.object.comment_set.all()
+        context['comments'] = self.object.comment_set.filter(is_published=True)
+        if self.request.user.is_authenticated:
+            context['rating_form'] = RatingForm(
+                initial={'article': self.object, 'user': self.request.user, 'rating': 5})
+            context['like_form'] = LikeForm(initial={'article': self.object, 'user': self.request.user, 'like': True})
+            like = Like.objects.filter(user=self.request.user, article=self.object, like=True)
+            if like:
+                context['button'] = '\u2661' + _('дизлайкнуть')
+            else:
+                context['button'] = '\u2764\uFE0F' + _('лайкнуть')
         return context
 
     def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
         self.object = self.get_object()
         form = self.get_form()
         if form.is_valid():
@@ -83,7 +94,7 @@ class ArticleUpdateView(SuccessMessageMixin, UpdateView):
     model = Article
     form_class = ArticleForm
     template_name = 'blog/article_update.html'
-    success_message = 'Статья успешно добавлена'
+    success_message = 'Статья успешно изменена'
 
 
 class ArticleDeleteView(DeleteView):
@@ -123,29 +134,59 @@ class LikeCreateView(CreateView):
         return reverse_lazy('article_detail', kwargs={'slug': self.object.article.slug})
 
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(MultipleObjectMixin, DetailView):
     model = MyUser
     template_name = 'blog/profile.html'
     query_pk_and_slug = True
-    # paginate_by = 1
+    paginate_by = 3
 
     def get_object(self, queryset=None):
         return self.request.user
 
     def get_context_data(self, **kwargs):
-        # object_list = Article.objects.filter(author=self.request.user)
-        context = super().get_context_data()
+        object_list = Article.objects.filter(author=self.request.user).select_related('author')
+        context = super().get_context_data(object_list=object_list, **kwargs)
         context['form'] = MyPasswordChangeForm(user=self.request.user)
-        print(context)
+        context['profile_form'] = ProfileForm(instance=self.request.user)
         return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.request.user
-        form = MyPasswordChangeForm(user=self.request.user)
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
 
     def get_success_url(self):
         return reverse_lazy('profile', kwargs={'pk': self.request.user.pk})
+
+
+class ProfileUpdateView(UpdateView):
+    model = MyUser
+    form_class = ProfileForm
+    template_name = 'blog/profile.html'
+
+    def form_invalid(self, form):
+        messages.add_message(self.request, messages.ERROR, _('Номер телефона должен содержать только цифры(не более 10)'))
+        return redirect(reverse_lazy('profile', kwargs={'pk': self.request.user.pk}), self.get_context_data(profile_form=form))
+
+    def get_success_url(self):
+        return reverse_lazy('profile', kwargs={'pk': self.request.user.pk})
+
+
+class Subscribes(View):
+    def post(self, *args, **kwargs):
+        author = MyUser.objects.get(pk=kwargs['pk'])
+        current_user = self.request.user
+        if current_user != author:
+            if current_user.subscribes.filter(pk=author.pk).exists():
+                current_user.subscribes.remove(author)
+            else:
+                current_user.subscribes.add(author)
+        return HttpResponseRedirect(self.request.GET.get('next', '/'))
+
+
+class MyUserFavouriteArticles(ListView):
+    paginate_by = 10
+    model = Like
+    template_name = 'blog/user_liked_articles.html'
+
+    def get_queryset(self):
+        qs = Like.objects.filter(user=self.request.user).select_related('article', 'user')
+        object_list = []
+        for like in qs:
+            object_list.append(like.article)
+        return object_list

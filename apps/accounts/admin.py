@@ -40,7 +40,8 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = MyUser
-        fields = ('email', 'password', 'is_active', 'is_superuser', 'phone', 'avatar')
+        fields = ('email', 'password', 'is_active', 'is_superuser', 'phone', 'avatar', 'subscribes')
+        readonly_fields = ('subscribes',)
 
     def clean_password(self):
         return self.initial["password"]
@@ -52,7 +53,7 @@ class UserAdmin(BaseUserAdmin):
     list_display = ('email', 'is_superuser', 'is_active', 'phone', 'avatar')
     list_filter = ('is_superuser',)
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'is_active', 'phone', 'avatar')}),
+        (None, {'fields': ('email', 'password', 'is_active', 'phone', 'avatar', 'subscribes')}),
         ('Permissions', {'fields': ('is_superuser',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -66,6 +67,7 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
+    readonly_fields = ('subscribes',)
 
 
 admin.site.register(MyUser, UserAdmin)

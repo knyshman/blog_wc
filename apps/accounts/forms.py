@@ -72,22 +72,22 @@ class MyPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(label=_('Текущий пароль'), widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
-            'placeholder': _('Введите пароль'),
-            'name': 'old_password',
+            'placeholder': _('Введите текущий пароль'),
+            'name': _('Текущий пароль'),
             'id': 'old_password',
         }))
     new_password1 = forms.CharField(label=_('Новый пароль'), widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
-            'placeholder': 'Введите пароль',
-            'name': 'new_password1',
+            'placeholder': 'Введите новый пароль',
+            'name': _('Новый пароль 1'),
             'id': 'new_password1',
     }))
     new_password2 = forms.CharField(label=_('Подтверждение пароля'), widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
-            'placeholder': _('Повторите пароль'),
-            'name': 'new_password2',
+            'placeholder': _('Повторите новый пароль'),
+            'name':  _('Новый пароль 2'),
             'id': 'new_password2',
         }))
 

@@ -25,7 +25,7 @@ class Article(models.Model):
     category = models.ForeignKey(Category, verbose_name=_('Категория'), on_delete=models.SET_NULL, null=True, related_name='category')
     title = models.CharField(max_length=250, verbose_name=_('Название'), unique=True)
     slug = models.SlugField(blank=True, null=True, unique=True)
-    preview_image = models.ImageField(blank=True)
+    preview_image = models.ImageField(blank=True, default='default.jpg')
     short_description = models.CharField(verbose_name=_('Краткое описание'), max_length=300, blank=True)
     content = RichTextUploadingField(verbose_name=_('Контент'))
     create_date = models.DateTimeField(auto_now_add=True)
@@ -70,6 +70,6 @@ class ArticleRating(models.Model):
 
 
 class Like(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_query_name='articles')
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     like = models.BooleanField(default=True)

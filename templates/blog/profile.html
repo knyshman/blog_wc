@@ -2,41 +2,85 @@
 {% block title %} {{ request.user.email}} {% endblock title %}
 
 {% block content %}
-{% csrf_token %}
-{% if request.user.avatar %}
-<div class="card" style="width: 20rem;">
-    <img class="lazyOwl" src="{{ request.user.avatar.url }}" alt="avatar">
-  <div class="card-body">
-    <h5 class="card-title">{{ request.user.email }}</h5>
+<div class="row" style="margin-top:50px;">
+  <div class="col-sm-6">
+      {% if request.user.avatar %}
+    <div class="card" style="width: 30rem;" >
+         <img class="lazyOwl" src="{{ request.user.avatar.url }}" alt="avatar">
+        {% endif %}
+      <div class="card-body" >
+        <h5 class="card-title">{{ request.user.email }}</h5>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ _('Пользователь: ') }}</h5>
+ {% if request.user.name and request.user.last_name  %}
+<p>{{ request.user.name }} {{ request.user.last_name }}</p>{% endif %}
+{% if request.user.phone %}
+<p>{{_('Телефон: ')}}{{ request.user.phone}}</p>{% endif %}
+      </div>
+    </div>
   </div>
 </div>
-{% endif %}
-{% if request.user.first_name and request.user.last_name  %}
-<p>{{ request.user.first_name }} {{ request.user.last_name }}</p>{% endif %}
-{% if request.user.phone %}
-<p>{{ request.user.phone}}</p>{% endif %}
-<h5>{{ _('Изменить пароль') }}</h5>
-    <button type=button id=f2 onclick="func(2)">{{ _('Изменить пароль') }}</button>
- <script type="text/javascript">
-    function func(a) {
-        if(a==1) {
-            document.getElementById("psf").style.display="none";
-        }
-        if(a==2) {
-            document.getElementById("psf").style.display="block";
-        }
-    }
-    </script>
-<div class="row">
-    <div class="col-md-4">
-        <form id="psf" action="{{ url ('password_change', request.user.pk) }}" method="post" > {% csrf_token %}
+
+
+
+<div class="row" style="margin-top:50px;">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ _('Изменить данные профиля') }}</h5>
+<form action="{{ url ('profile_update', request.user.pk) }}" method="post" > {% csrf_token %}
+            <p>{{profile_form.errors}} </p>
+            <p>{{profile_form.name}} {{profile_form.last_name}}</p>
+            <p>{{profile_form.phone}}</p>
+            <p>{{profile_form.avatar}}</p>
+        <button type="submit" class="btn btn-primary">{{ _('Готово') }}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ _('Изменить пароль') }}</h5>
+  <form action="{{ url ('password_change', request.user.pk) }}" method="post" > {% csrf_token %}
             <p>{{form.errors}}</p>
             <p>{{ form.old_password }}<input type="checkbox" onchange="document.getElementById('old_password').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>
             <p>{{ form.new_password1 }}<input type="checkbox" onchange="document.getElementById('new_password1').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>
             <p>{{ form.new_password2 }}<input type="checkbox" onchange="document.getElementById('new_password2').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>
         <button type="submit" class="btn btn-primary">{{ _('Готово') }}</button>
         </form>
+      </div>
     </div>
+  </div>
+</div>
+<div class="left-ads-display col-lg-9">
+        <div class="container" style="margin-top:100px;">
+
+            <h2>{{ _('Мои статьи') }}</h2>
+            {% for obj in object_list %}
+                <div class="card" style="width: 60rem;">
+                    <div class="card-body">
+            <h3>{% if obj.preview_image %} <img class="lazyOwl" style="width: 5rem;" src="{{ obj.preview_image.url }}" alt="avatar">{% endif %}
+                <a href="{{ url('article_detail', obj.slug) }}">{{ obj.title }}</a></h3><a href="{{url('article_update', obj.slug)}}">Редактировать</a>
+            <h5 class="card-body">{{ _('Описание') }}: {{ obj.short_description|safe }}</h5>
+            <p>{{ _('Автор') }}: {{ obj.author }} | {{ _('Средний рейтинг: ') }}{{ obj.average_rating }}</p>
+            <p>{{ _('Комментариев') }}: {{ obj.comment_set.count() }} | {{ _('Лайков') }}: {{ obj.likes }}</p>
+            <p>{{ _('Дата публикации') }}: {{ obj.create_date }} | {{ _('Дата изменения') }}: {{ obj.update_date }}</p>
+            <br>
+            <p><button type="button" class="btn btn-outline-primary">{{ _('Подробнее') }}</button></p>
+            <br>
+                    </div>
+                </div>
+            {% endfor %}
+    {% include 'pagination.html' %}
+        </div>
 </div>
 
 {% endblock %}

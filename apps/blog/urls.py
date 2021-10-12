@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import ArticleDetailView, ArticleListView, ArticleUpdateView, ArticleCreateView, ArticleDeleteView, CommentCreateView, RatingCreateView, LikeCreateView
+from .views import ArticleDetailView, ArticleListView, ArticleUpdateView, \
+    ArticleCreateView, ArticleDeleteView, CommentCreateView, RatingCreateView, LikeCreateView,\
+    Subscribes
 
 
 urlpatterns = [
@@ -11,6 +13,6 @@ urlpatterns = [
     path('<slug:slug>/comment', CommentCreateView.as_view(), name='comment_create'),
     path('<slug:slug>/rating', RatingCreateView.as_view(), name='rating'),
     path('<slug:slug>/like', LikeCreateView.as_view(), name='like'),
-
+    path('<slug:slug>/subscribes/<int:pk>', Subscribes.as_view(), name='subscribes')
 
 ]

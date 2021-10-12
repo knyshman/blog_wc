@@ -3,23 +3,42 @@
 
 {% block content %}
 <h1>{{ object.title }}</h1>
+
+{% csrf_token %}
+{% if object.preview_image %}
+<p><img class="lazyOwl" src="{{ object.preview_image.url }}"></p>
+{% endif %}
+
+{% if user.is_authenticated%}
 <div class="row">
     <div class="col-md-4">
         <form action="{{ url ('like', object.slug) }}" method="post"> {% csrf_token %}
             {{ like_form }}
-        <button type="submit" class="btn btn-primary">{{ _('Добавить в избраное') }}</button>
+        <button type="submit" class="btn btn-primary">{{object.likes}}{{ button}}</button>
         </form>
     </div>
 </div>
-{% csrf_token %}
-{% if object.preview_image %}
-<p><img class="lazyOwl" src="{{ object.preview_image.url }}"></p>
+<p>{{_('Автор: ')}}{{object.author}}</p>
+{% if object.author != request.user %}
+<div class="row">
+    <div class="col-md-4">
+        <form action="{{ url('subscribes',object.slug, object.author.pk)}}?next={{request.path}}" method="post" name="subscribes"> {% csrf_token %}
+
+        <button type="submit" class="btn btn-primary"> {%if object.author in request.user.subscribes.all()%}{{ _('Отписаться') }}
+        {% else %}{{ _('Подписаться') }} {% endif%}
+        </button>
+
+        </form>
+    </div>
+</div>
+{% endif %}
 {% endif %}
 <p>{{_('Категория: ')}}{{object.category.name}}</p>
 <p>{{_('Количество лайков: ')}}{{object.likes}}</p>
 <p>{{ object.content|safe }}</p>
 
 <p>{{ object.update_date }}</p>
+{% if user.is_authenticated%}
 <div class="row">
     <div class="col-md-4">
         <form action="{{ url ('rating', object.slug)}}" method="post" name="rating"> {% csrf_token %}
@@ -28,6 +47,7 @@
         </form>
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-4">
         <form action="{{ url ('comment_create', object.slug) }}" method="post"> {% csrf_token %}
@@ -37,6 +57,7 @@
         </form>
     </div>
 </div>
+{% endif %}
 {% for obj in object_list %}
 <div class="card">
   <div class="card-header">

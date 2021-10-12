@@ -13,7 +13,7 @@ def save_rating(sender, instance, **kwargs):
 @receiver(post_save, sender=ArticleRating)
 def update_rating(sender, instance, **kwargs):
     parent = instance.article
-    all_grades = ArticleRating.objects.filter(article=parent)
+    all_grades = ArticleRating.objects.filter(article=parent).select_related('article')
     if all_grades:
         total_rating = 0
         for grade in all_grades:
@@ -26,7 +26,7 @@ def update_rating(sender, instance, **kwargs):
 
 @receiver(pre_save, sender=Like)
 def save_like(sender, instance, **kwargs):
-    if Like.objects.filter(user=instance.user, article=instance.article, like=True):
+    if Like.objects.filter(user=instance.user, article=instance.article, like=True).select_related('article', 'user'):
         Like.objects.filter(user=instance.user, article=instance.article, like=True).delete()
         instance.like = False
 

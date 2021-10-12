@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django_starfield import Stars
 from modeltranslation.forms import forms
@@ -59,3 +60,34 @@ class LikeForm(forms.ModelForm):
     class Meta:
         model = Like
         fields = ('like', 'article', 'user')
+
+
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = MyUser
+        fields = ('name', 'last_name', 'phone', 'avatar')
+
+    def only_int(value):
+        if not value.isdigit():
+            raise ValidationError(_('Номер телефона должен содержать только цифры(не более 10)'))
+
+    name = forms.CharField(label=_('Имя'), widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': _('Введите имя')
+    }))
+    last_name = forms.CharField(label=_('Фамилия'), widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': _('Введите фамилию')
+    }))
+    phone = forms.CharField(label=_('Телефон'), validators=[only_int], widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': _('Введите номер телефона')
+    }))
+    avatar = forms.ImageField(label=_('Фото'))
+
+
+
+
+
+
