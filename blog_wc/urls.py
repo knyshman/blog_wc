@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import RedirectView
-from apps.accounts.views import RegisterView, MyLoginView, PasswordChange
+from apps.accounts.views import PasswordChange
 from apps.blog.views import ProfileDetailView, ProfileUpdateView, MyUserFavouriteArticles
 
 urlpatterns = [
@@ -36,18 +36,29 @@ if settings.DEBUG:
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
+from ckeditor_uploader import views
+from django.views.decorators.cache import never_cache
+
+ckeditor_urls = [
+    re_path(r"^upload/", views.upload, name="ckeditor_upload"),
+    re_path(
+        r"^browse/",
+        never_cache(views.browse),
+        name="ckeditor_browse",
+    ),
+]
 
 urlpatterns += i18n_patterns(
     path('blog/', include('apps.blog.urls')),
     path('', RedirectView.as_view(url='blog/', permanent=True)),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('accounts/', include('apps.accounts.urls')),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('accounts/', include('django_registration.backends.activation.urls')),
+    path('ckeditor/', include(ckeditor_urls)),
     path('profile/<int:pk>/', ProfileDetailView.as_view(), name='profile'),
     path('profile/<int:pk>/password_change/', PasswordChange.as_view(), name='password_change'),
     path('profile/<int:pk>/update/', ProfileUpdateView.as_view(), name='profile_update'),
     path('profile/<int:pk>/favourite_articles/', MyUserFavouriteArticles.as_view(), name='favourite_articles'),
-
 )
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

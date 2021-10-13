@@ -32,7 +32,7 @@ def save_like(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Like)
-def update_rating(sender, instance, **kwargs):
+def update_likes(sender, instance, **kwargs):
     parent = instance.article
     all_likes = Like.objects.filter(article=parent, like=True).select_related('article')
     parent.likes = all_likes.count()

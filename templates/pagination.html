@@ -5,12 +5,12 @@
         {% if page_obj.has_previous %}
         {% if author != None %}
         <a class="page-link" href="?page={{ page_obj.previous_page_number }}&author={{author}}&o={{o}}&category={{category}}&title={{title}}" aria-label="Previous">
-        {% else %}<a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+        {% else %}
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
         {% endif %}
         <span aria-hidden="true">&laquo;</span>
             </a>
         {% endif %}
-    </li>
     {% for page in page_obj.paginator.page_range %}
         <li class="page-item {% if page == page_obj.number %} active {% endif %} ">
             {% if author != None %}
@@ -21,7 +21,6 @@
                 {{ page }}
             </a>
             {%endif%}
-        </li>
             </a>
         </li>
     {% endfor %}

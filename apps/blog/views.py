@@ -185,7 +185,7 @@ class MyUserFavouriteArticles(ListView):
     template_name = 'blog/user_liked_articles.html'
 
     def get_queryset(self):
-        qs = Like.objects.filter(user=self.request.user).select_related('article', 'user')
+        qs = Like.objects.filter(user=self.request.user, like=True).select_related('article', 'user')
         object_list = []
         for like in qs:
             object_list.append(like.article)

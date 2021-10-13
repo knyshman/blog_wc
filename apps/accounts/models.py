@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.core.mail import send_mail
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -43,7 +44,7 @@ class MyUser(AbstractBaseUser):
     )
     name = models.CharField(max_length=100, blank=True, null=True)
     last_name = models.CharField(max_length=200, blank=True, null=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     phone = models.CharField(verbose_name=_('Телефон'), max_length=10, blank=True, null=True)
     avatar = models.ImageField(blank=True, default='default-avatar.jpg')
@@ -72,6 +73,10 @@ class MyUser(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
+
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        """Send an email to this user."""
+        send_mail(subject, message, from_email, [self.email], **kwargs)
 
     @property
     def is_staff(self):
