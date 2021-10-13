@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-11 17:32+0300\n"
-"PO-Revision-Date: 2021-10-11 17:50+0202\n"
+"PO-Revision-Date: 2021-10-13 17:33+0202\n"
 "Last-Translator: Anonymous Александр <mr.knyshman@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -61,31 +61,31 @@ msgstr "Повторіть пароль"
 
 #: apps/accounts/forms.py:67 apps/accounts/forms.py:97
 msgid "Пароли не совпадают"
-msgstr ""
+msgstr "Паролі не співпадають"
 
 #: apps/accounts/forms.py:72
 msgid "Текущий пароль"
-msgstr ""
+msgstr "Поточний пароль"
 
 #: apps/accounts/forms.py:75
 msgid "Введите текущий пароль"
-msgstr ""
+msgstr "Введіть поточний пароль"
 
 #: apps/accounts/forms.py:79
 msgid "Новый пароль"
-msgstr ""
+msgstr "Новий пароль"
 
 #: apps/accounts/forms.py:89
 msgid "Повторите новый пароль"
-msgstr ""
+msgstr "Повторіть новий пароль"
 
 #: apps/accounts/models.py:13
 msgid "Users must have an email address"
-msgstr ""
+msgstr "У користувача повинна бути електронна пошта"
 
 #: apps/accounts/models.py:47 apps/blog/forms.py:73
 msgid "Телефон"
-msgstr ""
+msgstr "Телефон"
 
 #: apps/blog/apps.py:8 templates/base.html:15
 msgid "Блог"
@@ -93,15 +93,15 @@ msgstr "Блог"
 
 #: apps/blog/filters.py:8 apps/blog/models.py:26
 msgid "Название"
-msgstr ""
+msgstr "Назва"
 
 #: apps/blog/filters.py:11
 msgid "Cортировать"
-msgstr ""
+msgstr "Сортувати"
 
 #: apps/blog/filters.py:18
 msgid "по названию"
-msgstr ""
+msgstr "за назвою"
 
 #: apps/blog/filters.py:19
 msgid "по рейтингу"
@@ -356,31 +356,38 @@ msgid "Изменить пароль"
 msgstr "Змінити пароль"
 
 #: user_classes.py:41
+#, fuzzy
 msgid "No password set."
 msgstr ""
 
 #: user_classes.py:46
+#, fuzzy
 msgid "Invalid password format or unknown hashing algorithm."
 msgstr ""
 
 #: user_classes.py:81 user_classes.py:322 user_classes.py:395
+#, fuzzy
 msgid "The two password fields didn’t match."
 msgstr ""
 
 #: user_classes.py:84 user_classes.py:137 user_classes.py:167
 #: user_classes.py:399
+#, fuzzy
 msgid "Password"
 msgstr ""
 
 #: user_classes.py:90
+#, fuzzy
 msgid "Password confirmation"
 msgstr ""
 
 #: user_classes.py:93 user_classes.py:408
+#, fuzzy
 msgid "Enter the same password as before, for verification."
 msgstr ""
 
 #: user_classes.py:139
+#, fuzzy
 msgid ""
 "Raw passwords are not stored, so there is no way to see this user’s "
 "password, but you can change the password using <a href=\"{}\">this "
@@ -388,17 +395,19 @@ msgid ""
 msgstr ""
 
 #: user_classes.py:174
-#, python-format
+#, python-format, fuzzy
 msgid ""
 "Please enter a correct %(username)s and password. Note that both fields may "
 "be case-sensitive."
 msgstr ""
 
 #: user_classes.py:177
+#, fuzzy
 msgid "This account is inactive."
 msgstr ""
 
 #: user_classes.py:240
+#, fuzzy
 msgid "Email"
 msgstr ""
 

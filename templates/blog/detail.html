@@ -2,8 +2,10 @@
 {% block title %} {{ object.title}} {% endblock title %}
 
 {% block content %}
+{% for item in object.category.get_ancestors() %}
+                <a href="{{ url('home')}}">{{ item.name }}</a>
+        {% endfor %}» {{object.category.name}}
 <h1>{{ object.title }}</h1>
-
 {% csrf_token %}
 {% if object.preview_image %}
 <p><img class="lazyOwl" src="{{ object.preview_image.url }}"></p>

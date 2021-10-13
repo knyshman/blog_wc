@@ -1,18 +1,13 @@
-from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import login, get_user_model
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core import signing
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 from django_registration.backends.activation.views import RegistrationView, ActivationView
-
 from .forms import UserLoginForm, UserRegistrationForm, MyPasswordChangeForm
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordResetView, \
     PasswordResetConfirmView
@@ -31,6 +26,9 @@ class MyLogoutView(LogoutView):
     Log out the user and display the 'You are logged out' message.
     """
     template_name = 'accounts/logout.html'
+
+    def get_success_url(self, user=None):
+        return redirect(reverse_lazy('home'))
 
 
 class RegisterView(RegistrationView):

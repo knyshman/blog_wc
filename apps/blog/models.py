@@ -25,14 +25,14 @@ class Article(models.Model):
     category = models.ForeignKey(Category, verbose_name=_('Категория'), on_delete=models.SET_NULL, null=True, related_name='category')
     title = models.CharField(max_length=250, verbose_name=_('Название'), unique=True)
     slug = models.SlugField(blank=True, null=True, unique=True)
-    preview_image = models.ImageField(blank=True, default='default.jpg')
+    preview_image = models.ImageField(verbose_name=_('Изображение'), blank=True, default='default.jpg')
     short_description = models.CharField(verbose_name=_('Краткое описание'), max_length=300, blank=True)
     content = RichTextUploadingField(verbose_name=_('Контент'))
-    create_date = models.DateTimeField(auto_now_add=True)
-    update_date = models.DateTimeField(auto_now=True)
+    create_date = models.DateTimeField(verbose_name=_('Дата создания'), auto_now_add=True)
+    update_date = models.DateTimeField(verbose_name=_('Дата изменения'), auto_now=True)
     author = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True, verbose_name=_('Автор'))
-    average_rating = models.FloatField(default=0)
-    likes = models.IntegerField(default=0)
+    average_rating = models.FloatField(verbose_name=_('Средний рейтинг'), default=0)
+    likes = models.IntegerField(verbose_name=_('Лайки'), default=0)
 
     class Meta:
         verbose_name = _('Статья')
@@ -53,11 +53,11 @@ class Article(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    create_date = models.DateTimeField(auto_now_add=True)
-    comment = RichTextField()
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comment_set', related_query_name='comments_set')
-    is_published = models.BooleanField(null=True, default=True)
+    author = models.ForeignKey(MyUser,verbose_name=_('пользователь'),  on_delete=models.CASCADE)
+    create_date = models.DateTimeField(verbose_name=_('дата создания'), auto_now_add=True)
+    comment = RichTextField(verbose_name=_('Комментарий'))
+    article = models.ForeignKey(Article, verbose_name=_('Статья'), on_delete=models.CASCADE, related_name='comment_set', related_query_name='comments_set')
+    is_published = models.BooleanField(verbose_name=_('опубликовано'), null=True, default=True)
 
 
 class ArticleRating(models.Model):

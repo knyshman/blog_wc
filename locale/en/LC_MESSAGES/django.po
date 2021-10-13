@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-11 17:32+0300\n"
-"PO-Revision-Date: 2021-09-29 13:49+0000\n"
-"Last-Translator: Anonymous User <mr.knyshman@hotmail.com>\n"
+"PO-Revision-Date: 2021-10-13 17:48+0202\n"
+"Last-Translator: Anonymous Александр <mr.knyshman@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -61,28 +61,24 @@ msgstr "Confirm your password"
 
 #: apps/accounts/forms.py:67 apps/accounts/forms.py:97
 msgid "Пароли не совпадают"
-msgstr ""
+msgstr "Passwords are not match"
 
 #: apps/accounts/forms.py:72
-#, fuzzy
 #| msgid "Неверный пароль"
 msgid "Текущий пароль"
 msgstr "Invalid password"
 
 #: apps/accounts/forms.py:75
-#, fuzzy
 #| msgid "Введите пароль"
 msgid "Введите текущий пароль"
 msgstr "Input password"
 
 #: apps/accounts/forms.py:79
-#, fuzzy
 #| msgid "Неверный пароль"
 msgid "Новый пароль"
 msgstr "Invalid password"
 
 #: apps/accounts/forms.py:89
-#, fuzzy
 #| msgid "Повторите пароль"
 msgid "Повторите новый пароль"
 msgstr "Confirm your password"
@@ -93,7 +89,7 @@ msgstr "Users must have an email address"
 
 #: apps/accounts/models.py:47 apps/blog/forms.py:73
 msgid "Телефон"
-msgstr ""
+msgstr "Phone number"
 
 #: apps/blog/apps.py:8 templates/base.html:15
 msgid "Блог"
@@ -101,19 +97,19 @@ msgstr "Blog"
 
 #: apps/blog/filters.py:8 apps/blog/models.py:26
 msgid "Название"
-msgstr ""
+msgstr "Name"
 
 #: apps/blog/filters.py:11
 msgid "Cортировать"
-msgstr ""
+msgstr "Sort"
 
 #: apps/blog/filters.py:18
 msgid "по названию"
-msgstr ""
+msgstr "by name"
 
 #: apps/blog/filters.py:19
 msgid "по рейтингу"
-msgstr ""
+msgstr "by rating"
 
 #: apps/blog/forms.py:10
 msgid "Заголовок"
@@ -134,21 +130,20 @@ msgstr "Category"
 
 #: apps/blog/forms.py:35
 msgid "Комментарий"
-msgstr ""
+msgstr "Comment"
 
 #: apps/blog/forms.py:65
 msgid "Имя"
-msgstr ""
+msgstr "Name"
 
 #: apps/blog/forms.py:67
-#, fuzzy
 #| msgid "Введите текст"
 msgid "Введите имя"
-msgstr "Input text"
+msgstr "Input name"
 
 #: apps/blog/forms.py:69
 msgid "Фамилия"
-msgstr ""
+msgstr "Surname"
 
 #: apps/blog/forms.py:71
 #, fuzzy
@@ -164,27 +159,25 @@ msgstr "Input password"
 
 #: apps/blog/forms.py:77
 msgid "Фото"
-msgstr ""
+msgstr "Photo"
 
 #: apps/blog/models.py:18
-#, fuzzy
 #| msgid "Категория"
 msgid "Категории"
 msgstr "Category"
 
 #: apps/blog/models.py:29
 msgid "Краткое описание"
-msgstr ""
+msgstr "Short description"
 
 #: apps/blog/models.py:30
 msgid "Контент"
-msgstr ""
+msgstr "Content"
 
 #: apps/blog/models.py:38
-#, fuzzy
 #| msgid "Статьи"
 msgid "Статья"
-msgstr "Articles"
+msgstr "Article"
 
 #: apps/blog/models.py:39 templates/base.html:29
 msgid "Статьи"
@@ -192,35 +185,35 @@ msgstr "Articles"
 
 #: apps/blog/models.py:64
 msgid "Рейтинг"
-msgstr ""
+msgstr "Rating"
 
 #: apps/blog/views.py:36
 msgid "дизлайкнуть"
-msgstr ""
+msgstr "dislike"
 
 #: apps/blog/views.py:38
 msgid "лайкнуть"
-msgstr ""
+msgstr "like"
 
 #: blog_wc/settings/local_settings.py:175 blog_wc/settings/production.py:129
 msgid "Русский"
-msgstr ""
+msgstr "Russian"
 
 #: blog_wc/settings/local_settings.py:176 blog_wc/settings/production.py:130
 msgid "English"
-msgstr ""
+msgstr "English"
 
 #: blog_wc/settings/local_settings.py:177 blog_wc/settings/production.py:131
 msgid "Украинский"
-msgstr ""
+msgstr "Ukrainian"
 
 #: templates/404.html:2
 msgid "Страница не найдена"
-msgstr ""
+msgstr "Page not found"
 
 #: templates/404.html:5
 msgid "Запрашиваемая страница не найдена. Ошибка 404"
-msgstr ""
+msgstr "Requested page is not found. Error 404"
 
 #: templates/accounts/login.html:2 templates/accounts/login.html:4
 msgid "Форма входа"
@@ -245,17 +238,15 @@ msgstr ""
 
 #: templates/accounts/logout.html:5
 msgid "Нажмите чтобы войти"
-msgstr ""
+msgstr "Push to login"
 
 #: templates/accounts/register.html:20
-#, fuzzy
 #| msgid "Регистрация"
 msgid "Зарегистрироваться"
 msgstr "Registration"
 
 #: templates/accounts/register_done.html:2
 #: templates/accounts/register_done.html:4
-#, fuzzy
 #| msgid "Форма регистрации"
 msgid "Спасибо за регистрацию!"
 msgstr "Registration form"
@@ -268,7 +259,7 @@ msgstr ""
 
 #: templates/base.html:23
 msgid "Личный кабинет"
-msgstr ""
+msgstr "Your account"
 
 #: templates/base.html:26
 msgid "Авторы"
@@ -320,61 +311,56 @@ msgstr "Category"
 
 #: templates/blog/detail.html:20
 msgid "Количество лайков: "
-msgstr ""
+msgstr "Number of likes: "
 
 #: templates/blog/detail.html:28 templates/blog/detail.html:37
-#, fuzzy
 #| msgid " Добавить"
 msgid "Отправить"
-msgstr "Add"
+msgstr "Send"
 
 #: templates/blog/home.html:19
 msgid "Средний рейтинг: "
-msgstr ""
+msgstr "Average rating: "
 
 #: templates/blog/home.html:20
-#, fuzzy
 #| msgid "Форма регистрации"
 msgid "Дата публикации"
-msgstr "Registration form"
+msgstr "Updation date"
 
 #: templates/blog/home.html:20
 msgid "Дата изменения"
-msgstr ""
+msgstr "Changing date"
 
 #: templates/blog/home.html:22
 msgid "Подробнее"
 msgstr ""
 
 #: templates/blog/profile.html:21
-#, fuzzy
 #| msgid "Имя пользователя"
 msgid "Пользователь: "
-msgstr "Username"
+msgstr "User"
 
 #: templates/blog/profile.html:25
 msgid "Телефон: "
-msgstr ""
+msgstr "Phone number: "
 
 #: templates/blog/profile.html:37
-#, fuzzy
 #| msgid "Введите пароль"
 msgid "Изменить данные профиля"
-msgstr "Input password"
+msgstr "Change profile"
 
 #: templates/blog/profile.html:43 templates/blog/profile.html:57
 msgid "Готово"
-msgstr ""
+msgstr "Ready"
 
 #: templates/blog/profile.html:51
-#, fuzzy
 #| msgid "Введите пароль"
 msgid "Изменить пароль"
-msgstr "Input password"
+msgstr "Change password"
 
 #: user_classes.py:41
 msgid "No password set."
-msgstr ""
+msgstr "No password set."
 
 #: user_classes.py:46
 msgid "Invalid password format or unknown hashing algorithm."
@@ -400,7 +386,8 @@ msgstr ""
 #: user_classes.py:139
 msgid ""
 "Raw passwords are not stored, so there is no way to see this user’s "
-"password, but you can change the password using <a href=\"{}\">this form</a>."
+"password, but you can change the password using <a href=\"{}\">this "
+"form</a>."
 msgstr ""
 
 #: user_classes.py:174

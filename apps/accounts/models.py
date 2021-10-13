@@ -42,13 +42,13 @@ class MyUser(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
-    name = models.CharField(max_length=100, blank=True, null=True)
-    last_name = models.CharField(max_length=200, blank=True, null=True)
+    name = models.CharField(verbose_name=_('Имя'), max_length=100, blank=True, null=True)
+    last_name = models.CharField(verbose_name=_('Фамилия'),max_length=200, blank=True, null=True)
     is_active = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     phone = models.CharField(verbose_name=_('Телефон'), max_length=10, blank=True, null=True)
-    avatar = models.ImageField(blank=True, default='default-avatar.jpg')
-    subscribes = models.ManyToManyField('MyUser', blank=True)
+    avatar = models.ImageField(verbose_name=_('Фото'),blank=True, default='default-avatar.jpg')
+    subscribes = models.ManyToManyField('MyUser',verbose_name=_('Подписчики'), blank=True)
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'

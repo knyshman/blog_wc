@@ -80,7 +80,7 @@ class ArticleListView(FilterView):
 class ArticleCreateView(SuccessMessageMixin, CreateView):
     model = Article
     template_name = 'blog/article_create.html'
-    success_message = 'Статья успешно добавлена'
+    success_message = _('Статья успешно добавлена')
     form_class = ArticleForm
 
     def form_valid(self, form):
@@ -94,7 +94,7 @@ class ArticleUpdateView(SuccessMessageMixin, UpdateView):
     model = Article
     form_class = ArticleForm
     template_name = 'blog/article_update.html'
-    success_message = 'Статья успешно изменена'
+    success_message = _('Статья успешно изменена')
 
 
 class ArticleDeleteView(DeleteView):
@@ -102,7 +102,7 @@ class ArticleDeleteView(DeleteView):
     success_url = reverse_lazy('home')
 
     def get(self, request, *args, **kwargs):
-        messages.success(request, 'Статья успешно удалена')
+        messages.success(request, _('Статья успешно удалена'))
         return self.post(request, *args, **kwargs)
 
 

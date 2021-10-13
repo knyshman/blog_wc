@@ -4,4 +4,4 @@ from .models import MyUser
 
 @register(MyUser)
 class MyUserTranslationOptions(TranslationOptions):
-    fields = ('name', )
+    fields = ('name', 'last_name', )
