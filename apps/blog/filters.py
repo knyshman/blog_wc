@@ -10,12 +10,12 @@ class ArticleFilter(django_filters.FilterSet):
     o = django_filters.OrderingFilter(
         label=_('Cортировать'),
         fields=(
-            ('title', 'title'),
+            ('date_create', 'date_create'),
             ('average_rating', 'average_rating'),
 
         ),
         field_labels={
-            'title': _('по названию'),
+            'date_create': _('по дате'),
             'average_rating': _('по рейтингу')
     }
     )

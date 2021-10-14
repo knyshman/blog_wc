@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-11 17:32+0300\n"
-"PO-Revision-Date: 2021-10-13 17:33+0202\n"
+"POT-Creation-Date: 2021-10-14 17:30+0300\n"
+"PO-Revision-Date: 2021-10-14 17:39+0202\n"
 "Last-Translator: Anonymous Александр <mr.knyshman@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -63,7 +63,7 @@ msgstr "Повторіть пароль"
 msgid "Пароли не совпадают"
 msgstr "Паролі не співпадають"
 
-#: apps/accounts/forms.py:72
+#: apps/accounts/forms.py:72 apps/accounts/forms.py:76
 msgid "Текущий пароль"
 msgstr "Поточний пароль"
 
@@ -75,19 +75,47 @@ msgstr "Введіть поточний пароль"
 msgid "Новый пароль"
 msgstr "Новий пароль"
 
+#: apps/accounts/forms.py:83
+#, fuzzy
+#| msgid "Новый пароль"
+msgid "Новый пароль 1"
+msgstr "Новий пароль"
+
 #: apps/accounts/forms.py:89
 msgid "Повторите новый пароль"
 msgstr "Повторіть новий пароль"
 
-#: apps/accounts/models.py:13
+#: apps/accounts/forms.py:90
+#, fuzzy
+#| msgid "Новый пароль"
+msgid "Новый пароль 2"
+msgstr "Новий пароль"
+
+#: apps/accounts/models.py:15
 msgid "Users must have an email address"
 msgstr "У користувача повинна бути електронна пошта"
 
-#: apps/accounts/models.py:47 apps/blog/forms.py:73
+#: apps/accounts/models.py:45 apps/blog/forms.py:75
+msgid "Имя"
+msgstr "Ім'я"
+
+#: apps/accounts/models.py:46 apps/blog/forms.py:79
+msgid "Фамилия"
+msgstr "Прізвище"
+
+#: apps/accounts/models.py:49 apps/blog/forms.py:83
 msgid "Телефон"
 msgstr "Телефон"
 
-#: apps/blog/apps.py:8 templates/base.html:15
+#: apps/accounts/models.py:50 apps/blog/forms.py:87
+msgid "Фото"
+msgstr "Фото"
+
+#: apps/accounts/models.py:51
+msgid "Подписчики"
+msgstr "Підписники"
+
+#: apps/blog/apps.py:8 templates/base.html:15 templates/blog/detail.html:7
 msgid "Блог"
 msgstr "Блог"
 
@@ -100,63 +128,60 @@ msgid "Cортировать"
 msgstr "Сортувати"
 
 #: apps/blog/filters.py:18
-msgid "по названию"
-msgstr "за назвою"
+msgid "по дате"
+msgstr "за датою"
 
 #: apps/blog/filters.py:19
 msgid "по рейтингу"
 msgstr "за рейтингом"
 
-#: apps/blog/forms.py:10
+#: apps/blog/forms.py:11
 msgid "Заголовок"
 msgstr "Назва"
 
-#: apps/blog/forms.py:12
+#: apps/blog/forms.py:13
 msgid "Введите заголовок"
 msgstr "Введіть назву"
 
-#: apps/blog/forms.py:15 apps/blog/models.py:33
+#: apps/blog/forms.py:16 apps/blog/models.py:33 templates/blog/profile.html:83
+#: templates/blog/user_liked_articles.html:16
 #, fuzzy
 #| msgid "Авторы"
 msgid "Автор"
 msgstr "Автори"
 
-#: apps/blog/forms.py:20 apps/blog/models.py:13 apps/blog/models.py:17
+#: apps/blog/forms.py:21 apps/blog/models.py:13 apps/blog/models.py:17
 #: apps/blog/models.py:25
 msgid "Категория"
 msgstr "Категорія"
 
-#: apps/blog/forms.py:35
+#: apps/blog/forms.py:36 apps/blog/models.py:58
 msgid "Комментарий"
 msgstr "Коментар"
 
-#: apps/blog/forms.py:65
-msgid "Имя"
-msgstr "Ім'я"
+#: apps/blog/forms.py:73 apps/blog/views.py:163
+msgid "Номер телефона должен содержать только цифры(не более 10)"
+msgstr "Номер телефону повинен містити тільки цифри(не більше 10)"
 
-#: apps/blog/forms.py:67
+#: apps/blog/forms.py:77
 msgid "Введите имя"
 msgstr "Введіть ім'я"
 
-#: apps/blog/forms.py:69
-msgid "Фамилия"
-msgstr "Прізвище"
-
-#: apps/blog/forms.py:71
+#: apps/blog/forms.py:81
 msgid "Введите фамилию"
 msgstr "Введіть прізвище"
 
-#: apps/blog/forms.py:75
+#: apps/blog/forms.py:85
 msgid "Введите номер телефона"
 msgstr "Введіть номер телефону"
-
-#: apps/blog/forms.py:77
-msgid "Фото"
-msgstr "Фото"
 
 #: apps/blog/models.py:18
 msgid "Категории"
 msgstr "Категорії"
+
+#: apps/blog/models.py:28
+msgid "Изображение"
+msgstr "Зображення"
 
 #: apps/blog/models.py:29
 msgid "Краткое описание"
@@ -166,37 +191,88 @@ msgstr "Короткий опис"
 msgid "Контент"
 msgstr "Контент"
 
-#: apps/blog/models.py:38
+#: apps/blog/models.py:31
+#, fuzzy
+#| msgid "Форма регистрации"
+msgid "Дата создания"
+msgstr "Форма реєстрації"
+
+#: apps/blog/models.py:32 templates/blog/home.html:21
+#: templates/blog/profile.html:85 templates/blog/user_liked_articles.html:18
+msgid "Дата изменения"
+msgstr "Дата зміни"
+
+#: apps/blog/models.py:34
+#, fuzzy
+#| msgid "Средний рейтинг: "
+msgid "Средний рейтинг"
+msgstr "Середній рейтинг: "
+
+#: apps/blog/models.py:35
+msgid "Лайки"
+msgstr "Лайки"
+
+#: apps/blog/models.py:38 apps/blog/models.py:59
 #, fuzzy
 #| msgid "Статьи"
 msgid "Статья"
 msgstr "Статті"
 
-#: apps/blog/models.py:39 templates/base.html:29
+#: apps/blog/models.py:39 templates/base.html:27
 msgid "Статьи"
 msgstr "Статті"
+
+#: apps/blog/models.py:56
+#, fuzzy
+#| msgid "Пользователь: "
+msgid "пользователь"
+msgstr "Користувач: "
+
+#: apps/blog/models.py:57
+#, fuzzy
+#| msgid "Форма регистрации"
+msgid "дата создания"
+msgstr "Форма реєстрації"
+
+#: apps/blog/models.py:60
+#, fuzzy
+#| msgid "Форма регистрации"
+msgid "опубликовано"
+msgstr "Форма реєстрації"
 
 #: apps/blog/models.py:64
 msgid "Рейтинг"
 msgstr "Рейтинг"
 
-#: apps/blog/views.py:36
+#: apps/blog/views.py:37
 msgid "дизлайкнуть"
 msgstr "відлайкати"
 
-#: apps/blog/views.py:38
+#: apps/blog/views.py:39
 msgid "лайкнуть"
 msgstr "лайкнути"
 
-#: blog_wc/settings/local_settings.py:175 blog_wc/settings/production.py:129
+#: apps/blog/views.py:83
+msgid "Статья успешно добавлена"
+msgstr "Стаття успішно додана"
+
+#: apps/blog/views.py:97
+msgid "Статья успешно изменена"
+msgstr "Стаття успішно змінена"
+
+#: apps/blog/views.py:105
+msgid "Статья успешно удалена"
+msgstr "Статтю успішно видалено"
+
+#: blog_wc/settings/local_settings.py:174 blog_wc/settings/production.py:129
 msgid "Русский"
 msgstr "Російська"
 
-#: blog_wc/settings/local_settings.py:176 blog_wc/settings/production.py:130
+#: blog_wc/settings/local_settings.py:175 blog_wc/settings/production.py:130
 msgid "English"
 msgstr "Англійська"
 
-#: blog_wc/settings/local_settings.py:177 blog_wc/settings/production.py:131
+#: blog_wc/settings/local_settings.py:176 blog_wc/settings/production.py:131
 msgid "Украинский"
 msgstr "Українська"
 
@@ -205,22 +281,38 @@ msgid "Страница не найдена"
 msgstr "Сторінку не знайдено"
 
 #: templates/404.html:5
-#, fuzzy
 msgid "Запрашиваемая страница не найдена. Ошибка 404"
-msgstr ""
+msgstr "Запитувану сторінку не знайдено. Помилка 404"
+
+#: templates/accounts/activation_done.html:2
+msgid "Аккаунт активирован"
+msgstr "Акаунт активовано"
+
+#: templates/accounts/activation_done.html:4
+msgid "Вы подтвердили электронную почту"
+msgstr "Ви підтвердили електронну пошту"
+
+#: templates/accounts/activation_done.html:6
+#, fuzzy
+#| msgid "Вы зарегистрировались. Теперь Вы можете "
+msgid "Ваш аккаунт активирован. Теперь вы можете войти на "
+msgstr "Ви зареєструвались. Тепер Ви можете "
+
+#: templates/accounts/activation_done.html:6
+msgid "сайт"
+msgstr "сайт"
 
 #: templates/accounts/login.html:2 templates/accounts/login.html:4
 msgid "Форма входа"
 msgstr "Форма входу"
 
 #: templates/accounts/login.html:10 templates/accounts/register.html:14
-#: templates/accounts/register.html:18 templates/blog/profile.html:54
-#: templates/blog/profile.html:55 templates/blog/profile.html:56
+#: templates/accounts/register.html:18 templates/blog/profile.html:65
 msgid " Показать пароль"
 msgstr "Показати пароль"
 
 #: templates/accounts/login.html:13 templates/accounts/register_done.html:5
-#: templates/base.html:54
+#: templates/base.html:55
 msgid "Войти"
 msgstr "Увійти"
 
@@ -253,31 +345,38 @@ msgstr ""
 "На Email, вказаний при реєстрації, було відправлено лист для підтвердження "
 "електронної пошти"
 
-#: templates/base.html:23
-msgid "Личный кабинет"
-msgstr "Особистий кабінет"
-
-#: templates/base.html:26
+#: templates/base.html:24
 msgid "Авторы"
 msgstr "Автори"
 
-#: templates/base.html:39
-msgid "Добавить статью"
-msgstr "Додати статтю"
+#: templates/base.html:33
+msgid "Мой профайл"
+msgstr "Мій профайл"
 
-#: templates/base.html:40
+#: templates/base.html:36
+msgid "Личный кабинет"
+msgstr "Особистий кабінет"
+
+#: templates/base.html:37 templates/blog/user_liked_articles.html:2
+#: templates/blog/user_liked_articles.html:9
+#, fuzzy
+#| msgid "Редактирование статьи "
+msgid "Избранные статьи"
+msgstr "Редагування статті"
+
+#: templates/base.html:38
 msgid "Города"
 msgstr "Міста"
 
-#: templates/base.html:45
+#: templates/base.html:44
 msgid " Добавить"
 msgstr "Додати"
 
-#: templates/base.html:50
+#: templates/base.html:51
 msgid "Выйти"
 msgstr "Вийти"
 
-#: templates/base.html:57
+#: templates/base.html:58
 msgid "Регистрация"
 msgstr "Реєстрація"
 
@@ -295,45 +394,54 @@ msgstr "Зберегти"
 msgid "Редактирование статьи "
 msgstr "Редагування статті"
 
-#: templates/blog/detail.html:18
+#: templates/blog/detail.html:32 templates/blog/home.html:19
 #, fuzzy
 #| msgid "Авторы"
 msgid "Автор: "
 msgstr "Автори"
 
-#: templates/blog/detail.html:19
+#: templates/blog/detail.html:38
+#, fuzzy
+#| msgid "Регистрация"
+msgid "Отписаться"
+msgstr "Реєстрація"
+
+#: templates/blog/detail.html:39
+#, fuzzy
+#| msgid "Регистрация"
+msgid "Подписаться"
+msgstr "Реєстрація"
+
+#: templates/blog/detail.html:47
 msgid "Категория: "
 msgstr "Категорія"
 
-#: templates/blog/detail.html:20
+#: templates/blog/detail.html:48
 msgid "Количество лайков: "
 msgstr "Кількість лайків: "
 
-#: templates/blog/detail.html:28 templates/blog/detail.html:37
+#: templates/blog/detail.html:57 templates/blog/detail.html:67
 #, fuzzy
 #| msgid " Добавить"
 msgid "Отправить"
 msgstr "Додати"
 
-#: templates/blog/home.html:19
+#: templates/blog/home.html:20 templates/blog/profile.html:83
+#: templates/blog/user_liked_articles.html:16
 msgid "Средний рейтинг: "
 msgstr "Середній рейтинг: "
 
-#: templates/blog/home.html:20
+#: templates/blog/home.html:21 templates/blog/profile.html:85
+#: templates/blog/user_liked_articles.html:18
 #, fuzzy
 #| msgid "Форма регистрации"
 msgid "Дата публикации"
 msgstr "Форма реєстрації"
 
-#: templates/blog/home.html:20
-#, fuzzy
-msgid "Дата изменения"
-msgstr ""
-
-#: templates/blog/home.html:22
-#, fuzzy
+#: templates/blog/home.html:23 templates/blog/profile.html:87
+#: templates/blog/user_liked_articles.html:20
 msgid "Подробнее"
-msgstr ""
+msgstr "Детальніше"
 
 #: templates/blog/profile.html:21
 msgid "Пользователь: "
@@ -347,7 +455,7 @@ msgstr "Телефон: "
 msgid "Изменить данные профиля"
 msgstr "Змінити дані профілю"
 
-#: templates/blog/profile.html:43 templates/blog/profile.html:57
+#: templates/blog/profile.html:43 templates/blog/profile.html:67
 msgid "Готово"
 msgstr "Готово"
 
@@ -355,39 +463,118 @@ msgstr "Готово"
 msgid "Изменить пароль"
 msgstr "Змінити пароль"
 
-#: user_classes.py:41
+#: templates/blog/profile.html:76
 #, fuzzy
+#| msgid "Добавить статью"
+msgid "Мои статьи"
+msgstr "Додати статтю"
+
+#: templates/blog/profile.html:82 templates/blog/user_liked_articles.html:15
+#, fuzzy
+#| msgid "Название"
+msgid "Описание"
+msgstr "Назва"
+
+#: templates/blog/profile.html:84 templates/blog/user_liked_articles.html:17
+#, fuzzy
+#| msgid "Комментарий"
+msgid "Комментариев"
+msgstr "Коментар"
+
+#: templates/blog/profile.html:84 templates/blog/user_liked_articles.html:17
+msgid "Лайков"
+msgstr "Лайків"
+
+#: templates/registration/password_reset_complete.html:4
+msgid "Пароль был изменен"
+msgstr "Пароль було змінено"
+
+#: templates/registration/password_reset_complete.html:5
+#, fuzzy
+#| msgid "Войти"
+msgid "Войти снова?"
+msgstr "Увійти"
+
+#: templates/registration/password_reset_confirm.html:6
+#, fuzzy
+#| msgid "Повторите новый пароль"
+msgid "Пожалуйста, введите(и подтвердите) Ваш новый пароль"
+msgstr "Повторіть новий пароль"
+
+#: templates/registration/password_reset_confirm.html:12
+#, fuzzy
+#| msgid "Новый пароль"
+msgid "Новый пароль: "
+msgstr "Новий пароль"
+
+#: templates/registration/password_reset_confirm.html:17
+#, fuzzy
+#| msgid "Повторите пароль"
+msgid "Подтвердите пароль: "
+msgstr "Повторіть пароль"
+
+#: templates/registration/password_reset_confirm.html:27
+#, fuzzy
+#| msgid "Повторите пароль"
+msgid "Ошибка сброса пароля"
+msgstr "Повторіть пароль"
+
+#: templates/registration/password_reset_confirm.html:28
+msgid ""
+"Ссылка для сброса пароля недействительна, возможно потому что уже была "
+"использована. Пожалуйста, запросите новый сброс пароля"
+msgstr ""
+"Посилання для скидання паролю не є дійсним, можливо, тому що воно вже було "
+"використане. Будь ласка, зробіть запит на нове скидання паролю "
+
+#: templates/registration/password_reset_done.html:3
+msgid "Вы заказали восстановление пароля"
+msgstr "Ви замовили скидання паролю "
+
+#: templates/registration/password_reset_done.html:4
+msgid "На Email была отправлена ссылка для восстановления пароля"
+msgstr "На Email було відправлено посилання для відновлення паролю"
+
+#: templates/registration/password_reset_email.html:1
+msgid ""
+"Вы запросили сброс пароля. Перейдите по ссылке и следуйте дальнейшим "
+"инструкциям"
+msgstr ""
+"Ви замовили скидання паролю. Перейдіть за посиланням та виконуйте всі "
+"інструкції"
+
+#: templates/registration/password_reset_form.html:6
+#, fuzzy
+#| msgid " Добавить"
+msgid "Восстановить"
+msgstr "Додати"
+
+#: user_classes.py:41
 msgid "No password set."
 msgstr ""
 
 #: user_classes.py:46
-#, fuzzy
 msgid "Invalid password format or unknown hashing algorithm."
 msgstr ""
 
 #: user_classes.py:81 user_classes.py:322 user_classes.py:395
-#, fuzzy
 msgid "The two password fields didn’t match."
 msgstr ""
 
 #: user_classes.py:84 user_classes.py:137 user_classes.py:167
 #: user_classes.py:399
-#, fuzzy
 msgid "Password"
 msgstr ""
 
 #: user_classes.py:90
-#, fuzzy
 msgid "Password confirmation"
 msgstr ""
 
 #: user_classes.py:93 user_classes.py:408
-#, fuzzy
 msgid "Enter the same password as before, for verification."
 msgstr ""
 
 #: user_classes.py:139
-#, fuzzy
 msgid ""
 "Raw passwords are not stored, so there is no way to see this user’s "
 "password, but you can change the password using <a href=\"{}\">this "
@@ -395,19 +582,17 @@ msgid ""
 msgstr ""
 
 #: user_classes.py:174
-#, python-format, fuzzy
+#, python-format
 msgid ""
 "Please enter a correct %(username)s and password. Note that both fields may "
 "be case-sensitive."
 msgstr ""
 
 #: user_classes.py:177
-#, fuzzy
 msgid "This account is inactive."
 msgstr ""
 
 #: user_classes.py:240
-#, fuzzy
 msgid "Email"
 msgstr ""
 
@@ -431,11 +616,14 @@ msgstr "Старий пароль"
 msgid "Password (again)"
 msgstr "Пароль(ще раз)"
 
+#~ msgid "по названию"
+#~ msgstr "за назвою"
+
+#~ msgid "Добавить статью"
+#~ msgstr "Додати статтю"
+
 #~ msgid "Главная"
 #~ msgstr "Головна"
 
 #~ msgid "Приветствуем Вас, "
 #~ msgstr "Вітаємо Вас, "
-
-#~ msgid "Вы зарегистрировались. Теперь Вы можете "
-#~ msgstr "Ви зареєструвались. Тепер Ви можете "

@@ -7,3 +7,4 @@ from django.conf import settings
 def get_lang_urls(request):
     current_url = request.build_absolute_uri()
     return [(code, name, translate_url(current_url, code)) for code, name in settings.LANGUAGES]
+

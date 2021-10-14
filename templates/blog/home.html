@@ -16,7 +16,8 @@
             {% for obj in object_list %}
             <h3><a href="{{ url('article_detail', obj.slug) }}">{{ obj.title }}</a></h3>
             <p>{{ obj.short_description|safe }}</p>
-            <p>{{ obj.author }} | {{ _('Средний рейтинг: ') }}{{ obj.average_rating }}</p>
+            <h6>{{_('Автор: ')}}<a href="{{ url('home')}}?author={{obj.author.pk}}&category=&title=&o=">{{obj.author}}</a></h6>
+            <p>{{ _('Средний рейтинг: ') }}{{ obj.average_rating }}</p>
             <p>{{ _('Дата публикации') }}: {{ obj.create_date }} | {{ _('Дата изменения') }}: {{ obj.update_date }}</p>
             <br>
             <p><button type="button" class="btn btn-outline-primary">{{ _('Подробнее') }}</button></p>

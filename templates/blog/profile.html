@@ -36,7 +36,7 @@
       <div class="card-body">
         <h5 class="card-title">{{ _('Изменить данные профиля') }}</h5>
 <form action="{{ url ('profile_update', request.user.pk) }}" method="post" > {% csrf_token %}
-            <p>{{profile_form.errors}} </p>
+            <p>{{profile_form.errors}}</p>
             <p>{{profile_form.name}} {{profile_form.last_name}}</p>
             <p>{{profile_form.phone}}</p>
             <p>{{profile_form.avatar}}</p>
@@ -51,10 +51,20 @@
         <h5 class="card-title">{{ _('Изменить пароль') }}</h5>
   <form action="{{ url ('password_change', request.user.pk) }}" method="post" > {% csrf_token %}
             <p>{{form.errors}}</p>
-            <p>{{ form.old_password }}<input type="checkbox" onchange="document.getElementById('old_password').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>
-            <p>{{ form.new_password1 }}<input type="checkbox" onchange="document.getElementById('new_password1').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>
-            <p>{{ form.new_password2 }}<input type="checkbox" onchange="document.getElementById('new_password2').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}</p>
-        <button type="submit" class="btn btn-primary">{{ _('Готово') }}</button>
+            <p>{{ form.old_password }}</p>
+            <p>{{ form.new_password1 }}</p>
+            <p>{{ form.new_password2 }}</p>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input"
+               onclick="if (old_password.type == 'text') (old_password.type = 'password');
+               else (old_password.type = 'text');
+               if (new_password1.type == 'text') (new_password1.type = 'password');
+               else (new_password1.type = 'text');
+               if (new_password2.type == 'text') (new_password2.type = 'password');
+               else (new_password2.type = 'text')">
+        <label class="form-check-label">{{_(' Показать пароль') }}</label>
+    </div>
+      <button type="submit" class="btn btn-primary">{{ _('Готово') }}</button>
         </form>
       </div>
     </div>

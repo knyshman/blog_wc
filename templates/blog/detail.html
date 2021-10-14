@@ -1,10 +1,17 @@
 {% extends "base.html" %}
+ url_for('static')
 {% block title %} {{ object.title}} {% endblock title %}
 
 {% block content %}
-{% for item in object.category.get_ancestors() %}
-                <a href="{{ url('home')}}">{{ item.name }}</a>
-        {% endfor %}» {{object.category.name}}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url ('home') }}">{{_('Блог')}}</a></li>
+    {% for item in object.category.get_ancestors() %}
+      <li class="breadcrumb-item"><a href="{{ url('home')}}?category={{item.pk}}">{{ item.name }}</a></li>
+    {% endfor %}
+    <li class="breadcrumb-item"><a href="{{ url('home')}}?category={{object.category.pk}}">{{ object.category }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ object.title }}</li>
+  </ol>
+
 <h1>{{ object.title }}</h1>
 {% csrf_token %}
 {% if object.preview_image %}
@@ -12,6 +19,7 @@
 {% endif %}
 
 {% if user.is_authenticated%}
+{% if object.author != request.user %}
 <div class="row">
     <div class="col-md-4">
         <form action="{{ url ('like', object.slug) }}" method="post"> {% csrf_token %}
@@ -20,7 +28,8 @@
         </form>
     </div>
 </div>
-<p>{{_('Автор: ')}}{{object.author}}</p>
+{% endif%}
+<p>{{_('Автор: ')}}<a href="{{ url('home')}}?author={{object.author.pk}}&category=&title=&o=">{{object.author}}</a></p>
 {% if object.author != request.user %}
 <div class="row">
     <div class="col-md-4">

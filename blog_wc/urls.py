@@ -54,6 +54,7 @@ urlpatterns += i18n_patterns(
     path('pages/', include('django.contrib.flatpages.urls')),
     path('accounts/', include('apps.accounts.urls')),
     path('accounts/', include('django_registration.backends.activation.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('ckeditor/', include(ckeditor_urls)),
     path('profile/<int:pk>/', ProfileDetailView.as_view(), name='profile'),
     path('profile/<int:pk>/password_change/', PasswordChange.as_view(), name='password_change'),

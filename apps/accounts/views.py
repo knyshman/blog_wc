@@ -9,8 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 from django_registration.backends.activation.views import RegistrationView, ActivationView
 from .forms import UserLoginForm, UserRegistrationForm, MyPasswordChangeForm
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordResetView, \
-    PasswordResetConfirmView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -26,7 +25,6 @@ class MyLogoutView(LogoutView):
     Log out the user and display the 'You are logged out' message.
     """
     template_name = 'accounts/logout.html'
-
     def get_success_url(self, user=None):
         return redirect(reverse_lazy('home'))
 
@@ -73,27 +71,10 @@ class PasswordChange(SuccessMessageMixin, PasswordChangeView):
     template_name = 'blog/profile.html'
 
     def form_invalid(self, form):
+        print(dict(form._errors))
         messages.add_message(self.request, messages.ERROR, form.errors.as_text())
         return redirect(reverse_lazy('profile', kwargs={'pk': self.request.user.pk}), self.get_context_data(form=form))
 
     def get_success_url(self):
         return reverse_lazy('profile', kwargs={'pk': self.request.user.pk})
-
-
-class PasswordReset(PasswordResetView):
-    email_template_name = 'accounts/password_reset_email.html'
-    extra_email_context = None
-    form_class = PasswordResetForm
-    html_email_template_name = None
-    subject_template_name = 'registration/password_reset_subject.txt'
-    success_url = reverse_lazy('password_reset_done')
-    template_name = 'accounts/password_reset_form.html'
-    title = _('Password reset')
-    token_generator = default_token_generator
-
-
-class PasswordResetConfirm(PasswordResetConfirmView):
-    success_url = reverse_lazy('login')
-    template_name = 'accounts/password_reset_confirm.html'
-    title = _('Enter new password')
 
