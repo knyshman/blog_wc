@@ -52,6 +52,12 @@ class Article(models.Model):
         return reverse('article_detail', kwargs={'slug': self.slug})
 
 
+class Image(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    image = models.ImageField()
+    alt = models.CharField(max_length=200)
+
+
 class Comment(models.Model):
     author = models.ForeignKey(MyUser,verbose_name=_('пользователь'),  on_delete=models.CASCADE)
     create_date = models.DateTimeField(verbose_name=_('дата создания'), auto_now_add=True)

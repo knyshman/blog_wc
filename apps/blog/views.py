@@ -14,6 +14,7 @@ from .utils import get_paginate_tags
 from ..accounts.models import MyUser
 from ..accounts.forms import MyPasswordChangeForm
 from django.utils.translation import ugettext_lazy as _
+from .tasks import print_hello
 
 
 class ArticleDetailView(MultipleObjectMixin, DetailView):
@@ -148,6 +149,8 @@ class ProfileDetailView(MultipleObjectMixin, DetailView):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['form'] = MyPasswordChangeForm(user=self.request.user)
         context['profile_form'] = ProfileForm(instance=self.request.user)
+        print_hello.delay()
+
         return context
 
     def get_success_url(self):

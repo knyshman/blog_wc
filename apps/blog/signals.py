@@ -1,7 +1,11 @@
+from django.contrib.admin import site
 from django.db.models import Avg
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
-from .models import ArticleRating, Like
+from django.utils.translation import ugettext_lazy as _
+from .models import ArticleRating, Like, Article
+from .tasks import send_mails_to_subscribers
+from ..accounts.models import MyUser
 
 
 @receiver(pre_save, sender=ArticleRating)
@@ -37,3 +41,18 @@ def update_likes(sender, instance, **kwargs):
     all_likes = Like.objects.filter(article=parent, like=True).select_related('article')
     parent.likes = all_likes.count()
     parent.save()
+
+
+from blog_wc.settings import (
+
+    DEFAULT_FROM_EMAIL
+)
+from_email = DEFAULT_FROM_EMAIL
+@receiver(post_save, sender=Article)
+def send_mails(sender, instance, **kwargs):
+    author = instance.author
+    subscribers = MyUser.objects.filter(subscribes__exact=author)
+    subject = _('Автором из числа Ваших подписок была опубликована новая статья')
+    users = ([user.email for user in subscribers])
+    html = _(f'{site}{ instance.get_absolute_url() }')
+    send_mails_to_subscribers.delay(subject, html, from_email, users)

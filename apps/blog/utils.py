@@ -1,3 +1,5 @@
+from django.core.mail import EmailMultiAlternatives
+
 cyrillic_letters = {
         u'а': u'a',
         u'б': u'b',
@@ -57,4 +59,16 @@ def get_paginate_tags(request):
                      'title': title,
                      }
     return paginate_tags
+
+
+def send(subject, html, from_email, to_email):
+    msg = EmailMultiAlternatives(
+    subject,
+    html,
+    from_email,
+    to_email
+    )
+    msg.attach_alternative(html, "text/html")
+    msg.send()
+
 

@@ -41,7 +41,7 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = MyUser
         fields = ('email', 'password', 'is_active', 'is_superuser', 'phone', 'avatar', 'subscribes')
-        readonly_fields = ('subscribes',)
+        # readonly_fields = ('subscribes',)
 
     def clean_password(self):
         return self.initial["password"]
