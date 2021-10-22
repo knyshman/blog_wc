@@ -1,9 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.tokens import default_token_generator
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
@@ -71,10 +68,9 @@ class PasswordChange(SuccessMessageMixin, PasswordChangeView):
     template_name = 'blog/profile.html'
 
     def form_invalid(self, form):
-        print(dict(form._errors))
-        messages.add_message(self.request, messages.ERROR, form.errors.as_text())
-        return redirect(reverse_lazy('profile', kwargs={'pk': self.request.user.pk}), self.get_context_data(form=form))
+        messages.add_message(self.request, messages.ERROR, form.errors.as_text().replace('old_password', 'текущий пароль').replace('new_password2', 'новый пароль'))
+        return redirect(reverse_lazy('profile'))
 
     def get_success_url(self):
-        return reverse_lazy('profile', kwargs={'pk': self.request.user.pk})
+        return reverse_lazy('profile')
 

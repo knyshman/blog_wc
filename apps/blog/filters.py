@@ -1,5 +1,4 @@
 import django_filters
-from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from .models import Article, Category
 
@@ -10,13 +9,15 @@ class ArticleFilter(django_filters.FilterSet):
     o = django_filters.OrderingFilter(
         label=_('Cортировать'),
         fields=(
-            ('date_create', 'date_create'),
+            ('create_date', 'create_date'),
             ('average_rating', 'average_rating'),
 
         ),
         field_labels={
-            'date_create': _('по дате'),
-            'average_rating': _('по рейтингу')
+            'create_date': _('по дате'),
+            '-create_date': _('по дате \u25BC'),
+            'average_rating': _('по рейтингу'),
+            '-average_rating': _('по рейтингу \u25BC'),
     }
     )
 

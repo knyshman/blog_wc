@@ -198,12 +198,12 @@ msgstr "Content"
 #, fuzzy
 #| msgid "Дата изменения"
 msgid "Дата создания"
-msgstr "Changing date"
+msgstr "Created"
 
 #: apps/blog/models.py:32 templates/blog/home.html:21
 #: templates/blog/profile.html:85 templates/blog/user_liked_articles.html:18
 msgid "Дата изменения"
-msgstr "Changing date"
+msgstr "Changed"
 
 #: apps/blog/models.py:34
 #, fuzzy
@@ -232,14 +232,14 @@ msgstr "User"
 #: apps/blog/models.py:57
 #, fuzzy
 #| msgid "Дата изменения"
-msgid "дата создания"
-msgstr "Changing date"
+msgid "дата изменения"
+msgstr "changed"
 
 #: apps/blog/models.py:60
 #, fuzzy
 #| msgid "Дата публикации"
 msgid "опубликовано"
-msgstr "Updation date"
+msgstr "created"
 
 #: apps/blog/models.py:64
 msgid "Рейтинг"

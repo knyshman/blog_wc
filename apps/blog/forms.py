@@ -1,9 +1,10 @@
 from django.core.exceptions import ValidationError
+from django.forms import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 from django_starfield import Stars
 from modeltranslation.forms import forms
 from ckeditor.fields import RichTextFormField
-from .models import Article, Category, Comment, ArticleRating, Like
+from .models import Article, Category, Comment, ArticleRating, Like, Image
 from ..accounts.models import MyUser
 
 
@@ -30,6 +31,9 @@ class ArticleForm(forms.ModelForm):
     def get_author(self):
         self.author = self.request.user
         return self.author
+
+
+ArticleFormSet = inlineformset_factory(Article, Image, fields='__all__', can_delete=True)
 
 
 class CommentForm(forms.ModelForm):
@@ -80,7 +84,7 @@ class ProfileForm(forms.ModelForm):
         'class': 'form-control',
         'placeholder': _('Введите фамилию')
     }))
-    phone = forms.CharField(label=_('Телефон'), validators=[only_int], widget=forms.TextInput(attrs={
+    phone = forms.CharField(label=_('Телефон'), validators=[only_int], widget=forms.NumberInput(attrs={
         'class': 'form-control',
         'placeholder': _('Введите номер телефона')
     }))

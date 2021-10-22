@@ -12,26 +12,27 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-from django.contrib.auth.hashers import make_password
-AUTH_USER_MODEL = 'accounts.MyUser'
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-
+AUTH_USER_MODEL = 'accounts.MyUser'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+SECRET_KEY = SECRET_KEY
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
 
-# Application definition
-
 INSTALLED_APPS = [
     'modeltranslation',
+    'rosetta',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,10 +40,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.flatpages'
+    'django.contrib.flatpages',
     'ckeditor',
+    'ckeditor_uploader',
+    'adminsortable2',
     'apps.accounts',
-    'apps.blog'
+    'apps.blog',
+    'django_filters',
+    'django_starfield',
+    'treebeard',
+    'debug_toolbar',
+    'django_jinja',
+    'django_cleanup',
+    'rest_framework',
+    'apps.menu'
+
+
 
 ]
 SITE_ID = 1
@@ -55,14 +68,49 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
 ]
 
 ROOT_URLCONF = 'blog_wc.urls'
 
 TEMPLATES = [
+    {'BACKEND': 'django_jinja.backend.Jinja2',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': False,
+        'OPTIONS': {
+            'match_extension': '.html',
+            'extensions': [
+                "jinja2.ext.do",
+                "jinja2.ext.loopcontrols",
+                'jinja2.ext.i18n',
+                'jinja2.ext.with_',
+                "django_jinja.builtins.extensions.CsrfExtension",
+                'django_jinja.builtins.extensions.CacheExtension',
+                "django_jinja.builtins.extensions.DebugExtension",
+                'django_jinja.builtins.extensions.TimezoneExtension',
+                "django_jinja.builtins.extensions.UrlsExtension",
+                "django_jinja.builtins.extensions.StaticFilesExtension",
+                "django_jinja.builtins.extensions.DjangoFiltersExtension",
+
+            ],
+            "globals": {
+                'available_languages': 'blog_wc.jinja2.get_lang_urls',
+                'recommended': 'blog_wc.jinja2.get_new_articles',
+                'str_time': 'blog_wc.jinja2.str_time'
+
+
+            },
+            'context_processors': [
+                'django.contrib.messages.context_processors.messages',
+            ],
+
+        },
+    },
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,6 +118,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -78,9 +127,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'blog_wc.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -88,9 +134,6 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -107,13 +150,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
+# CACHES = {
+#     "default":  {
+#         "BACKEND":  "django_redis.cache.RedisCache",
+#         "LOCATION":  "redis://172.16.0.1:6379/1",
+#         "OPTIONS":  {
+#             "CLIENT_CLASS":  "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
@@ -121,29 +176,76 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-gettext = lambda s: s
-
+ugettext_lazy = lambda s: s
 
 LANGUAGES = (
-    ('ru', gettext('Русский')),
-    ('en', gettext('English')),
-    ('uk', gettext('Украинский'))
+    ('ru', ugettext_lazy('Русский')),
+    ('en', ugettext_lazy('English')),
+    ('uk', ugettext_lazy('Украинский')),
 )
 
+MODELTRANSLATION_TRANSLATION_FILES = (
+    'apps.blog',
+    'apps.accounts',
+)
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
+ACCOUNT_ACTIVATION_DAYS = 30
+DEFAULT_CHARSET = 'utf-8'
 
+LOCALE_PATHS = (BASE_DIR, 'locale/')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440
-FILE_UPLOAD_PERMISSION = 0o700
-CKEDITOR_UPLOAD_PATH = os.path.join(BASE_DIR, 'media')
+FILE_UPLOAD_PERMISSION = 0o777
+CKEDITOR_UPLOAD_PATH = 'media/'
 DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
+ROSETTA_ENABLE_TRANSLATION_SUGGESTIONS = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_REDIRECT_URL = '/'
+
+INTERNAL_IPS = [
+    '127.0.0.1', '172.16.0.1'
+]
+
+ROSETTA_ACCESS_CONTROL_FUNCTION = lambda x: x.is_superuser
+
+
+DJANGO_WYSIWYG_FLAVOR = 'ckeditor'
+
+
+from dotenv import load_dotenv
+load_dotenv()
+
+
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+#
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = DEFAULT_FROM_EMAIL
+
+
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = '6379'
+
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3}
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+MAILQUEUE_CELERY = True

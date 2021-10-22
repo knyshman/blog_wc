@@ -1,7 +1,32 @@
 {% extends "base.html" %}
  url_for('static')
 {% block title %} {{ object.title}} {% endblock title %}
-
+{% block sidebar %}
+<aside style="float: left;
+">
+<h4 style="{
+    background: #008B8B;
+    color: #008B8B;
+}">Рекомендуемые статьи</h4>
+<br>
+{% for item in recommended(request) %}
+  <div class="card" style="width: 20rem;">
+                    <div class="card-body">
+            <h5>{% if item.preview_image %} <img class="lazyOwl" style="width: 5rem;" src="{{ item.preview_image.url }}" alt="image">{% endif %}
+                <a href="{{ url('article_detail', item.slug) }}">{{ item.title }}</a></h5>
+            <p>{{ _('Автор') }}: {{ item.author }}</p>
+                       <p><small>{{ _('Средний рейтинг: ') }}{{ item.average_rating }}</small></p>
+            <p><small>{{ _('Комментариев') }}: {{ item.comment_set.count() }} | {{ _('Лайков') }}: {{ item.likes }}</small></p>
+            <p><small>{{ _('Дата публикации') }}: {{ str_time(item.create_date)}}</small></p>
+                        <p><small>{{ _('Дата изменения') }}: {{ str_time(item.update_date)}}</small></p>
+            <br>
+            <p><button type="button" class="btn btn-outline-primary">{{ _('Подробнее') }}</button></p>
+            <br>
+                    </div>
+                </div>
+{% endfor %}
+    </aside>
+{% endblock %}
 {% block content %}
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url ('home') }}">{{_('Блог')}}</a></li>
@@ -18,7 +43,7 @@
 <p><img class="lazyOwl" src="{{ object.preview_image.url }}"></p>
 {% endif %}
 
-{% if user.is_authenticated%}
+
 {% if object.author != request.user %}
 <div class="row">
     <div class="col-md-4">
@@ -33,23 +58,27 @@
 {% if object.author != request.user %}
 <div class="row">
     <div class="col-md-4">
-        <form action="{{ url('subscribes',object.slug, object.author.pk)}}?next={{request.path}}" method="post" name="subscribes"> {% csrf_token %}
+        <form action="{{ url('subscribes',object.slug,)}}" method="post" name="subscribes"> {% csrf_token %}
 
-        <button type="submit" class="btn btn-primary"> {%if object.author in request.user.subscribes.all()%}{{ _('Отписаться') }}
-        {% else %}{{ _('Подписаться') }} {% endif%}
+        <button type="submit" class="btn btn-primary"> {% if request.user.is_authenticated %}
+            {%if object.author in request.user.subscribes.all()%}{{ _('Отписаться') }}
+        {% else %}{{ _('Подписаться') }} {% endif%}{% elif not request.user.is_authenticated %}{{ _('Подписаться') }}  {% endif %}
         </button>
-
         </form>
     </div>
 </div>
-{% endif %}
 {% endif %}
 <p>{{_('Категория: ')}}{{object.category.name}}</p>
 <p>{{_('Количество лайков: ')}}{{object.likes}}</p>
 <p>{{ object.content|safe }}</p>
 
-<p>{{ object.update_date }}</p>
-{% if user.is_authenticated%}
+<p>{{ str_time(object.update_date)}}</p>
+
+{% if images %}
+{% for obj in images %}
+<img class="lazyOwl" style="width: 15rem;" src="{{ obj.image.url }}">
+{% endfor %}
+{% endif %}
 <div class="row">
     <div class="col-md-4">
         <form action="{{ url ('rating', object.slug)}}" method="post" name="rating"> {% csrf_token %}
@@ -68,11 +97,11 @@
         </form>
     </div>
 </div>
-{% endif %}
+
 {% for obj in object_list %}
 <div class="card">
   <div class="card-header">
-{{ obj.author }} | {{ obj.create_date }}
+{{ obj.author }} | {{ str_time(obj.create_date) }}
   </div>
   <div class="card-body">
     <p class="card-text">{{ obj.comment|safe }}</p>

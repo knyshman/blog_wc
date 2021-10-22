@@ -17,14 +17,25 @@ from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.urls import path, include, re_path
 from django.views.generic import RedirectView
 from apps.accounts.views import PasswordChange
 from apps.blog.views import ProfileDetailView, ProfileUpdateView, MyUserFavouriteArticles
 
+User = get_user_model()
+
+api_urlpatterns = [
+    path('blog/', include('apps.blog.api.urls')),
+
+]
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n', include('django.conf.urls.i18n')),
+    path('api/v1/', include(api_urlpatterns)),
+    path('api/', include('rest_framework.urls', namespace='rest_framework')),
+
 
 ]
 if 'rosetta' in settings.INSTALLED_APPS:
@@ -38,6 +49,7 @@ if settings.DEBUG:
     ] + urlpatterns
 from ckeditor_uploader import views
 from django.views.decorators.cache import never_cache
+
 
 ckeditor_urls = [
     re_path(r"^upload/", views.upload, name="ckeditor_upload"),
@@ -56,10 +68,10 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('ckeditor/', include(ckeditor_urls)),
-    path('profile/<int:pk>/', ProfileDetailView.as_view(), name='profile'),
-    path('profile/<int:pk>/password_change/', PasswordChange.as_view(), name='password_change'),
-    path('profile/<int:pk>/update/', ProfileUpdateView.as_view(), name='profile_update'),
-    path('profile/<int:pk>/favourite_articles/', MyUserFavouriteArticles.as_view(), name='favourite_articles'),
+    path('profile/', ProfileDetailView.as_view(), name='profile'),
+    path('profile/password_change/', PasswordChange.as_view(), name='password_change'),
+    path('profile/update/', ProfileUpdateView.as_view(), name='profile_update'),
+    path('profile/favourite_articles/', MyUserFavouriteArticles.as_view(), name='favourite_articles'),
 )
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,7 +1,6 @@
 from django_jinja import library
 from django.urls import translate_url
 from django.conf import settings
-
 from apps.blog.models import Article
 
 
@@ -12,5 +11,13 @@ def get_lang_urls(request):
 
 @library.global_function
 def get_new_articles(request):
-    qs = Article.objects.order_by('-create_date').exclude(author=request.user).select_related('author', 'category')
+    qs = Article.objects.order_by('-create_date')
+    if not request.user.is_authenticated:
+        qs = qs
+    else:
+        qs = qs.exclude(author=request.user).select_related('author', 'category')
     return qs[:9]
+
+@library.global_function
+def str_time(date):
+    return date.strftime("%d.%m.%Y, %H:%M")
