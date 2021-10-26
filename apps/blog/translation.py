@@ -1,5 +1,5 @@
 from modeltranslation.translator import register, TranslationOptions
-from .models import Article, Category
+from .models import Article, Category, Comment
 
 
 @register(Article)
@@ -12,4 +12,7 @@ class CategoryTranslationOptions(TranslationOptions):
     fields = ('name',)
 
 
+@register(Comment)
+class CategoryTranslationOptions(TranslationOptions):
+    fields = ('comment',)
 

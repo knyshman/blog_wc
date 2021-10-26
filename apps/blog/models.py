@@ -32,7 +32,7 @@ class Category(MP_Node):
 class Article(models.Model):
     category = models.ForeignKey(Category, verbose_name=_('Категория'), on_delete=models.SET_NULL, null=True, related_name='category')
     title = models.CharField(max_length=250, verbose_name=_('Название'), unique=True)
-    slug = models.SlugField(blank=True, null=True, unique=True)
+    slug = models.SlugField(max_length=250, blank=True, null=True, unique=True)
     preview_image = models.ImageField(verbose_name=_('Изображение превью'), blank=True, default='default.jpg')
     short_description = models.CharField(verbose_name=_('Краткое описание'), max_length=300, blank=True)
     content = RichTextUploadingField(verbose_name=_('Контент'))
@@ -41,11 +41,12 @@ class Article(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name=_('Автор'))
     average_rating = models.FloatField(verbose_name=_('Средний рейтинг'), default=0)
     likes = models.IntegerField(verbose_name=_('Лайки'), default=0)
+    is_recommended = models.BooleanField(verbose_name=_('Рекомендуемая'), default=False)
 
     class Meta:
         verbose_name = _('Статья')
         verbose_name_plural = _('Статьи')
-        ordering = ['create_date']
+        ordering = ['id']
 
     def __str__(self):
         return self.title
@@ -78,6 +79,11 @@ class Comment(models.Model):
     comment = RichTextField(verbose_name=_('Комментарий'))
     article = models.ForeignKey(Article, verbose_name=_('Статья'), on_delete=models.CASCADE, related_name='comment_set', related_query_name='comments_set')
     is_published = models.BooleanField(verbose_name=_('опубликовано'), null=True, default=True)
+
+    class Meta:
+        verbose_name = _('Комментарий')
+        verbose_name_plural = _('Комментарии')
+        ordering = ['create_date']
 
 
 class ArticleRating(models.Model):

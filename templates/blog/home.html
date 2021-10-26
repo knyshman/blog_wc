@@ -11,7 +11,7 @@
 </form>
 <div class="left-ads-display col-lg-9">
         <div class="container">
-            {% for obj in object_list %}
+            {% for obj in object_list.select_related('author', 'category') %}
             <h3><a href="{{ url('article_detail', obj.slug) }}">{{ obj.title }}</a></h3>
             <p>{{ obj.short_description|safe }}</p>
             <h6>{{_('Автор: ')}}<a href="{{ url('home')}}?author={{obj.author.pk}}&category=&title=&o=">{{obj.author}}</a></h6>

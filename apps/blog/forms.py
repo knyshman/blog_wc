@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
@@ -5,7 +6,9 @@ from django_starfield import Stars
 from modeltranslation.forms import forms
 from ckeditor.fields import RichTextFormField
 from .models import Article, Category, Comment, ArticleRating, Like, Image
-from ..accounts.models import MyUser
+
+
+User = get_user_model()
 
 
 class ArticleForm(forms.ModelForm):
@@ -15,9 +18,8 @@ class ArticleForm(forms.ModelForm):
     }))
     author = forms.ModelChoiceField(
         label=_('Автор'),
-        queryset=MyUser.objects.all(),
+        queryset=User.objects.all(),
         widget=forms.HiddenInput(),
-        required=False
     )
     category = forms.ModelChoiceField(label=_('Категория'), queryset=Category.objects.all(), widget=forms.Select(attrs={
         'class': 'form-control'
@@ -37,9 +39,9 @@ ArticleFormSet = inlineformset_factory(Article, Image, fields='__all__', can_del
 
 
 class CommentForm(forms.ModelForm):
-    comment = RichTextFormField(label=_('Комментарий'))
+    comment = RichTextFormField(label=_('Ваш комментарий'))
     article = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=Article.objects.all())
-    author = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=MyUser.objects.all())
+    author = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=User.objects.all())
 
     class Meta:
         model = Comment
@@ -47,8 +49,8 @@ class CommentForm(forms.ModelForm):
 
 
 class RatingForm(forms.ModelForm):
-    rating = forms.IntegerField(widget=Stars, label='Оценка')
-    user = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=MyUser.objects.all())
+    rating = forms.IntegerField(widget=Stars, label=_('Ваша оценка'))
+    user = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=User.objects.all())
     article = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=Article.objects.all())
 
     class Meta:
@@ -58,7 +60,7 @@ class RatingForm(forms.ModelForm):
 
 class LikeForm(forms.ModelForm):
     like = forms.BooleanField(label='Like', widget=forms.HiddenInput)
-    user = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=MyUser.objects.all())
+    user = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=User.objects.all())
     article = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=Article.objects.all())
 
     class Meta:
@@ -68,14 +70,6 @@ class LikeForm(forms.ModelForm):
 
 class ProfileForm(forms.ModelForm):
 
-    class Meta:
-        model = MyUser
-        fields = ('name', 'last_name', 'phone', 'avatar')
-
-    def only_int(value):
-        if not value.isdigit():
-            raise ValidationError(_('Номер телефона должен содержать только цифры(не более 10)'))
-
     name = forms.CharField(label=_('Имя'), widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': _('Введите имя')
@@ -84,12 +78,19 @@ class ProfileForm(forms.ModelForm):
         'class': 'form-control',
         'placeholder': _('Введите фамилию')
     }))
-    phone = forms.CharField(label=_('Телефон'), validators=[only_int], widget=forms.NumberInput(attrs={
+    phone = forms.CharField(label=_('Телефон'), validators=['only_int'], widget=forms.NumberInput(attrs={
         'class': 'form-control',
         'placeholder': _('Введите номер телефона')
     }))
     avatar = forms.ImageField(label=_('Фото'))
 
+    class Meta:
+        model = User
+        fields = ('name', 'last_name', 'phone', 'avatar')
+
+    def only_int(value):
+        if not value.isdigit():
+            raise ValidationError(_('Номер телефона должен содержать только цифры(не более 10)'))
 
 
 

@@ -86,6 +86,3 @@ def save_sport_json():
     articles = get_sport_content()
     with open("sport.json", "w", encoding='utf-8') as file:
         json.dump(articles, file, ensure_ascii=False, indent=4)
-
-
-save_sport_json()

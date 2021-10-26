@@ -7,12 +7,9 @@ from django.db import DatabaseError
 from django.conf import settings
 from apps.blog.models import Category, Article, Image
 
-# from .parser import get_itc_content
-# from .sport_parcer import get_sport_content
 
 User = get_user_model()
-# articles = get_itc_content()
-# sport_articles = get_sport_content()
+
 categories = [category.name for category in Category.objects.all()]
 
 
@@ -49,7 +46,6 @@ def save_articles():
                                       )
 
                     article.save()
-
                     images = art['images']
                     if images:
                         try:

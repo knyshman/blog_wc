@@ -72,25 +72,3 @@ def send(subject, html, from_email, to_email):
     msg.send()
 
 
-class ArticlePostMixin:
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-    def form_valid(self, form):
-        self.comment = form.save(commit=False)
-        self.comment.author = self.request.user
-        self.comment.save()
-        return super().form_valid(form)
-
-    def rating_form_valid(self, rating_form):
-        return super().form_valid(rating_form)
-
-    def like_form_valid(self, like_form):
-        return super().form_valid(like_form)
-
-

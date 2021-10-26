@@ -48,11 +48,11 @@
                     <li class="nav-item ">
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="{{ url ('logout')}}">{{ _('Выйти') }}</a>
+            <a class="nav-link" href="{{ url ('logout')}}?next={{ url ('home')}}">{{ _('Выйти') }}</a>
           </li>
           {% else %}
           <li class="nav-item ">
-            <a class="nav-link" href="{{ url ('login')}}?next={% if request.get_full_path() == url('logout') %}{{url('home')}}{%else%}{{ request.get_full_path()}}{% endif %}">{{ _('Войти') }}</a>
+            <a class="nav-link" href="{{ url ('login')}}?next={% if request.get_full_path() == url('logout') %}{{url('home')}}{% endif %}">{{ _('Войти') }}</a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="{{ url ('register')}}">{{ _('Регистрация') }}</a>

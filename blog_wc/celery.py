@@ -8,27 +8,29 @@ from celery import Celery
 # Соответственно при указании данной директивы нам не нужно будет при вызове каждого task(функции) прописывать
 # эти настройки.
 from celery.schedules import crontab
+from django.conf import settings
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'blog_wc.settings')
 
 # Создаем объект(экземпляр класса) celery и даем ему имя
-app = Celery('blog_wc')
+celery_app = Celery('blog_wc')
 
-app.config_from_object('django.conf:settings', namespace='CELERY')
+celery_app.config_from_object('django.conf:settings', namespace='CELERY')
+celery_app.autodiscover_tasks()
 
-app.autodiscover_tasks()
+celery_app.conf.beat_schedule = {
+    'add_articles': {
+        'task': 'blog.tasks.get_articles',
+        'schedule': crontab(hour=10, minute=45),
+    },
+
+    'send-everyday': {
+            'task': 'blog.tasks.send_mails_to_subscribers',
+            'schedule': crontab(hour=10, minute=45),
+            'args': ('subject', 'html', 'from_email', 'users')
+        },
+    }
 
 
-# app.conf.beat_schedule = {
-#     'add_articles': {
-#         'task': 'parser.tasks.get_articles',
-#         'schedule': crontab(day_of_week=[0, 2, 6]),
-#     },
-# }
-#
-# app.conf.beat_schedule = {
-#     'send-everyday': {
-#         'task': 'blog.tasks.send_mails_to_subscribers',
-#         'schedule': crontab(hour=12, minute=30),
-#     },
-# }
+
+

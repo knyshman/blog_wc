@@ -55,7 +55,8 @@ class MyUser(AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.email
+        nickname = str(self.email).split('@')[0]
+        return nickname
 
     def clean(self):
         if self.name:
