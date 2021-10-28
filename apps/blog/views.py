@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import ValidationError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -17,6 +18,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class ArticleDetailView(MultipleObjectMixin, DetailView):
+    """Формируем страницу детального отображения статьи"""
     model = Article
     template_name = 'blog/detail.html'
     form_class = CommentForm
@@ -47,6 +49,7 @@ class ArticleDetailView(MultipleObjectMixin, DetailView):
 
 
 class ArticleListView(FilterView):
+    """Список всех статей"""
     model = Article
     paginate_by = 16
     template_name = 'blog/home.html'
@@ -60,6 +63,7 @@ class ArticleListView(FilterView):
 
 
 class ArticleCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    """Создание статей авторизованными пользователями"""
     model = Article
     template_name = 'blog/article_create.html'
     success_message = _('Статья успешно добавлена')
@@ -83,7 +87,8 @@ class ArticleCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
             return super().form_invalid(form)
 
 
-class ArticleUpdateView(SuccessMessageMixin, UpdateView):
+class ArticleUpdateView(SuccessMessageMixin, PermissionRequiredMixin, UpdateView):
+    """Редактирование статьи"""
     model = Article
     form_class = ArticleForm
     template_name = 'blog/article_update.html'
@@ -93,6 +98,11 @@ class ArticleUpdateView(SuccessMessageMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['formset'] = ArticleFormSet(self.request.POST or None, self.request.FILES or None)
         return context
+
+    def has_permission(self):
+        if self.get_object().author == self.request.user:
+            return True
+        return False
 
     def form_valid(self, form):
         """Check if form valid"""
@@ -116,6 +126,7 @@ class ArticleDeleteView(DeleteView):
 
 
 class CommentCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    """Создание комментария"""
     model = Comment
     form_class = CommentForm
     template_name = 'blog/detail.html'
@@ -130,6 +141,7 @@ class CommentCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
 
 class RatingCreateView(LoginRequiredMixin, CreateView):
+    """Создание оценки статьи пользователем"""
     model = ArticleRating
     form_class = RatingForm
     template_name = 'blog/detail.html'
@@ -139,6 +151,7 @@ class RatingCreateView(LoginRequiredMixin, CreateView):
 
 
 class LikeCreateView(CreateView):
+    """Добавление статьи в избранное"""
     model = Like
     form_class = LikeForm
     template_name = 'blog/detail.html'
@@ -148,9 +161,10 @@ class LikeCreateView(CreateView):
 
 
 class ProfileDetailView(MultipleObjectMixin, LoginRequiredMixin, DetailView):
+    """Профиль пользователя"""
     model = MyUser
     template_name = 'blog/profile.html'
-    paginate_by = 3
+    paginate_by = 20
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -166,10 +180,10 @@ class ProfileDetailView(MultipleObjectMixin, LoginRequiredMixin, DetailView):
         return reverse_lazy('profile')
 
 
-class ProfileUpdateView(PermissionRequiredMixin, UpdateView):
+class ProfileUpdateView(UpdateView):
+    """Редактирование профиля"""
     model = MyUser
     form_class = ProfileForm
-    permission_required = 'blog.change_article'
     template_name = 'blog/profile.html'
 
     def get_object(self, queryset=None):
@@ -184,6 +198,7 @@ class ProfileUpdateView(PermissionRequiredMixin, UpdateView):
 
 
 class Subscribes(View):
+    """Подписка на автора"""
     def post(self, *args, **kwargs):
         article = Article.objects.select_related('author', 'category').filter(slug=kwargs['slug']).first()
         author = article.author
@@ -197,6 +212,7 @@ class Subscribes(View):
 
 
 class MyUserFavouriteArticles(LoginRequiredMixin, ListView):
+    """Список избранных статей пользователя"""
     paginate_by = 10
     model = Like
     template_name = 'blog/user_liked_articles.html'
@@ -204,7 +220,6 @@ class MyUserFavouriteArticles(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = Like.objects.filter(user=self.request.user, like=True).select_related('article', 'user')
         object_list = []
-        # get_articles.delay()
         for like in qs.select_related('article', 'user'):
             object_list.append(like.article)
         return object_list

@@ -13,7 +13,8 @@ User = get_user_model()
 
 
 class Category(MP_Node):
-    name = models.CharField(verbose_name=_('Категория'), max_length=200, unique=True)
+    """Модель категорий статей"""
+    name = models.CharField(verbose_name=_('Категория'), max_length=200, unique=True, db_index=True)
     slug = models.SlugField(blank=True, unique=True)
 
     class Meta:
@@ -30,8 +31,9 @@ class Category(MP_Node):
 
 
 class Article(models.Model):
+    """Модель статьи"""
     category = models.ForeignKey(Category, verbose_name=_('Категория'), on_delete=models.SET_NULL, null=True, related_name='category')
-    title = models.CharField(max_length=250, verbose_name=_('Название'), unique=True)
+    title = models.CharField(max_length=250, verbose_name=_('Название'), unique=True, db_index=True)
     slug = models.SlugField(max_length=250, blank=True, null=True, unique=True)
     preview_image = models.ImageField(verbose_name=_('Изображение превью'), blank=True, default='default.jpg')
     short_description = models.CharField(verbose_name=_('Краткое описание'), max_length=300, blank=True)
@@ -63,6 +65,7 @@ class Article(models.Model):
 
 
 class Image(models.Model):
+    """Модель изображений в статье"""
     article = models.ForeignKey(Article, verbose_name=_('статья'), on_delete=models.CASCADE)
     image = models.ImageField(verbose_name=_('изображение'), upload_to='media')
     alt = models.CharField(max_length=200)
@@ -74,6 +77,7 @@ class Image(models.Model):
 
 
 class Comment(models.Model):
+    """Модель комментария"""
     author = models.ForeignKey(User, verbose_name=_('пользователь'),  on_delete=models.CASCADE)
     create_date = models.DateTimeField(verbose_name=_('дата создания'), auto_now_add=True)
     comment = RichTextField(verbose_name=_('Комментарий'))
@@ -87,6 +91,7 @@ class Comment(models.Model):
 
 
 class ArticleRating(models.Model):
+    """Модель рейтинга статьи"""
     rating = models.IntegerField(verbose_name=_('Рейтинг'), default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='rating_set')
@@ -96,6 +101,7 @@ class ArticleRating(models.Model):
 
 
 class Like(models.Model):
+    """Модель лайка, добавляет(удаляет) статью в избранное"""
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_query_name='articles')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     like = models.BooleanField(default=True)

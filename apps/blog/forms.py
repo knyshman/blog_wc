@@ -12,6 +12,7 @@ User = get_user_model()
 
 
 class ArticleForm(forms.ModelForm):
+    """Форма для статьи"""
     title = forms.CharField(label=_('Заголовок'), widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': _('Введите заголовок')
@@ -39,6 +40,7 @@ ArticleFormSet = inlineformset_factory(Article, Image, fields='__all__', can_del
 
 
 class CommentForm(forms.ModelForm):
+    """Форма комментария"""
     comment = RichTextFormField(label=_('Ваш комментарий'))
     article = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=Article.objects.all())
     author = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=User.objects.all())
@@ -49,6 +51,7 @@ class CommentForm(forms.ModelForm):
 
 
 class RatingForm(forms.ModelForm):
+    """Форма рейтинга"""
     rating = forms.IntegerField(widget=Stars, label=_('Ваша оценка'))
     user = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=User.objects.all())
     article = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=Article.objects.all())
@@ -59,6 +62,7 @@ class RatingForm(forms.ModelForm):
 
 
 class LikeForm(forms.ModelForm):
+    """Форма для добавления статей в избранное"""
     like = forms.BooleanField(label='Like', widget=forms.HiddenInput)
     user = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=User.objects.all())
     article = forms.ModelChoiceField(widget=forms.HiddenInput, queryset=Article.objects.all())
@@ -69,6 +73,7 @@ class LikeForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
+    """Форма изменения профиля"""
 
     name = forms.CharField(label=_('Имя'), widget=forms.TextInput(attrs={
         'class': 'form-control',
@@ -78,7 +83,7 @@ class ProfileForm(forms.ModelForm):
         'class': 'form-control',
         'placeholder': _('Введите фамилию')
     }))
-    phone = forms.CharField(label=_('Телефон'), validators=['only_int'], widget=forms.NumberInput(attrs={
+    phone = forms.CharField(label=_('Телефон'),widget=forms.NumberInput(attrs={
         'class': 'form-control',
         'placeholder': _('Введите номер телефона')
     }))
@@ -88,9 +93,6 @@ class ProfileForm(forms.ModelForm):
         model = User
         fields = ('name', 'last_name', 'phone', 'avatar')
 
-    def only_int(value):
-        if not value.isdigit():
-            raise ValidationError(_('Номер телефона должен содержать только цифры(не более 10)'))
 
 
 

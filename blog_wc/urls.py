@@ -27,6 +27,7 @@ User = get_user_model()
 
 api_urlpatterns = [
     path('blog/', include('apps.blog.api.urls')),
+    # path('accounts/', include('apps.accounts.api.urls'))
 
 ]
 

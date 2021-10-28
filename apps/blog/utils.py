@@ -49,6 +49,7 @@ def from_cyrillic_to_eng(text: str):
 
 
 def get_paginate_tags(request):
+    """получаем из запроса фильтры, выбранные пользователем для пагинации"""
     o = request.GET.get('o')
     author = request.GET.get('author')
     category = request.GET.get('category')
@@ -62,6 +63,7 @@ def get_paginate_tags(request):
 
 
 def send(subject, html, from_email, to_email):
+    """Отправка писем пользователям"""
     msg = EmailMultiAlternatives(
     subject,
     html,

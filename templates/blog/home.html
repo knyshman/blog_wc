@@ -13,12 +13,13 @@
         <div class="container">
             {% for obj in object_list.select_related('author', 'category') %}
             <h3><a href="{{ url('article_detail', obj.slug) }}">{{ obj.title }}</a></h3>
+            {% if obj.author == request.user %}<a href="{{ url('article_update', obj.slug) }}">{{_('Редактировать')}}</a>{% endif %}
             <p>{{ obj.short_description|safe }}</p>
             <h6>{{_('Автор: ')}}<a href="{{ url('home')}}?author={{obj.author.pk}}&category=&title=&o=">{{obj.author}}</a></h6>
             <p>{{ _('Средний рейтинг: ') }}{{ obj.average_rating }}</p>
             <p><small>{{ _('Дата публикации') }}: {{ str_time(obj.create_date)}} | {{ _('Дата изменения') }}: {{ str_time(obj.update_date) }}</small></p>
             <br>
-            <p><button type="button" class="btn btn-outline-primary">{{ _('Подробнее') }}</button></p>
+            <p><button type="button" class="btn btn-outline-primary">{{_('Подробнее')}}</button></p>
             <br>
             {% endfor %}
     {% include 'pagination.html' %}

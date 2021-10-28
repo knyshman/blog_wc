@@ -11,6 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class MyLoginView(LoginView):
+    """Аутентификация пользователя"""
     form_class = UserLoginForm
     authentication_form = UserLoginForm
     template_name = 'accounts/login.html'
@@ -27,6 +28,7 @@ class MyLogoutView(LogoutView):
 
 
 class RegisterView(RegistrationView):
+    """Регистрация пользователя"""
     form_class = UserRegistrationForm
     success_url = reverse_lazy('register_done')
     template_name = 'accounts/register.html'
@@ -51,19 +53,23 @@ class RegisterView(RegistrationView):
 
 
 class RegisterDone(TemplateView):
+    """Успешная регистрация"""
     template_name = 'accounts/register_done.html'
 
 
 class UserActivationView(ActivationView):
+    """Активация пользователя, подтверджение электроннной почты"""
     success_url = reverse_lazy('activation_done')
     template_name = 'accounts/register_done.html'
 
 
 class SuccessActivationView(TemplateView):
+    """Странница успешной активации пользователя"""
     template_name = 'accounts/activation_done.html'
 
 
 class PasswordChange(SuccessMessageMixin, PasswordChangeView):
+    """Изменение пароля"""
     form_class = MyPasswordChangeForm
     template_name = 'blog/profile.html'
 

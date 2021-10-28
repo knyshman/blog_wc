@@ -55,9 +55,11 @@
 </p>
 
 <h1>{{ object.title }}</h1>
+{% if object.author == request.user %}<a class="btn btn-outline-warning" href="{{ url('article_update', object.slug) }}">{{_('Редактировать')}}</a>{% endif %}
+<br>
 {% csrf_token %}
 {% if object.preview_image %}
-<p><img class="lazyOwl" src="{{ object.preview_image.url }}"></p>
+<p><img style="margin-top: 15px;" class="lazyOwl" src="{{ object.preview_image.url }}"></p>
 {% endif %}
 <div class="card" style="margin-top: 15px;" >
 {% if object.author != request.user %}
@@ -79,7 +81,7 @@
     </div>
 <br>
 
-
+<p>{{ object.short_description }}</p>
 <p>{{ object.content|safe }}</p>
 
 <p>{{ str_time(object.update_date)}}</p>
@@ -117,8 +119,9 @@
 </div>
 <br>
 <h4>{{_('Комментарии')}}</h4>
+{% if object_list %}
 {% for obj in object_list.select_related('author', 'article') %}
-<div class="card" style="margin-top: 15px;" >
+<div class="card" style="margin-top: 15px; padding:20px;" >
   <div class="card-header">
 {{ obj.author }} | {{ str_time(obj.create_date) }}
   </div>
@@ -128,5 +131,8 @@
 </div>
 
 {% endfor %}
+{%else%}
+<p style="margin-top: 15px; padding:52px;">{{_('Здесь пока нет ни одного комментария. Вы можете быть первым)')}}</p>
+{% endif %}
 {% include 'pagination2.html' %}
 {% endblock %}

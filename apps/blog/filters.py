@@ -4,6 +4,7 @@ from .models import Article, Category
 
 
 class ArticleFilter(django_filters.FilterSet):
+    """Фильтр по категориям, автору. Поиск по названию, сортировка по дате и рейтингу"""
     title = django_filters.CharFilter(field_name='title', lookup_expr='icontains', label=_('Название'))
     category = django_filters.ModelChoiceFilter(lookup_expr='exact', queryset=Category.objects.all(), method='get_relative_categories')
     o = django_filters.OrderingFilter(
@@ -29,6 +30,7 @@ class ArticleFilter(django_filters.FilterSet):
         }
 
     def get_relative_categories(self, queryset, category, value):
+        """Получаем родительские категории"""
         categories = list(value.get_descendants()) + [value]
         qs = queryset.filter(category__in=categories)
         return qs

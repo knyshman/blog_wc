@@ -35,8 +35,9 @@ class CommentAdminForm(forms.ModelForm):
 
 
 @admin.register(Category)
-class CategoryAdmin(TranslationAdmin, TreeAdmin):
+class CategoryAdmin(TabbedTranslationAdmin, TreeAdmin):
     list_display = ('name',)
+    search_fields = ('name', )
     list_display_links = ('name',)
     prepopulated_fields = {'slug': ('name',)}
     form = movenodeform_factory(Category)
@@ -44,12 +45,13 @@ class CategoryAdmin(TranslationAdmin, TreeAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(SortableAdminMixin, TabbedTranslationAdmin):
-    sortable_by = ['title', 'average_rating', 'likes']
+    sortable_by = ['title', 'average_rating', 'likes', 'author', 'create_date']
     list_display = ('category', 'title', 'author', 'create_date', 'update_date', 'likes', 'average_rating', 'is_recommended')
     list_display_links = ('author', 'title')
     list_editable = ('is_recommended',)
     list_per_page = 30
     prepopulated_fields = {'slug': ('title',)}
+    search_fields = ('title',)
     list_select_related = ('category', 'author')
     readonly_fields = ('create_date', 'update_date', 'likes', 'average_rating')
     inlines = [ImageAdmin]

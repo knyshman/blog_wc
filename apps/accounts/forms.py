@@ -7,6 +7,7 @@ from .models import MyUser
 
 
 class UserLoginForm(AuthenticationForm):
+    """Форма входа на сайт"""
     username = forms.CharField(label=_('Имя пользователя'), widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': _('Введите имя пользователя')
@@ -38,6 +39,7 @@ class UserLoginForm(AuthenticationForm):
 
 
 class UserRegistrationForm(forms.ModelForm):
+    """Форма регистрации"""
     email = forms.EmailField(label=_('Имя пользователя'), widget=forms.EmailInput(attrs={
         'class': 'form-control',
         'placeholder': _('Введите имя пользователя')
@@ -69,6 +71,7 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class MyPasswordChangeForm(PasswordChangeForm):
+    """Форма изменения пароля"""
     old_password = forms.CharField(label=_('Текущий пароль'), widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
@@ -79,7 +82,7 @@ class MyPasswordChangeForm(PasswordChangeForm):
     new_password1 = forms.CharField(label=_('Новый пароль'), widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
-            'placeholder': 'Введите новый пароль',
+            'placeholder': _('Введите новый пароль'),
             'name': _('Новый пароль 1'),
             'id': 'new_password1',
     }))
@@ -101,8 +104,8 @@ class MyPasswordChangeForm(PasswordChangeForm):
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password1 = forms.CharField(label=_('Пароль'), widget=forms.PasswordInput)
+    password2 = forms.CharField(label=_('Подтверждение пароля'), widget=forms.PasswordInput)
 
     class Meta:
         model = MyUser
@@ -112,7 +115,7 @@ class UserCreationForm(forms.ModelForm):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
+            raise forms.ValidationError(_('Пароли не совпадают'))
         return password2
 
     def save(self, commit=True):
@@ -133,7 +136,6 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = MyUser
         fields = ('email', 'password', 'is_active', 'is_superuser', 'phone', 'avatar', 'subscribes')
-        # readonly_fields = ('subscribes',)
 
     def clean_password(self):
         return self.initial["password"]

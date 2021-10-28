@@ -2,7 +2,7 @@ from apps.blog.utils import send
 from blog_wc.celery import celery_app
 
 
-@celery_app.task
+@celery_app.task(name='send_mails_to_subscribers')
 def send_mails_to_subscribers(subject, html, from_email, to_email):
     send(subject, html, from_email, to_email)
 
@@ -12,7 +12,7 @@ from apps.blog.parser.parser import save_itc_json
 from apps.blog.parser.sport_parcer import save_sport_json
 
 
-@celery_app.task
+@celery_app.task(name='get_articles')
 def get_articles():
     print('begin')
     save_itc_json()

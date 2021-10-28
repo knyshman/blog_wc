@@ -1,7 +1,6 @@
 import json
 import uuid
 from urllib.request import urlretrieve
-from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.db import DatabaseError
 from django.conf import settings

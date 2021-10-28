@@ -22,6 +22,7 @@ class MenuAdmin(TranslationAdmin):
 class TextPageAdmin(TranslationAdmin):
     list_display = ('name', 'content')
     list_display_links = ('name', 'content')
+    prepopulated_fields = {'slug': ('name',)}
 
 
 admin.site.register(Menu, MenuAdmin)
