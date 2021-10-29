@@ -7,16 +7,16 @@
     <div class="col-md-4">
         <form action="" method="post"> {% csrf_token %}
             <div class="mb-3 form-check">
-            <p>{{ form.email }}</p>
+            <p>{{ form.as_p() }}</p>
                 </div>
-        <div class="mb-3 form-check">
-            <p>{{ form.password }}</p>
-<input type="checkbox" onchange="document.getElementById('password').type = this.checked ? 'text' : 'password'">{{ _(' Показать пароль')}}
-  </div>
-                    <div class="mb-3 form-check">
-            <p>{{ form.password2 }}</p>
-<input type="checkbox" onchange="document.getElementById('password2').type = this.checked ? 'text' : 'password'">{{ _(' Показать пароль')}}
-  </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input"
+               onclick="if (password.type == 'text') (password.type = 'password');
+               else (password.type = 'text');
+               if (password2.type == 'text') (password2.type = 'password');
+               else (password2.type = 'text');">
+        <label class="form-check-label">{{_(' Показать пароль') }}</label>
+    </div>
         <button type="submit" class="btn btn-primary">{{ _('Зарегистрироваться') }}</button>
         </form>
     </div>

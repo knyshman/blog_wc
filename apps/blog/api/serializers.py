@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from rest_framework.serializers import HyperlinkedModelSerializer
-from rest_framework.utils.field_mapping import get_nested_relation_kwargs
+
 
 from ..models import Article, Image, Like
 
@@ -66,5 +65,3 @@ class LikeSerializer(serializers.ModelSerializer):
         model = Like
         fields = ('article', 'like', 'user')
         read_only_fields = ('like', 'user')
-
-

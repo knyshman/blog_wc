@@ -29,12 +29,12 @@
 {% endblock %}
 {% block content %}
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ url ('home') }}">{{_('Блог')}}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url ('home') }}">{{_('Блог')}}</a></li>
     {% for item in object.category.get_ancestors() %}
-      <li class="breadcrumb-item"><a href="{{ url('home')}}?category={{item.pk}}">{{ item.name }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('home')}}?category={{item.pk}}">{{ item.name }}</a></li>
     {% endfor %}
-    <li class="breadcrumb-item"><a href="{{ url('home')}}?category={{object.category.pk}}">{{ object.category }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ object.title }}</li>
+        <li class="breadcrumb-item"><a href="{{ url('home')}}?category={{object.category.pk}}">{{ object.category }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ object.title }}</li>
   </ol>
 <h5>{{_('Категория: ')}}<a href="{{ url('home')}}?category={{object.category.pk}}">{{ object.category.name }}</a></h5>
 <p>{{_('Автор: ')}}<a href="{{ url('home')}}?author={{object.author.pk}}&category=&title=&o=">{{object.author}}</a>

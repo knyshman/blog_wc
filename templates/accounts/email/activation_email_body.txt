@@ -1,4 +1,4 @@
 Регистрация на сайте
 Для активации вашего аккаунта необходимо перейти по ссылке:
-http://127.0.0.1:7001/ru/accounts/activate/{{ activation_key }}/
+http://{{site}}ru/accounts/activate/{{ activation_key }}/
 Спасибо!

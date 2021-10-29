@@ -4,7 +4,7 @@
 <h1>{{_('Форма входа')}}</h1>
 <div class="row">
     <div class="col-md-4">
-        <form action="{{url ('login')}}?next={% if request.get_full_path() == url('logout') %}{{url('home')}}{%else%}?next={{ request.get_full_path()}}{% endif %}" method="post"> {% csrf_token %}
+        <form action="{{url ('login')}}?next={% if request.get_full_path() == url('logout') %}{{url('home')}}{% elif request.get_full_path() == url('login') %}{{url('home')}}{%else%}?next={{ request.get_full_path()}}{% endif %}" method="post"> {% csrf_token %}
             {{ form }}
         <div class="mb-3 form-check">
 <input type="checkbox" onchange="document.getElementById('password').type = this.checked ? 'text' : 'password'">{{_(' Показать пароль') }}
@@ -13,6 +13,7 @@
         <button type="submit" class="btn btn-primary">{{_('Войти') }}</button>
         </form>
         <p><a href="{{ url('password_reset')}}">{{_('Забыли пароль?') }}</a></p>
+        <p><a href="{{ url('register')}}">{{_('Регистрация') }}</a></p>
     </div>
 </div>
 

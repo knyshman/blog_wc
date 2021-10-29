@@ -60,8 +60,15 @@ ckeditor_urls = [
         name="ckeditor_browse",
     ),
 ]
+profile_urls = [
+    path('', ProfileDetailView.as_view(), name='profile'),
+    path('password_change/', PasswordChange.as_view(), name='password_change'),
+    path('update/', ProfileUpdateView.as_view(), name='profile_update'),
+    path('favourite_articles/', MyUserFavouriteArticles.as_view(), name='favourite_articles')
+]
 
 urlpatterns += i18n_patterns(
+    path('profile/', include(profile_urls)),
     path('blog/', include('apps.blog.urls')),
     path('', RedirectView.as_view(url='blog/', permanent=True)),
     path('pages/', include('django.contrib.flatpages.urls')),
@@ -69,10 +76,7 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('ckeditor/', include(ckeditor_urls)),
-    path('profile/', ProfileDetailView.as_view(), name='profile'),
-    path('profile/password_change/', PasswordChange.as_view(), name='password_change'),
-    path('profile/update/', ProfileUpdateView.as_view(), name='profile_update'),
-    path('profile/favourite_articles/', MyUserFavouriteArticles.as_view(), name='favourite_articles'),
+
 )
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

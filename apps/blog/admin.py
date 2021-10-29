@@ -1,6 +1,6 @@
 from adminsortable2.admin import SortableInlineAdminMixin, SortableAdminMixin
 from django.contrib import admin
-from modeltranslation.admin import TranslationAdmin, forms, TabbedTranslationAdmin
+from modeltranslation.admin import forms, TabbedTranslationAdmin
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from .models import Article, Category, Comment, ArticleRating, Like, Image
 from treebeard.admin import TreeAdmin
@@ -44,7 +44,7 @@ class CategoryAdmin(TabbedTranslationAdmin, TreeAdmin):
 
 
 @admin.register(Article)
-class ArticleAdmin(SortableAdminMixin, TabbedTranslationAdmin):
+class ArticleAdmin(TabbedTranslationAdmin):
     sortable_by = ['title', 'average_rating', 'likes', 'author', 'create_date']
     list_display = ('category', 'title', 'author', 'create_date', 'update_date', 'likes', 'average_rating', 'is_recommended')
     list_display_links = ('author', 'title')
@@ -69,7 +69,7 @@ class ArticleAdmin(SortableAdminMixin, TabbedTranslationAdmin):
             article.save()
 
     set_recommended.short_description = _('Добавить в рекомендуемые')
-    set_recommended.short_description = _('Убрать из рекомендуемых')
+    set_unrecommended.short_description = _('Убрать из рекомендуемых')
 
 
 @admin.register(Comment)

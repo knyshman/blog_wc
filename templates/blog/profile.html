@@ -85,7 +85,6 @@
                 <a href="{{ url('article_detail', obj.slug) }}">{{ obj.title }}</a></h3><a href="{{url('article_update', obj.slug)}}">{{_('Редактировать')}}</a>
             <p class="card-body">{{ _('Описание') }}: {{ obj.short_description|safe }}</p>
             <p>{{ _('Автор') }}: {{ obj.author }} | {{ _('Средний рейтинг: ') }}{{ obj.average_rating }}</p>
-
                         <p><small>{{ _('Комментариев') }}: {{ obj.comment_set.count() }} | {{ _('Лайков') }}: {{ obj.likes }}</small></p>
                         <p><small>{{ _('Дата публикации') }}: {{ str_time(obj.create_date)}} | {{ _('Дата изменения') }}: {{ str_time(obj.update_date)}}</small></p>
 

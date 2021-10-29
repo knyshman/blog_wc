@@ -51,12 +51,12 @@ def update_likes(sender, instance, **kwargs):
     parent.save()
 
 
-# from blog_wc.settings import (
-#
-#     DEFAULT_FROM_EMAIL
-# )
-# from_email = DEFAULT_FROM_EMAIL
-from_email = 'from@example.com'
+from blog_wc.settings import (
+
+    DEFAULT_FROM_EMAIL
+)
+from_email = DEFAULT_FROM_EMAIL
+# from_email = 'from@example.com'
 follow_user = User.objects.first()
 
 

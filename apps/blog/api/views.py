@@ -1,9 +1,11 @@
 from django.contrib.auth import get_user_model
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import RetrieveUpdateAPIView, ListAPIView, CreateAPIView, \
     RetrieveDestroyAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
-from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .paginations import CustomPagination
 from .permissions import OwnPermission
@@ -63,9 +65,23 @@ class SingleArticleView(RetrieveAPIView):
     queryset = Article.objects.prefetch_related('image_set').all()
     serializer_class = ArticleSerializer
 
-    # def perform_create(self, serializer):
-    #     serializer = LikeSerializer
-    #     serializer.save(user=self.request.user, like=True)
+
+# class SubscribeView(RetrieveAPIView):
+#     lookup_field = 'slug'
+#     queryset = Article.objects.prefetch_related('image_set').all()
+#     serializer_class = ArticleSerializer
+#
+#     def post(self, request, *args, **kwargs):
+#         print(self.kwargs)
+#         article = Article.objects.select_related('author', 'category').filter(slug=self.kwargs['slug']).first()
+#         author = article.author
+#         current_user = self.get_object()
+#         print(current_user.subscribes)
+#         if current_user != author:
+#             if current_user.subscribes.filter(id=author.id).exists():
+#                 current_user.subscribes.remove(author)
+#             else:
+#                 current_user.subscribes.add(author)
 
 
 class ProfileView(RetrieveUpdateAPIView):
@@ -75,9 +91,7 @@ class ProfileView(RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
-#todo
+
     def get_queryset(self):
         queryset = User.objects.filter(id=self.request.user.id)
         return queryset
-
-

@@ -36,7 +36,7 @@ class Article(models.Model):
     title = models.CharField(max_length=250, verbose_name=_('Название'), unique=True, db_index=True)
     slug = models.SlugField(max_length=250, blank=True, null=True, unique=True)
     preview_image = models.ImageField(verbose_name=_('Изображение превью'), blank=True, default='default.jpg')
-    short_description = models.CharField(verbose_name=_('Краткое описание'), max_length=300, blank=True)
+    short_description = models.TextField(verbose_name=_('Краткое описание'), max_length=300, blank=True)
     content = RichTextUploadingField(verbose_name=_('Контент'))
     create_date = models.DateTimeField(verbose_name=_('Дата создания'), auto_now_add=True)
     update_date = models.DateTimeField(verbose_name=_('Дата изменения'), auto_now=True)

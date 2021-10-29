@@ -4,7 +4,7 @@ from .models import Article, Category, Comment
 
 @register(Article)
 class ArticleTranslationOptions(TranslationOptions):
-    fields = ('category', 'title', 'content', 'short_description', 'author')
+    fields = ('category', 'title', 'content', 'short_description')
 
 
 @register(Category)

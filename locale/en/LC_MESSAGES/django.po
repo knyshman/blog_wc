@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-26 17:27+0300\n"
-"PO-Revision-Date: 2021-10-26 17:44+0202\n"
+"PO-Revision-Date: 2021-10-29 15:54+0202\n"
 "Last-Translator: Anonymous Александр <mr.knyshman@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -124,7 +124,7 @@ msgstr "Remove from recommended"
 #: apps/blog/admin.py:88
 #| msgid "Дата публикации"
 msgid "Сделать неопубликованными"
-msgstr "created"
+msgstr "Set unpublished"
 
 #: apps/blog/api/views.py:12 apps/blog/apps.py:8 templates/base.html:15
 #: templates/blog/detail.html:32
@@ -191,7 +191,7 @@ msgstr "Category"
 #: apps/blog/forms.py:42
 #| msgid "Комментарий"
 msgid "Ваш комментарий"
-msgstr "Comment"
+msgstr "Your comment"
 
 #: apps/blog/forms.py:52
 msgid "Ваша оценка"
