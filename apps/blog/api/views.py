@@ -4,28 +4,25 @@ from django.urls import reverse_lazy
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import RetrieveUpdateAPIView, ListAPIView, CreateAPIView, \
     RetrieveDestroyAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
-from rest_framework.views import APIView
-
 from .paginations import CustomPagination
 from .permissions import OwnPermission
 from ..filters import ArticleFilter
 from ..models import Article, Like
-from .serializers import ArticleSerializer, ArticlePostSerializer, ProfileSerializer, LikeSerializer
+from .serializers import ArticleSerializer, ArticlePostSerializer, ProfileSerializer, LikeSerializer, \
+    SubscribesSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import BrowsableAPIRenderer
 from django.utils.translation import ugettext_lazy as _
-from rest_framework.parsers import MultiPartParser, FormParser
-# from rest_framework.renderers import BrowsableAPIRenderer, AdminRenderer, JSONRenderer
-# from .renderers import CustomRenderer, ApiRenderer
+from .renderers import CustomRenderer
 User = get_user_model()
 
 
 class ArticleView(ListAPIView):
-    lookup_field = 'slug'
     queryset = Article.objects.all().prefetch_related('image_set')
     serializer_class = ArticleSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = ArticleFilter
+    renderer_classes = [CustomRenderer, BrowsableAPIRenderer]
     pagination_class = CustomPagination
 
 
@@ -57,7 +54,8 @@ class LikeCreate(CreateAPIView):
         return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user, like=True)
+        article = Article.objects.select_related('category', 'author').filter(slug=self.kwargs['slug']).first()
+        serializer.save(user=self.request.user, like=True, article=article)
 
 
 class SingleArticleView(RetrieveAPIView):
@@ -66,22 +64,26 @@ class SingleArticleView(RetrieveAPIView):
     serializer_class = ArticleSerializer
 
 
-# class SubscribeView(RetrieveAPIView):
-#     lookup_field = 'slug'
-#     queryset = Article.objects.prefetch_related('image_set').all()
-#     serializer_class = ArticleSerializer
-#
-#     def post(self, request, *args, **kwargs):
-#         print(self.kwargs)
-#         article = Article.objects.select_related('author', 'category').filter(slug=self.kwargs['slug']).first()
-#         author = article.author
-#         current_user = self.get_object()
-#         print(current_user.subscribes)
-#         if current_user != author:
-#             if current_user.subscribes.filter(id=author.id).exists():
-#                 current_user.subscribes.remove(author)
-#             else:
-#                 current_user.subscribes.add(author)
+class SubscribeView(RetrieveUpdateAPIView):
+    lookup_field = None
+    queryset = User.objects.all()
+    serializer_class = SubscribesSerializer
+
+    def get_object(self):
+        article = Article.objects.select_related('author', 'category').filter(slug=self.kwargs['slug']).first()
+        author = article.author
+        return author
+
+    def put(self, request, *args, **kwargs):
+        article = Article.objects.select_related('author', 'category').filter(slug=self.kwargs['slug']).first()
+        author = article.author
+        current_user = self.request.user
+        if current_user != author:
+            if author.subscribes.filter(id=current_user.id).exists():
+                author.subscribes.remove(current_user)
+            else:
+                author.subscribes.add(current_user)
+        return self.update(request, *args, **kwargs)
 
 
 class ProfileView(RetrieveUpdateAPIView):

@@ -80,7 +80,7 @@ class Comment(models.Model):
     """Модель комментария"""
     author = models.ForeignKey(User, verbose_name=_('пользователь'),  on_delete=models.CASCADE)
     create_date = models.DateTimeField(verbose_name=_('дата создания'), auto_now_add=True)
-    comment = RichTextField(verbose_name=_('Комментарий'))
+    comment = RichTextField(verbose_name=_('Комментарий'), config_name='awesome_ckeditor')
     article = models.ForeignKey(Article, verbose_name=_('Статья'), on_delete=models.CASCADE, related_name='comment_set', related_query_name='comments_set')
     is_published = models.BooleanField(verbose_name=_('опубликовано'), null=True, default=True)
 

@@ -44,7 +44,7 @@
         <form action="{{ url('subscribes',object.slug,)}}" method="post" name="subscribes"> {% csrf_token %}
         {% if request.user.is_authenticated %}
         <button type="submit" class="btn btn-primary">
-            {%if object.author in request.user.subscribes.all()%}{{ _('Отписаться') }}
+            {%if request.user in object.author.subscribes.all()%}{{ _('Отписаться') }}
         {% else %}{{ _('Подписаться') }} {% endif%}
         </button>
             {% elif not request.user.is_authenticated %}<a href="{{ url('login') }}?next={{request.get_full_path()}}">{{_('Войти')}}</a>{{ _(' чтобы подписаться на автора') }} {% endif %}

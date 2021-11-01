@@ -30,12 +30,27 @@ api_urlpatterns = [
     # path('accounts/', include('apps.accounts.api.urls'))
 
 ]
+from ckeditor_uploader import views
+from django.views.decorators.cache import never_cache
 
+
+ckeditor_urls = [
+
+    re_path(r"^upload/", views.upload, name="ckeditor_upload"),
+    re_path(
+        r"^browse/",
+        never_cache(views.browse),
+        name="ckeditor_browse",
+    ),
+]
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n', include('django.conf.urls.i18n')),
     path('api/v1/', include(api_urlpatterns)),
     path('api/', include('rest_framework.urls', namespace='rest_framework')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('ckeditor/', include(ckeditor_urls)),
+
 
 
 ]
@@ -48,18 +63,7 @@ if settings.DEBUG:
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
-from ckeditor_uploader import views
-from django.views.decorators.cache import never_cache
 
-
-ckeditor_urls = [
-    re_path(r"^upload/", views.upload, name="ckeditor_upload"),
-    re_path(
-        r"^browse/",
-        never_cache(views.browse),
-        name="ckeditor_browse",
-    ),
-]
 profile_urls = [
     path('', ProfileDetailView.as_view(), name='profile'),
     path('password_change/', PasswordChange.as_view(), name='password_change'),
@@ -75,9 +79,27 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('apps.accounts.urls')),
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('ckeditor/', include(ckeditor_urls)),
+
 
 )
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+from django.conf.urls.static import static
+
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+from django.conf import settings
+
+
+# В конце файла:
+
+if settings.DEBUG:
+    if settings.MEDIA_ROOT:
+        urlpatterns += static(settings.MEDIA_URL,
+
+                      document_root=settings.MEDIA_ROOT)
+
+# Эта строка опциональна и будет добавлять url'ы только при DEBUG = True
+
+urlpatterns += staticfiles_urlpatterns()

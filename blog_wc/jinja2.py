@@ -2,6 +2,7 @@ from django_jinja import library
 from django.urls import translate_url
 from django.conf import settings
 from apps.blog.models import Article
+from apps.menu.models import Menu
 
 
 @library.global_function
@@ -23,4 +24,17 @@ def get_new_articles(request):
 @library.global_function
 def str_time(date):
     return date.strftime("%d.%m.%Y, %H:%M")
+
+
+@library.global_function
+def get_header():
+    header = Menu.objects.filter(position=0, is_active=1)
+    return header
+
+
+@library.global_function
+def get_footer():
+    footer = Menu.objects.filter(position=1, is_active=1)
+    return footer
+
 

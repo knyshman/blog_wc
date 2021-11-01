@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django_cleanup',
     'rest_framework',
     'storages',
-    'django_celery_beat'
+    'django_celery_beat',
+    'corsheaders'
 ]
 SITE_ID = 2
 MIDDLEWARE = [
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
@@ -182,15 +184,24 @@ DJANGO_WYSIWYG_FLAVOR = 'ckeditor'
 from dotenv import load_dotenv
 load_dotenv()
 
+STATICFILES_FINDERS = (
+
+'django.contrib.staticfiles.finders.FileSystemFinder',
+
+'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+
+)
+CKEDITOR_UPLOAD_PATH = '/uploads/'
+
 #local
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
-FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440
-FILE_UPLOAD_PERMISSION = 0o777
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+# FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440
+# FILE_UPLOAD_PERMISSION = 0o777
 
 #AMAZON
 # AWS_ACCESS_KEY_ID=os.getenv('AMAZON_ACCESS_KEY_ID')
@@ -233,3 +244,4 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+CORS_ALLOW_ALL_ORIGINS = True

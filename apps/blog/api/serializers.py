@@ -48,7 +48,9 @@ class ArticlePostSerializer(serializers.ModelSerializer):
 class SubscribesSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'name', 'last_name', 'phone', 'is_active', 'is_superuser', 'avatar')
+        fields = ('email', 'name', 'last_name', 'phone', 'subscribes')
+        read_only_fields = ('email', 'name', 'last_name', 'phone', 'subscribes')
+
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -64,4 +66,4 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ('article', 'like', 'user')
-        read_only_fields = ('like', 'user')
+        read_only_fields = ('like', 'user', 'article')

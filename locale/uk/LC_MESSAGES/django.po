@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-26 17:27+0300\n"
-"PO-Revision-Date: 2021-10-26 17:54+0202\n"
+"POT-Creation-Date: 2021-10-29 17:34+0300\n"
+"PO-Revision-Date: 2021-10-29 17:46+0202\n"
 "Last-Translator: Anonymous Александр <mr.knyshman@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -23,322 +23,299 @@ msgstr ""
 msgid "Аккаунты"
 msgstr "Акаунти"
 
-#: apps/accounts/forms.py:10 apps/accounts/forms.py:41
+#: apps/accounts/forms.py:11 apps/accounts/forms.py:43
 msgid "Имя пользователя"
 msgstr "Ім'я користувача"
 
-#: apps/accounts/forms.py:12 apps/accounts/forms.py:43
+#: apps/accounts/forms.py:13 apps/accounts/forms.py:45
 msgid "Введите имя пользователя"
 msgstr "Введіть ім'я користувача"
 
-#: apps/accounts/forms.py:14
+#: apps/accounts/forms.py:15 apps/accounts/forms.py:107
 msgid "Пароль"
 msgstr "Пароль"
 
-#: apps/accounts/forms.py:16
+#: apps/accounts/forms.py:17
 msgid "Введите пароль"
 msgstr "Введіть пароль"
 
-#: apps/accounts/forms.py:31
+#: apps/accounts/forms.py:32
 msgid "Такого пользователя нет"
 msgstr "Такого користувача не існує"
 
-#: apps/accounts/forms.py:33
+#: apps/accounts/forms.py:34
 msgid "Неверный пароль"
 msgstr "Невірний пароль"
 
-#: apps/accounts/forms.py:36
+#: apps/accounts/forms.py:37
 msgid "Данный пользователь не активен"
 msgstr "Цей користувач не є активним"
 
-#: apps/accounts/forms.py:52 apps/accounts/forms.py:86
+#: apps/accounts/forms.py:54 apps/accounts/forms.py:89
+#: apps/accounts/forms.py:108
 msgid "Подтверждение пароля"
 msgstr "Підтвердження паролю"
 
-#: apps/accounts/forms.py:55
+#: apps/accounts/forms.py:57
 msgid "Повторите пароль"
 msgstr "Повторіть пароль"
 
-#: apps/accounts/forms.py:67 apps/accounts/forms.py:97
+#: apps/accounts/forms.py:69 apps/accounts/forms.py:100
+#: apps/accounts/forms.py:118
 msgid "Пароли не совпадают"
 msgstr "Паролі не співпадають"
 
-#: apps/accounts/forms.py:72 apps/accounts/forms.py:76
+#: apps/accounts/forms.py:75 apps/accounts/forms.py:79
 msgid "Текущий пароль"
 msgstr "Поточний пароль"
 
-#: apps/accounts/forms.py:75
+#: apps/accounts/forms.py:78
 msgid "Введите текущий пароль"
 msgstr "Введіть поточний пароль"
 
-#: apps/accounts/forms.py:79
+#: apps/accounts/forms.py:82
 msgid "Новый пароль"
 msgstr "Новий пароль"
 
-#: apps/accounts/forms.py:83
-#| msgid "Новый пароль"
+#: apps/accounts/forms.py:85
+#| msgid "Повторите новый пароль"
+msgid "Введите новый пароль"
+msgstr "Введіть новий пароль"
+
+#: apps/accounts/forms.py:86
 msgid "Новый пароль 1"
 msgstr "Новий пароль 1"
 
-#: apps/accounts/forms.py:89
+#: apps/accounts/forms.py:92
 msgid "Повторите новый пароль"
 msgstr "Повторіть новий пароль"
 
-#: apps/accounts/forms.py:90
-#| msgid "Новый пароль"
+#: apps/accounts/forms.py:93
 msgid "Новый пароль 2"
 msgstr "Новий пароль 2"
 
-#: apps/accounts/models.py:15
+#: apps/accounts/models.py:16
 msgid "Users must have an email address"
 msgstr "У користувача повинна бути електронна пошта"
 
-#: apps/accounts/models.py:45 apps/blog/forms.py:73
+#: apps/accounts/models.py:46 apps/blog/forms.py:78
 msgid "Имя"
 msgstr "Ім'я"
 
-#: apps/accounts/models.py:46 apps/blog/forms.py:77
+#: apps/accounts/models.py:47 apps/blog/forms.py:82
 msgid "Фамилия"
 msgstr "Прізвище"
 
-#: apps/accounts/models.py:49 apps/blog/forms.py:81
+#: apps/accounts/models.py:50 apps/blog/forms.py:86
 msgid "Телефон"
 msgstr "Телефон"
 
-#: apps/accounts/models.py:50 apps/blog/forms.py:85
+#: apps/accounts/models.py:51 apps/blog/forms.py:90
 msgid "Фото"
 msgstr "Фото"
 
-#: apps/accounts/models.py:51
+#: apps/accounts/models.py:52
 msgid "Подписчики"
 msgstr "Підписники"
 
-#: apps/blog/admin.py:69
+#: apps/blog/admin.py:71
 msgid "Добавить в рекомендуемые"
 msgstr "Додати до рекомендованих"
 
-#: apps/blog/admin.py:70
+#: apps/blog/admin.py:72
 msgid "Убрать из рекомендуемых"
 msgstr "Видалити з рекомендованих"
 
-#: apps/blog/admin.py:88
-#| msgid "Форма регистрации"
+#: apps/blog/admin.py:90
 msgid "Сделать неопубликованными"
 msgstr "Зробити неопублікованими"
 
-#: apps/blog/api/views.py:12 apps/blog/apps.py:8 templates/base.html:15
-#: templates/blog/detail.html:32
-msgid "Блог"
-msgstr "Блог"
-
-#: apps/blog/api/views.py:21 templates/blog/article_create.html:2
-#: templates/blog/article_create.html:4
-#| msgid "Добавить статью"
-msgid "Новая статья"
-msgstr "Нова стаття"
-
-#: apps/blog/api/views.py:34
-#| msgid "Редактирование статьи "
+#: apps/blog/api/views.py:48
 msgid "Изменение статьи"
 msgstr "Редагування статті"
 
-#: apps/blog/filters.py:7 apps/blog/models.py:34 apps/menu/models.py:7
+#: apps/blog/apps.py:8 templates/blog/detail.html:32 templates/header.html:2
+msgid "Блог"
+msgstr "Блог"
+
+#: apps/blog/filters.py:8 apps/blog/models.py:36 apps/menu/models.py:7
 #: apps/menu/models.py:22
 msgid "Название"
 msgstr "Назва"
 
-#: apps/blog/filters.py:10
+#: apps/blog/filters.py:11
 msgid "Cортировать"
 msgstr "Сортувати"
 
-#: apps/blog/filters.py:17
+#: apps/blog/filters.py:18
 msgid "по дате"
 msgstr "за датою"
 
-#: apps/blog/filters.py:18
-#| msgid "по дате"
-msgid "по дате \\u25BC"
-msgstr "за датою"
-
 #: apps/blog/filters.py:19
+msgid "по дате \\u25BC"
+msgstr "за датою \\u25BC"
+
+#: apps/blog/filters.py:20
 msgid "по рейтингу"
 msgstr "за рейтингом"
 
-#: apps/blog/filters.py:20
-#| msgid "по рейтингу"
+#: apps/blog/filters.py:21
 msgid "по рейтингу \\u25BC"
-msgstr "за рейтингом"
+msgstr "за рейтингом \\u25BC"
 
-#: apps/blog/forms.py:15
+#: apps/blog/forms.py:16
 msgid "Заголовок"
 msgstr "Назва"
 
-#: apps/blog/forms.py:17
+#: apps/blog/forms.py:18
 msgid "Введите заголовок"
 msgstr "Введіть назву"
 
-#: apps/blog/forms.py:20 apps/blog/models.py:41
+#: apps/blog/forms.py:21 apps/blog/models.py:43
 #: templates/accounts/email/email_for_subscriber.html:4
-#: templates/blog/detail.html:17 templates/blog/profile.html:85
-#: templates/blog/user_liked_articles.html:16
-#| msgid "Авторы"
+#: templates/blog/detail.html:17 templates/blog/profile.html:87
+#: templates/blog/user_liked_articles.html:17
 msgid "Автор"
 msgstr "Автор"
 
-#: apps/blog/forms.py:24 apps/blog/models.py:16 apps/blog/models.py:20
-#: apps/blog/models.py:33
+#: apps/blog/forms.py:25 apps/blog/models.py:17 apps/blog/models.py:21
+#: apps/blog/models.py:35
 msgid "Категория"
 msgstr "Категорія"
 
-#: apps/blog/forms.py:42
-#| msgid "Комментарий"
+#: apps/blog/forms.py:44
 msgid "Ваш комментарий"
 msgstr "Ваш коментар"
 
-#: apps/blog/forms.py:52
+#: apps/blog/forms.py:55
 msgid "Ваша оценка"
 msgstr "Ваша оцінка"
 
-#: apps/blog/forms.py:75
+#: apps/blog/forms.py:80
 msgid "Введите имя"
 msgstr "Введіть ім'я"
 
-#: apps/blog/forms.py:79
+#: apps/blog/forms.py:84
 msgid "Введите фамилию"
 msgstr "Введіть прізвище"
 
-#: apps/blog/forms.py:83
+#: apps/blog/forms.py:88
 msgid "Введите номер телефона"
 msgstr "Введіть номер телефону"
 
-#: apps/blog/forms.py:93
-msgid "Номер телефона должен содержать только цифры(не более 10)"
-msgstr "Номер телефону повинен містити тільки цифри(не більше 10)"
-
-#: apps/blog/models.py:21
+#: apps/blog/models.py:22
 msgid "Категории"
 msgstr "Категорії"
 
-#: apps/blog/models.py:36
-#| msgid "Изображение"
+#: apps/blog/models.py:38
 msgid "Изображение превью"
 msgstr "Зображення прев'ю"
 
-#: apps/blog/models.py:37
+#: apps/blog/models.py:39
 msgid "Краткое описание"
 msgstr "Короткий опис"
 
-#: apps/blog/models.py:38 apps/menu/models.py:23
+#: apps/blog/models.py:40 apps/menu/models.py:23
 msgid "Контент"
 msgstr "Контент"
 
-#: apps/blog/models.py:39
-#| msgid "Форма регистрации"
+#: apps/blog/models.py:41
 msgid "Дата создания"
 msgstr "Дата публікації"
 
-#: apps/blog/models.py:40 templates/blog/detail.html:21
-#: templates/blog/home.html:19 templates/blog/profile.html:87
-#: templates/blog/user_liked_articles.html:18
+#: apps/blog/models.py:42 templates/blog/detail.html:21
+#: templates/blog/home.html:20 templates/blog/profile.html:89
+#: templates/blog/user_liked_articles.html:19
 msgid "Дата изменения"
 msgstr "Дата зміни"
 
-#: apps/blog/models.py:42
-#| msgid "Средний рейтинг: "
+#: apps/blog/models.py:44
 msgid "Средний рейтинг"
 msgstr "Середній рейтинг: "
 
-#: apps/blog/models.py:43
+#: apps/blog/models.py:45
 msgid "Лайки"
 msgstr "Лайки"
 
-#: apps/blog/models.py:44
+#: apps/blog/models.py:46
 msgid "Рекомендуемая"
 msgstr "Рекомендована"
 
-#: apps/blog/models.py:47 apps/blog/models.py:80
-#| msgid "Статьи"
+#: apps/blog/models.py:49 apps/blog/models.py:84
 msgid "Статья"
 msgstr "Стаття"
 
-#: apps/blog/models.py:48 templates/base.html:27
+#: apps/blog/models.py:50
 msgid "Статьи"
 msgstr "Статті"
 
-#: apps/blog/models.py:66
-#| msgid "Статьи"
+#: apps/blog/models.py:69
 msgid "статья"
 msgstr "стаття"
 
-#: apps/blog/models.py:67
-#| msgid "Изображение"
+#: apps/blog/models.py:70
 msgid "изображение"
 msgstr "зображення"
 
-#: apps/blog/models.py:71
+#: apps/blog/models.py:74
 msgid "Изображение"
 msgstr "Зображення"
 
-#: apps/blog/models.py:72
-#| msgid "Изображение"
+#: apps/blog/models.py:75
 msgid "Изображения"
 msgstr "Зображення"
 
-#: apps/blog/models.py:77
-#| msgid "Пользователь: "
+#: apps/blog/models.py:81
 msgid "пользователь"
 msgstr "користувач"
 
-#: apps/blog/models.py:78
-#| msgid "Форма регистрации"
+#: apps/blog/models.py:82
 msgid "дата создания"
 msgstr "дата публікації"
 
-#: apps/blog/models.py:79 apps/blog/models.py:84
+#: apps/blog/models.py:83 apps/blog/models.py:88
 msgid "Комментарий"
 msgstr "Коментар"
 
-#: apps/blog/models.py:81
-#| msgid "Форма регистрации"
+#: apps/blog/models.py:85
 msgid "опубликовано"
 msgstr "опубліковано"
 
-#: apps/blog/models.py:85 templates/blog/detail.html:119
-#| msgid "Комментарий"
+#: apps/blog/models.py:89 templates/blog/detail.html:121
 msgid "Комментарии"
 msgstr "Коментари"
 
-#: apps/blog/models.py:90
+#: apps/blog/models.py:95
 msgid "Рейтинг"
 msgstr "Рейтинг"
 
-#: apps/blog/signals.py:64
+#: apps/blog/signals.py:70
 msgid "Автором из числа Ваших подписок была опубликована новая статья"
 msgstr "Автором із Ваших підписок була опублікована стаття"
 
-#: apps/blog/views.py:40
+#: apps/blog/views.py:42
 msgid "дизлайкнуть"
 msgstr "відлайкати"
 
-#: apps/blog/views.py:42
+#: apps/blog/views.py:44
 msgid "лайкнуть"
 msgstr "лайкнути"
 
-#: apps/blog/views.py:65
+#: apps/blog/views.py:69
 msgid "Статья успешно добавлена"
 msgstr "Стаття успішно додана"
 
-#: apps/blog/views.py:90
+#: apps/blog/views.py:95
 msgid "Статья успешно изменена"
 msgstr "Стаття успішно змінена"
 
-#: apps/blog/views.py:114
+#: apps/blog/views.py:124
 msgid "Статья успешно удалена"
 msgstr "Статтю успішно видалено"
 
-#: apps/blog/views.py:125
+#: apps/blog/views.py:136
 msgid "Поле комментария не может быть пустым!!!"
-msgstr "Поле коментаря не може бути пустим"
+msgstr "Поле коментаря не може бути пустим!!!"
 
 #: apps/menu/models.py:8 apps/menu/models.py:24
 msgid "Ссылка"
@@ -349,24 +326,22 @@ msgid "Позиция"
 msgstr "Позиція"
 
 #: apps/menu/models.py:14
-#| msgid "Комментарий"
 msgid "Элемент меню"
 msgstr "Елемент меню"
 
 #: apps/menu/models.py:15
-#| msgid "Комментарий"
 msgid "Элементы меню"
 msgstr "Елементи меню"
 
-#: blog_wc/settings/local_settings.py:192 blog_wc/settings/production.py:182
+#: blog_wc/settings/local_settings.py:184 blog_wc/settings/production.py:158
 msgid "Русский"
 msgstr "Російська"
 
-#: blog_wc/settings/local_settings.py:193 blog_wc/settings/production.py:183
+#: blog_wc/settings/local_settings.py:185 blog_wc/settings/production.py:159
 msgid "English"
 msgstr "Англійська"
 
-#: blog_wc/settings/local_settings.py:194 blog_wc/settings/production.py:184
+#: blog_wc/settings/local_settings.py:186 blog_wc/settings/production.py:160
 msgid "Украинский"
 msgstr "Українська"
 
@@ -387,35 +362,42 @@ msgid "Вы подтвердили электронную почту"
 msgstr "Ви підтвердили електронну пошту"
 
 #: templates/accounts/activation_done.html:6
-#| msgid "Вы зарегистрировались. Теперь Вы можете "
-msgid "Ваш аккаунт активирован. Теперь вы можете войти на "
-msgstr "Ваш акаунт активовано. Тепер Ви можете увійти на "
+#| msgid "Ваш аккаунт активирован. Теперь вы можете войти на "
+msgid ""
+"Ваш аккаунт активирован. Теперь вы можете использовать Ваш личный кабинет "
+msgstr ""
+"Ваш акаунт активовано. Тепер Ви можете користуватись своїм особистим "
+"кабінетом"
 
-#: templates/accounts/activation_done.html:6
-msgid "сайт"
-msgstr "сайт"
+#: templates/accounts/activation_done.html:8
+#| msgid "Главная"
+msgid "На главную"
+msgstr "На головну"
+
+#: templates/accounts/activation_done.html:9 templates/accounts/login.html:13
+#: templates/blog/detail.html:50 templates/blog/detail.html:74
+#: templates/blog/detail.html:104 templates/blog/detail.html:117
+#: templates/header.html:39
+msgid "Войти"
+msgstr "Увійти"
 
 #: templates/accounts/login.html:2 templates/accounts/login.html:4
 msgid "Форма входа"
 msgstr "Форма входу"
 
-#: templates/accounts/login.html:10 templates/accounts/register.html:14
-#: templates/accounts/register.html:18 templates/blog/profile.html:66
+#: templates/accounts/login.html:10 templates/accounts/register.html:18
+#: templates/blog/profile.html:66
 #: templates/registration/password_reset_confirm.html:32
 msgid " Показать пароль"
 msgstr "Показати пароль"
 
-#: templates/accounts/login.html:13 templates/accounts/register_done.html:5
-#: templates/base.html:55 templates/blog/detail.html:50
-#: templates/blog/detail.html:72 templates/blog/detail.html:102
-#: templates/blog/detail.html:115
-msgid "Войти"
-msgstr "Увійти"
-
 #: templates/accounts/login.html:15
-#| msgid "Новый пароль"
 msgid "Забыли пароль?"
 msgstr "Забули пароль?"
+
+#: templates/accounts/login.html:16 templates/header.html:42
+msgid "Регистрация"
+msgstr "Реєстрація"
 
 #: templates/accounts/logout.html:3
 msgid "Вы не вошли на сайт!"
@@ -426,13 +408,11 @@ msgid "Нажмите чтобы войти"
 msgstr "Натисніть щоб увійти"
 
 #: templates/accounts/register.html:20
-#| msgid "Регистрация"
 msgid "Зарегистрироваться"
 msgstr "Зареєструватися"
 
 #: templates/accounts/register_done.html:2
 #: templates/accounts/register_done.html:4
-#| msgid "Форма регистрации"
 msgid "Спасибо за регистрацию!"
 msgstr "Дякуємо за реєстрацію"
 
@@ -444,39 +424,9 @@ msgstr ""
 "На Email, вказаний при реєстрації, було відправлено лист для підтвердження "
 "електронної пошти"
 
-#: templates/base.html:24
-msgid "Авторы"
-msgstr "Автори"
-
-#: templates/base.html:33
-msgid "Мой профайл"
-msgstr "Мій профайл"
-
-#: templates/base.html:36
-msgid "Личный кабинет"
-msgstr "Особистий кабінет"
-
-#: templates/base.html:37 templates/blog/user_liked_articles.html:2
-#: templates/blog/user_liked_articles.html:9
-#| msgid "Редактирование статьи "
-msgid "Избранные статьи"
-msgstr "Обрані статті"
-
-#: templates/base.html:38
-msgid "Города"
-msgstr "Міста"
-
-#: templates/base.html:44
-msgid " Добавить"
-msgstr "Додати"
-
-#: templates/base.html:51
-msgid "Выйти"
-msgstr "Вийти"
-
-#: templates/base.html:58
-msgid "Регистрация"
-msgstr "Реєстрація"
+#: templates/blog/article_create.html:2 templates/blog/article_create.html:4
+msgid "Новая статья"
+msgstr "Нова стаття"
 
 #: templates/blog/article_create.html:12 templates/blog/article_update.html:11
 msgid "Сохранить"
@@ -486,31 +436,29 @@ msgstr "Зберегти"
 msgid "Редактирование статьи "
 msgstr "Редагування статті"
 
-#: templates/blog/detail.html:18 templates/blog/detail.html:93
-#: templates/blog/home.html:18 templates/blog/profile.html:85
-#: templates/blog/user_liked_articles.html:16
+#: templates/blog/detail.html:18 templates/blog/detail.html:95
+#: templates/blog/home.html:19 templates/blog/profile.html:87
+#: templates/blog/user_liked_articles.html:17
 msgid "Средний рейтинг: "
 msgstr "Середній рейтинг: "
 
-#: templates/blog/detail.html:19 templates/blog/profile.html:86
-#: templates/blog/user_liked_articles.html:17
-#| msgid "Комментарий"
+#: templates/blog/detail.html:19 templates/blog/profile.html:88
+#: templates/blog/user_liked_articles.html:18
 msgid "Комментариев"
 msgstr "Коментарів"
 
-#: templates/blog/detail.html:19 templates/blog/profile.html:86
-#: templates/blog/user_liked_articles.html:17
+#: templates/blog/detail.html:19 templates/blog/profile.html:88
+#: templates/blog/user_liked_articles.html:18
 msgid "Лайков"
 msgstr "Лайків"
 
-#: templates/blog/detail.html:20 templates/blog/home.html:19
-#: templates/blog/profile.html:87 templates/blog/user_liked_articles.html:18
-#| msgid "Форма регистрации"
+#: templates/blog/detail.html:20 templates/blog/home.html:20
+#: templates/blog/profile.html:89 templates/blog/user_liked_articles.html:19
 msgid "Дата публикации"
 msgstr "Дата публікації"
 
-#: templates/blog/detail.html:23 templates/blog/home.html:21
-#: templates/blog/profile.html:89 templates/blog/user_liked_articles.html:20
+#: templates/blog/detail.html:23 templates/blog/home.html:22
+#: templates/blog/profile.html:92 templates/blog/user_liked_articles.html:21
 msgid "Подробнее"
 msgstr "Детальніше"
 
@@ -518,18 +466,15 @@ msgstr "Детальніше"
 msgid "Категория: "
 msgstr "Категорія"
 
-#: templates/blog/detail.html:40 templates/blog/home.html:17
-#| msgid "Авторы"
+#: templates/blog/detail.html:40 templates/blog/home.html:18
 msgid "Автор: "
 msgstr "Автор:"
 
 #: templates/blog/detail.html:47
-#| msgid "Регистрация"
 msgid "Отписаться"
 msgstr "Відписатися"
 
 #: templates/blog/detail.html:48
-#| msgid "Регистрация"
 msgid "Подписаться"
 msgstr "Підписатися"
 
@@ -537,34 +482,40 @@ msgstr "Підписатися"
 msgid " чтобы подписаться на автора"
 msgstr "шоб підписатись на автора"
 
-#: templates/blog/detail.html:67
+#: templates/blog/detail.html:58 templates/blog/home.html:16
+#: templates/blog/profile.html:85
+#| msgid "Редактирование статьи "
+msgid "Редактировать"
+msgstr "Редагувати"
+
+#: templates/blog/detail.html:69
 msgid "Количество лайков: "
 msgstr "Кількість лайків: "
 
-#: templates/blog/detail.html:72
-#| msgid "Добавить статью"
+#: templates/blog/detail.html:74
 msgid " чтобы лайкнуть статью"
 msgstr "шоб лайкнути статтю"
 
-#: templates/blog/detail.html:100
-#| msgid "Сохранить"
+#: templates/blog/detail.html:102
 msgid "Оценить"
 msgstr "Оцінити"
 
-#: templates/blog/detail.html:102
-#| msgid "Добавить статью"
+#: templates/blog/detail.html:104
 msgid " чтобы оценивать статьи"
 msgstr "шоб оцінювати статті"
 
-#: templates/blog/detail.html:113
-#| msgid " Добавить"
+#: templates/blog/detail.html:115
 msgid "Отправить"
 msgstr "Відправити"
 
-#: templates/blog/detail.html:115
-#| msgid "Добавить статью"
+#: templates/blog/detail.html:117
 msgid " чтобы комментировать статьи"
 msgstr "Шоб коментувати статті"
+
+#: templates/blog/detail.html:135
+#| msgid "Поле комментария не может быть пустым!!!"
+msgid "Здесь пока нет ни одного комментария. Вы можете быть первым)"
+msgstr "Тут поки що немає коментарів. Ви можете бути першим)"
 
 #: templates/blog/profile.html:22
 msgid "Пользователь: "
@@ -587,41 +538,78 @@ msgid "Изменить пароль"
 msgstr "Змінити пароль"
 
 #: templates/blog/profile.html:78
-#| msgid "Добавить статью"
 msgid "Мои статьи"
 msgstr "Мої статті"
 
-#: templates/blog/profile.html:84 templates/blog/user_liked_articles.html:15
-#| msgid "Название"
+#: templates/blog/profile.html:79
+#| msgid "Новая статья"
+msgid "Добавить статью"
+msgstr "Додати статтю"
+
+#: templates/blog/profile.html:86 templates/blog/user_liked_articles.html:16
 msgid "Описание"
 msgstr "Опис"
+
+#: templates/blog/profile.html:99
+#| msgid "Сделать неопубликованными"
+msgid "У вас пока нет опубликованных статей..."
+msgstr "У Вас поки що немає опублікованих статей..."
+
+#: templates/blog/user_liked_articles.html:2
+#: templates/blog/user_liked_articles.html:9 templates/header.html:21
+msgid "Избранные статьи"
+msgstr "Обрані статті"
+
+#: templates/blog/user_liked_articles.html:28
+#| msgid "Избранные статьи"
+msgid "В избранном пока нет статей"
+msgstr "В обраному поки що немає статей"
+
+#: templates/header.html:11
+msgid "Авторы"
+msgstr "Автори"
+
+#: templates/header.html:17
+msgid "Мой профайл"
+msgstr "Мій профайл"
+
+#: templates/header.html:20
+msgid "Личный кабинет"
+msgstr "Особистий кабінет"
+
+#: templates/header.html:22
+msgid "Города"
+msgstr "Міста"
+
+#: templates/header.html:28
+msgid " Добавить"
+msgstr "Додати"
+
+#: templates/header.html:35
+msgid "Выйти"
+msgstr "Вийти"
 
 #: templates/registration/password_reset_complete.html:4
 msgid "Пароль был изменен"
 msgstr "Пароль було змінено"
 
 #: templates/registration/password_reset_complete.html:5
-#| msgid "Войти"
 msgid "Войти снова?"
 msgstr "Увійти знову?"
 
 #: templates/registration/password_reset_confirm.html:6
-#| msgid "Повторите новый пароль"
 msgid "Пожалуйста, введите(и подтвердите) Ваш новый пароль"
 msgstr "Будь ласка, введіть (та повторіть) новий пароль"
 
 #: templates/registration/password_reset_confirm.html:12
-#| msgid "Новый пароль"
 msgid "Новый пароль: "
 msgstr "Новий пароль:"
 
 #: templates/registration/password_reset_confirm.html:17
-#| msgid "Повторите пароль"
 msgid "Подтвердите пароль: "
 msgstr "Підтвердіть пароль"
 
 #: templates/registration/password_reset_confirm.html:36
-#| msgid "Повторите пароль"
 msgid "Ошибка сброса пароля"
 msgstr "Помилка скидання паролю"
 
@@ -650,9 +638,14 @@ msgstr ""
 "інструкції"
 
 #: templates/registration/password_reset_form.html:6
-#| msgid " Добавить"
 msgid "Восстановить"
 msgstr "Відновити"
+
+#~ msgid "Номер телефона должен содержать только цифры(не более 10)"
+#~ msgstr "Номер телефону повинен містити тільки цифри(не більше 10)"
+
+#~ msgid "сайт"
+#~ msgstr "сайт"
 
 #~ msgid "New password"
 #~ msgstr "Новий пароль"
@@ -671,9 +664,6 @@ msgstr "Відновити"
 
 #~ msgid "по названию"
 #~ msgstr "за назвою"
-
-#~ msgid "Главная"
-#~ msgstr "Головна"
 
 #~ msgid "Приветствуем Вас, "
 #~ msgstr "Вітаємо Вас, "

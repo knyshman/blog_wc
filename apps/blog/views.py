@@ -204,10 +204,10 @@ class Subscribes(View):
         author = article.author
         current_user = self.request.user
         if current_user != author:
-            if current_user.subscribes.filter(pk=author.pk).exists():
-                current_user.subscribes.remove(author)
+            if author.subscribes.filter(pk=current_user.pk).exists():
+                author.subscribes.remove(current_user)
             else:
-                current_user.subscribes.add(author)
+                author.subscribes.add(current_user)
         return redirect(reverse_lazy('article_detail', kwargs={'slug': article.slug}))
 
 
