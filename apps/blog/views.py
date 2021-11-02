@@ -221,5 +221,6 @@ class MyUserFavouriteArticles(LoginRequiredMixin, ListView):
         qs = Like.objects.filter(user=self.request.user, like=True).select_related('article', 'user')
         object_list = []
         for like in qs.select_related('article', 'user'):
-            object_list.append(like.article)
+            article = Article.objects.filter(title=like.article.title).select_related('category', 'author').first()
+            object_list.append(article)
         return object_list

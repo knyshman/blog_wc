@@ -78,7 +78,7 @@
             <h2>{{ _('Мои статьи') }}</h2>
             <p><a class="btn btn-outline-success" href="{{ url('article_create') }}">{{_('Добавить статью')}}</a></p>
             {% if object_list %}
-            {% for obj in object_list %}
+            {% for obj in object_list.prefetch_related('comment_set', 'image_set') %}
                 <div class="card" style="width: 60rem;">
                     <div class="card-body">
             <h3>{% if obj.preview_image %} <img class="lazyOwl" style="width: 5rem;" src="{{ obj.preview_image.url }}" alt="avatar">{% endif %}

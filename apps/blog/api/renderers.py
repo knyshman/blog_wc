@@ -5,7 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 class CustomRenderer(JSONRenderer):
 
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        print(renderer_context)
         if renderer_context['response'].status_code == 200:
             response = {'response': {'error': False,
                                      'status_code': renderer_context['response'].status_code,
@@ -13,7 +12,6 @@ class CustomRenderer(JSONRenderer):
                                      },
                         'object_data': data
                         }
-            print(response['object_data'])
         elif renderer_context['response'].status_code == 201:
             response = {'response': {'error': False,
                                      'status_code': renderer_context['response'].status_code,
@@ -52,7 +50,6 @@ class CustomRenderer(JSONRenderer):
                         }
         else:
             try:
-                print(data['detail'])
                 response = {'response': {'error': True,
                                          'status_code': renderer_context['response'].status_code,
                                          'message': data['detail'],
@@ -64,3 +61,4 @@ class CustomRenderer(JSONRenderer):
                                          'message': _("Ошибка значения"),
                                          }
                             }
+        return super().render(response, accepted_media_type, renderer_context)

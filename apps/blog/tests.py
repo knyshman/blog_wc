@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from apps.blog.models import Article, Category
+from django.utils.text import slugify
+from apps.blog.models import Article, Category, ArticleRating
+from apps.blog.utils import from_cyrillic_to_eng
 
 User = get_user_model()
 
@@ -9,13 +11,13 @@ class ArticleModelTest(TestCase):
 
     @classmethod
     def setUpTestData(self):
-        self.category1 = Category.objects.create(name='category1',
-                                                 slug='category-1',
+        self.category1 = Category.objects.create(name='category 1',
+                                                 slug='category_1',
                                                  depth=1,
                                                  path='001'
                              )
         self.category2 = Category.objects.create(name='category2',
-                                                 slug='category-2',
+                                                 slug='category2',
                                                  depth=1,
                                                  path='002'
                              )
@@ -36,22 +38,24 @@ class ArticleModelTest(TestCase):
                           )
         ]
         Article.objects.bulk_create(lst)
-    #
-    # def test_first_name_label(self):
-    #     author = Author.objects.get(id=1)
-    #     field_label = author._meta.get_field('first_name').verbose_name
-    #     self.assertEquals(field_label, 'first name')
-    #
-    # def test_date_of_death_label(self):
-    #     author=Author.objects.get(id=1)
-    #     field_label = author._meta.get_field('date_of_death').verbose_name
-    #     self.assertEquals(field_label,'died')
-    #
-    # def test_first_name_max_length(self):
-    #     author=Author.objects.get(id=1)
-    #     max_length = author._meta.get_field('first_name').max_length
-    #     self.assertEquals(max_length,100)
+
+    def test_category_str_title(self):
+        self.assertEquals(self.category1.__str__(), self.category1.name)
+
+    def test_category_slug(self):
+        self.assertEquals(self.category1.slug, slugify(from_cyrillic_to_eng(self.category1.name)))
+
+    def test_article_label(self):
+        article = Article.objects.get(id=1)
+        field_label = article._meta.get_field('title').verbose_name
+        self.assertEquals(field_label, 'Название')
+
+    def test_str_title(self):
+        article = Article.objects.get(id=1)
+        self.assertEquals(article.__str__(), article.title)
 
     def test_get_absolute_url(self):
-        article=Article.objects.get(slug='article-2')
+        article = Article.objects.get(slug='article-2')
         self.assertEquals(article.get_absolute_url(), '/ru/blog/article-2/')
+
+

@@ -2,14 +2,21 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
+from dotenv import load_dotenv
+load_dotenv()
 AUTH_USER_MODEL = 'accounts.MyUser'
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 SECRET_KEY = SECRET_KEY
+DB_NAME = os.environ.get('DB_NAME')
+DB_PASSWORD = os.environ.get('DB_PASSWORD')
+DB_HOST = os.environ.get('DB_HOST')
+DB_USER = os.environ.get('DB_USER')
+
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['knyshblog.herokuapp.com']
+
 
 INSTALLED_APPS = [
     'modeltranslation',
@@ -21,7 +28,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.flatpages',
     'ckeditor',
     'ckeditor_uploader',
     'adminsortable2',
@@ -31,6 +37,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_starfield',
     'treebeard',
+    'debug_toolbar',
     'django_jinja',
     'bootstrapform_jinja',
     'django_cleanup',
@@ -42,6 +49,7 @@ INSTALLED_APPS = [
 SITE_ID = 2
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,8 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
@@ -62,6 +70,7 @@ TEMPLATES = [
         'APP_DIRS': False,
         'OPTIONS': {
             'match_extension': '.html',
+
             'extensions': [
                 "jinja2.ext.do",
                 "jinja2.ext.loopcontrols",
@@ -80,10 +89,15 @@ TEMPLATES = [
                 'available_languages': 'blog_wc.jinja2.get_lang_urls',
                 'recommended': 'blog_wc.jinja2.get_new_articles',
                 'str_time': 'blog_wc.jinja2.str_time',
+                'get_header': 'blog_wc.jinja2.get_header',
+                'get_footer': 'blog_wc.jinja2.get_footer',
+                'textpages': 'blog_wc.jinja2.get_textpages',
+
 
             },
             'context_processors': [
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
 
         },
@@ -110,11 +124,18 @@ WSGI_APPLICATION = 'blog_wc.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': DB_NAME,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
+        'HOST': DB_HOST,
+        'PORT': '5432',
     }
 }
 
+import dj_database_url
+db = dj_database_url.config()
+DATABASES['default'].update(db)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -131,15 +152,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# CACHES = {
-#     "default":  {
-#         "BACKEND":  "django_redis.cache.RedisCache",
-#         "LOCATION":  "redis://127.0.0.1:6379/1",
-#         "OPTIONS":  {
-#             "CLIENT_CLASS":  "django_redis.client.DefaultClient",
-#         }
-#     }
-# }
+
 
 
 LANGUAGE_CODE = 'ru'
@@ -168,6 +181,8 @@ MODELTRANSLATION_TRANSLATION_FILES = (
 )
 ACCOUNT_ACTIVATION_DAYS = 30
 DEFAULT_CHARSET = 'utf-8'
+
+
 LOCALE_PATHS = (BASE_DIR, 'locale/')
 
 
@@ -177,47 +192,56 @@ LOGIN_REDIRECT_URL = '/'
 INTERNAL_IPS = [
     '127.0.0.1', '172.16.0.1'
 ]
-ROSETTA_ACCESS_CONTROL_FUNCTION = lambda x: x.is_superuser
 
+ROSETTA_ACCESS_CONTROL_FUNCTION = lambda x: x.is_superuser
 DJANGO_WYSIWYG_FLAVOR = 'ckeditor'
 
-from dotenv import load_dotenv
-load_dotenv()
 
-STATICFILES_FINDERS = (
+CORS_ALLOW_ALL_ORIGINS = False
+# #AMAZON
+AWS_ACCESS_KEY_ID = os.getenv('AMAZON_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AMAZON_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_URL = os.getenv('AWS_URL')
+AWS_DEFAULT_ACL = 'public-read-write'
+AWS_S3_REGION_NAME = 'eu-north-1'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+STATIC_URL = AWS_URL + '/static/'
+STATICFILES_STORAGE = 'blog_wc.storage_backends.MediaStorage'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
+MEDIA_URL = AWS_URL + '/media/'
+CKEDITOR_UPLOAD_PATH = AWS_URL + '/media/'
+DEFAULT_FILE_STORAGE = 'blog_wc.storage_backends.MediaStorage'
+ENDPOINT_URL = AWS_URL
+ACCESS_ID = AWS_ACCESS_KEY_ID
 
-'django.contrib.staticfiles.finders.FileSystemFinder',
+AWS_QUERYSTRING_AUTH = True
+AWS_S3_SECURE_URLS = False
 
-'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = default_headers + (
+    'Access-Control-Allow-Headers',
+    'Access-Control-Allow-Credentials',
+    'Access-Control-Allow-Origin',
+)
+
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:7000',
+    'http://127.0.0.1:7000',
+    'https://blogwc.s3.amazonaws.com'
 
 )
-CKEDITOR_UPLOAD_PATH = '/uploads/'
-
-#local
-# STATIC_URL = '/static/'
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'media'),)
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
-# FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440
-# FILE_UPLOAD_PERMISSION = 0o777
-
-#AMAZON
-# AWS_ACCESS_KEY_ID=os.getenv('AMAZON_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY=os.getenv('AMAZON_SECRET_ACCESS_KEY')
-# AWS_STORAGE_BUCKET_NAME=os.getenv('AWS_STORAGE_BUCKET_NAME')
-# AWS_URL=os.getenv('AWS_URL')
-# AWS_DEFAULT_ACL = None
-# AWS_S3_REGION_NAME = 'eu-north-1'
-# AWS_S3_SIGNATURE_VERSION = 's3v4'
-# CKEDITOR_UPLOAD_PATH = '/static/'
-# STATIC_URL = '/static/'
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# MEDIA_URL = AWS_URL + '/media/'
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# AWS_QUERYSTRING_AUTH = False
-
+CKEDITOR_CONFIGS = {
+    "default": {
+        "removePlugins": "exportpdf",
+    },
+    'awesome_ckeditor': {
+        'toolbar': 'Basic',
+    },
+}
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -227,11 +251,16 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_HOST_USER = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
 REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6379'
-CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+
+REDIS_URL = os.environ.get('REDIS_URL')
+CELERY_BROKER_URL = REDIS_URL
 CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3}
-CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_RESULT_BACKEND = REDIS_URL
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Kiev'
@@ -239,9 +268,23 @@ CELERY_SEND_EVENTS = True
 CELERY_RESULT_SERIALIZER = 'json'
 MAILQUEUE_CELERY = True
 
+
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'apps.blog.api.renderers.CustomRenderer',
+    ]
 }
-CORS_ALLOW_ALL_ORIGINS = True
+
+CACHES = {
+    "default":  {
+        "BACKEND":  "django_redis.cache.RedisCache",
+        "LOCATION":  REDIS_URL,
+        "OPTIONS":  {
+            "CLIENT_CLASS":  "django_redis.client.DefaultClient",
+        }
+    }
+}

@@ -97,12 +97,13 @@
 
     <div class="col-md-4">
         {% if request.user.is_authenticated %}
+        {% if object.author != request.user %}
         <form action="{{ url ('rating', object.slug)}}" method="post" name="rating"> {% csrf_token %}
             {{ rating_form}}
         <button type="submit" class="btn btn-primary"> {{ _('Оценить') }}</button>
         </form>
                     {% elif not request.user.is_authenticated %}<a href="{{ url('login') }}?next={{request.get_full_path()}}">{{_('Войти')}}</a>{{ _(' чтобы оценивать статьи') }} {% endif %}
-
+{% endif %}
     </div>
 </div>
 </div>

@@ -2,7 +2,7 @@ from django_jinja import library
 from django.urls import translate_url
 from django.conf import settings
 from apps.blog.models import Article
-from apps.menu.models import Menu
+from apps.menu.models import Menu, TextPage
 
 
 @library.global_function
@@ -17,8 +17,8 @@ def get_new_articles(request):
     if not request.user.is_authenticated:
         qs = qs
     else:
-        qs = qs.select_related('author').exclude(author=request.user)
-    return qs[:9].prefetch_related('comment_set', )
+        qs = qs.exclude(author=request.user)
+    return qs[:9].prefetch_related('comment_set')
 
 
 @library.global_function
@@ -37,4 +37,9 @@ def get_footer():
     footer = Menu.objects.filter(position=1, is_active=1)
     return footer
 
+
+@library.global_function
+def get_textpages():
+    texpages = TextPage.objects.all()
+    return texpages
 

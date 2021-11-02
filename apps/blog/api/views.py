@@ -29,6 +29,7 @@ class ArticleView(ListAPIView):
 class ArticleCreateView(CreateAPIView):
     serializer_class = ArticlePostSerializer
     permission_classes = [IsAuthenticated]
+    renderer_classes = [CustomRenderer, BrowsableAPIRenderer]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -42,6 +43,7 @@ class ArticleUpdateAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.prefetch_related('image_set').all()
     serializer_class = ArticlePostSerializer
     permission_classes = (IsAuthenticated, OwnPermission,)
+    renderer_classes = [CustomRenderer, BrowsableAPIRenderer]
     verbose_name = _('Изменение статьи')
 
 
@@ -49,6 +51,7 @@ class LikeCreate(CreateAPIView):
     serializer_class = LikeSerializer
     permission_classes = [IsAuthenticated]
     queryset = Like.objects.select_related('user', 'article').all()
+    renderer_classes = [CustomRenderer, BrowsableAPIRenderer]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -62,12 +65,14 @@ class SingleArticleView(RetrieveAPIView):
     lookup_field = 'slug'
     queryset = Article.objects.prefetch_related('image_set').all()
     serializer_class = ArticleSerializer
+    renderer_classes = [CustomRenderer, BrowsableAPIRenderer]
 
 
 class SubscribeView(RetrieveUpdateAPIView):
     lookup_field = None
     queryset = User.objects.all()
     serializer_class = SubscribesSerializer
+    renderer_classes = [CustomRenderer, BrowsableAPIRenderer]
 
     def get_object(self):
         article = Article.objects.select_related('author', 'category').filter(slug=self.kwargs['slug']).first()
@@ -90,6 +95,7 @@ class ProfileView(RetrieveUpdateAPIView):
     lookup_field = None
     serializer_class = ProfileSerializer
     permission_classes = (IsAuthenticated,)
+    renderer_classes = [CustomRenderer, BrowsableAPIRenderer]
 
     def get_object(self):
         return self.request.user

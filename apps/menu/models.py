@@ -13,6 +13,7 @@ class Menu(models.Model):
     class Meta:
         verbose_name = _('Элемент меню')
         verbose_name_plural = _('Элементы меню')
+        ordering = ['id']
 
     def __str__(self):
         return str(self.name)
@@ -21,7 +22,6 @@ class Menu(models.Model):
 class TextPage(models.Model):
     name = models.CharField(verbose_name=_('Название'), max_length=50)
     content = RichTextUploadingField(verbose_name=_('Контент'))
-    url = models.CharField(verbose_name=_('Ссылка'), max_length=100)
     target = models.SmallIntegerField(choices=[(0, '_self'), (1, '_blank')], default=0)
     position = models.SmallIntegerField(verbose_name=_('Позиция'), choices=[(0, 'Header'), (1, 'Footer')], default=0)
     is_active = models.BooleanField(default=True)

@@ -1,6 +1,7 @@
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib import admin
-from modeltranslation.admin import forms, TranslationAdmin
+from adminsortable2.admin import SortableAdminMixin
+from modeltranslation.admin import forms, TranslationAdmin, TabbedTranslationAdmin
 from .models import Menu, TextPage
 
 
@@ -14,8 +15,8 @@ class TextPageAdminForm(forms.ModelForm):
         fields = '__all__'
 
 
-class MenuAdmin(TranslationAdmin):
-    list_display = ('name', )
+class MenuAdmin(SortableAdminMixin, TabbedTranslationAdmin):
+    list_display = ('id', 'name' )
     list_display_links = ('name', )
 
 

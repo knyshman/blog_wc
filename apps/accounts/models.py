@@ -49,7 +49,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     phone = models.CharField(verbose_name=_('Телефон'), max_length=10, blank=True, null=True)
     avatar = models.ImageField(verbose_name=_('Фото'), blank=True, default='default-avatar.jpg')
-    subscribes = models.ManyToManyField('MyUser', verbose_name=_('Подписчики'), blank=True)
+    subscribes = models.ManyToManyField('MyUser', verbose_name=_('Подписчики'), blank=True, related_name='subscribes_set')
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
