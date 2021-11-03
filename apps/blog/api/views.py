@@ -1,15 +1,14 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.exceptions import ValidationError
 from rest_framework.generics import RetrieveUpdateAPIView, ListAPIView, CreateAPIView, \
-    RetrieveDestroyAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
+    RetrieveAPIView, RetrieveUpdateDestroyAPIView
 from .paginations import CustomPagination
 from .permissions import OwnPermission
 from ..filters import ArticleFilter
-from ..models import Article, Like
+from ..models import Article, Like, Image
 from .serializers import ArticleSerializer, ArticlePostSerializer, ProfileSerializer, LikeSerializer, \
-    SubscribesSerializer
+    SubscribesSerializer, ImagePostSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import BrowsableAPIRenderer
 from django.utils.translation import ugettext_lazy as _
@@ -103,3 +102,17 @@ class ProfileView(RetrieveUpdateAPIView):
     def get_queryset(self):
         queryset = User.objects.filter(id=self.request.user.id)
         return queryset
+
+
+class ImageCreateApiView(CreateAPIView):
+    serializer_class = ImagePostSerializer
+    queryset = Image.objects.all()
+    permission_classes = (IsAuthenticated, )
+    renderer_classes = [CustomRenderer, BrowsableAPIRenderer]
+
+    def perform_create(self, serializer):
+        article = Article.objects.select_related('category', 'author').filter(slug=self.kwargs['slug']).first()
+        if article.author == self.request.user:
+            serializer.save(article=article)
+        else:
+            raise ValidationError(_('Вы не можете добавлять изображения к этой статье!!!'))

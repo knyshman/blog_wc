@@ -1,4 +1,3 @@
-from django.contrib.admin import site
 from django.contrib.auth import get_user_model
 from django.db.models import Avg
 from django.db.models.signals import post_save, pre_save
@@ -56,7 +55,6 @@ from blog_wc.settings import (
     DEFAULT_FROM_EMAIL
 )
 from_email = DEFAULT_FROM_EMAIL
-# from_email = 'from@example.com'
 follow_user = User.objects.first()
 
 

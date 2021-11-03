@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.urls import path, include, re_path
 from django.views.generic import RedirectView
 from apps.menu.views import TextPageView
-
+from django.conf.urls.static import static
 
 User = get_user_model()
 
@@ -53,19 +53,5 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('django.contrib.auth.urls')),
     path('<slug:slug>/', TextPageView.as_view(), name='textpage'),
 )
-# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-from django.conf.urls.static import static
-
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-from django.conf import settings
-
-if settings.DEBUG:
-    if settings.MEDIA_ROOT:
-        urlpatterns += static(settings.MEDIA_URL,
-
-                      document_root=settings.MEDIA_ROOT)
-
-urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

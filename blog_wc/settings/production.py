@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'corsheaders'
 ]
-SITE_ID = 2
+SITE_ID = 3
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -279,12 +279,12 @@ REST_FRAMEWORK = {
     ]
 }
 
-CACHES = {
-    "default":  {
-        "BACKEND":  "django_redis.cache.RedisCache",
-        "LOCATION":  REDIS_URL,
-        "OPTIONS":  {
-            "CLIENT_CLASS":  "django_redis.client.DefaultClient",
-        }
-    }
-}
+# CACHES = {
+#     "default":  {
+#         "BACKEND":  "django_redis.cache.RedisCache",
+#         "LOCATION":  REDIS_URL,
+#         "OPTIONS":  {
+#             "CLIENT_CLASS":  "django_redis.client.DefaultClient",
+#         }
+#     }
+# }

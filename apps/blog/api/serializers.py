@@ -16,7 +16,7 @@ class ImageSerializer(serializers.ModelSerializer):
 class ImagePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ('id', 'image', 'alt', 'article')
+        fields = ('image', 'alt', 'article')
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -50,7 +50,6 @@ class SubscribesSerializer(serializers.ModelSerializer):
         model = User
         fields = ('email', 'name', 'last_name', 'phone', 'subscribes')
         read_only_fields = ('email', 'name', 'last_name', 'phone', 'subscribes')
-
 
 
 class ProfileSerializer(serializers.ModelSerializer):

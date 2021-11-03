@@ -68,12 +68,17 @@ class Image(models.Model):
     """Модель изображений в статье"""
     article = models.ForeignKey(Article, verbose_name=_('статья'), on_delete=models.CASCADE)
     image = models.ImageField(verbose_name=_('изображение'), upload_to='media')
-    alt = models.CharField(max_length=200)
+    alt = models.CharField(max_length=200, blank=True)
 
     class Meta:
         verbose_name = _('Изображение')
         verbose_name_plural = _('Изображения')
         ordering = ['alt']
+
+    def save(self, *args, **kwargs):
+        if not self.alt:
+            self.alt = f'{self.article.slug}{self.pk}'
+        super().save()
 
 
 class Comment(models.Model):

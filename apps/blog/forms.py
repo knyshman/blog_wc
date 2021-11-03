@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 from django_starfield import Stars
@@ -92,9 +91,4 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('name', 'last_name', 'phone', 'avatar')
-
-
-
-
-
 

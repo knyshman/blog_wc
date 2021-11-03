@@ -29,7 +29,8 @@ class ArticleFilter(django_filters.FilterSet):
             'category': ['exact']
         }
 
-    def get_relative_categories(self, queryset, category, value):
+    @staticmethod
+    def get_relative_categories(queryset, category, value):
         """Получаем родительские категории"""
         categories = list(value.get_descendants()) + [value]
         qs = queryset.filter(category__in=categories)

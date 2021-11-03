@@ -29,6 +29,7 @@ def save_articles():
                 c = Category.objects.filter(name=art['category']).first()
             current_article = Article.objects.filter(title=art['title'])
             if not current_article:
+                print('new Article')
                 try:
                     image_name = f'{str(uuid.uuid4())}.jpg'
                     image_path = f'{settings.MEDIA_ROOT}/{image_name}'
@@ -45,6 +46,7 @@ def save_articles():
                                       )
 
                     article.save()
+                    print('ok')
                     images = art['images']
                     if images:
                         try:
@@ -55,11 +57,11 @@ def save_articles():
                                 new_image = Image(article=article, image=image_name, alt=image_name)
                                 new_image.save()
                         except ValueError:
-                            pass
+                            print('image saving error')
                 except (DatabaseError, UnicodeEncodeError, OSError):
-                    continue
+                    print('not save')
             else:
-                pass
+                continue
 
 
 def save_sport_articles():
@@ -98,4 +100,4 @@ def save_sport_articles():
                 except (DatabaseError, UnicodeEncodeError, OSError):
                     continue
             else:
-                pass
+                continue
