@@ -1,6 +1,8 @@
+from typing import Union, Any
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -24,7 +26,7 @@ class ArticleDetailView(MultipleObjectMixin, DetailView):
     paginate_by = 8
     ordering = '-create_date'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         object_list = Comment.objects.select_related('article', 'author').filter(article=self.get_object(), is_published=True)
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['form'] = CommentForm(initial={'article': self.object, 'author': self.request.user})
@@ -43,7 +45,7 @@ class ArticleDetailView(MultipleObjectMixin, DetailView):
                 context['button'] = '\u2764\uFE0F' + _('лайкнуть')
         return context
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         return reverse_lazy('article_detail', kwargs={'slug': self.object.slug})
 
 
@@ -54,7 +56,7 @@ class ArticleListView(FilterView):
     template_name = 'blog/home.html'
     filterset_class = ArticleFilter
 
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, *args, **kwargs) -> dict:
         context = super().get_context_data(*args, **kwargs)
         params = get_paginate_tags(self.request)
         context.update(**params)
@@ -68,13 +70,13 @@ class ArticleCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     success_message = _('Статья успешно добавлена')
     form_class = ArticleForm
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         context = super().get_context_data(**kwargs)
         context['form'] = ArticleForm(initial={'author': self.request.user})
         context['formset'] = ArticleFormSet(self.request.POST or None, self.request.FILES or None)
         return context
 
-    def form_valid(self, form):
+    def form_valid(self, form) -> HttpResponseRedirect:
         """Check if form valid"""
         formset = ArticleFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object)
         if formset.is_valid():
@@ -93,17 +95,17 @@ class ArticleUpdateView(SuccessMessageMixin, PermissionRequiredMixin, UpdateView
     template_name = 'blog/article_update.html'
     success_message = _('Статья успешно изменена')
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         context = super().get_context_data(**kwargs)
         context['formset'] = ArticleFormSet(self.request.POST or None, self.request.FILES or None)
         return context
 
-    def has_permission(self):
+    def has_permission(self) -> bool:
         if self.get_object().author == self.request.user:
             return True
         return False
 
-    def form_valid(self, form):
+    def form_valid(self, form) -> HttpResponseRedirect:
         """Check if form valid"""
         formset = ArticleFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object)
         if formset.is_valid():
@@ -119,7 +121,7 @@ class ArticleDeleteView(DeleteView):
     model = Article
     success_url = reverse_lazy('home')
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs) -> HttpResponseRedirect:
         messages.success(request, _('Статья успешно удалена'))
         return self.post(request, *args, **kwargs)
 
@@ -131,11 +133,11 @@ class CommentCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'blog/detail.html'
     success_message = 'Комментарий опубликован'
 
-    def form_invalid(self, form, **kwargs):
+    def form_invalid(self, form, **kwargs) -> Union[HttpResponsePermanentRedirect, HttpResponseRedirect]:
         messages.add_message(self.request, messages.ERROR, _('Поле комментария не может быть пустым!!!'))
         return redirect(reverse_lazy('article_detail', kwargs={'slug': self.kwargs['slug']}))
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         return reverse_lazy('article_detail', kwargs={'slug': self.object.article.slug})
 
 
@@ -145,7 +147,7 @@ class RatingCreateView(LoginRequiredMixin, CreateView):
     form_class = RatingForm
     template_name = 'blog/detail.html'
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         return reverse_lazy('article_detail', kwargs={'slug': self.object.article.slug})
 
 
@@ -155,7 +157,7 @@ class LikeCreateView(CreateView):
     form_class = LikeForm
     template_name = 'blog/detail.html'
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         return reverse_lazy('article_detail', kwargs={'slug': self.object.article.slug})
 
 
@@ -165,17 +167,17 @@ class ProfileDetailView(MultipleObjectMixin, LoginRequiredMixin, DetailView):
     template_name = 'blog/profile.html'
     paginate_by = 20
 
-    def get_object(self, queryset=None):
+    def get_object(self, queryset=None) -> Any:
         return self.request.user
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         object_list = Article.objects.filter(author=self.request.user).select_related('author')
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['form'] = MyPasswordChangeForm(user=self.request.user)
         context['profile_form'] = ProfileForm(instance=self.request.user)
         return context
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         return reverse_lazy('profile')
 
 
@@ -185,20 +187,20 @@ class ProfileUpdateView(UpdateView):
     form_class = ProfileForm
     template_name = 'blog/profile.html'
 
-    def get_object(self, queryset=None):
+    def get_object(self, queryset=None) -> Any:
         return self.request.user
 
-    def form_invalid(self, form, **kwargs):
+    def form_invalid(self, form, **kwargs) -> Union[HttpResponsePermanentRedirect, HttpResponseRedirect]:
         messages.add_message(self.request, messages.ERROR, _(form.errors.as_text()))
         return redirect(reverse_lazy('profile'))
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         return reverse_lazy('profile')
 
 
 class Subscribes(View):
     """Подписка на автора"""
-    def post(self, *args, **kwargs):
+    def post(self, *args, **kwargs) -> Union[HttpResponsePermanentRedirect, HttpResponseRedirect]:
         article = Article.objects.select_related('author', 'category').filter(slug=kwargs['slug']).first()
         author = article.author
         current_user = self.request.user
@@ -216,7 +218,7 @@ class MyUserFavouriteArticles(LoginRequiredMixin, ListView):
     model = Like
     template_name = 'blog/user_liked_articles.html'
 
-    def get_queryset(self):
+    def get_queryset(self) -> list:
         qs = Like.objects.filter(user=self.request.user, like=True).select_related('article', 'user')
         object_list = []
         for like in qs.select_related('article', 'user'):

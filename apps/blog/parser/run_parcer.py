@@ -1,9 +1,10 @@
-import json
-import uuid
-from urllib.request import urlretrieve
 from django.contrib.auth import get_user_model
 from django.db import DatabaseError
 from django.conf import settings
+import json
+import uuid
+import boto3
+import requests
 from apps.blog.models import Category, Article, Image
 
 
@@ -29,11 +30,17 @@ def save_articles():
                 c = Category.objects.filter(name=art['category']).first()
             current_article = Article.objects.filter(title=art['title'])
             if not current_article:
-                print('new Article')
                 try:
                     image_name = f'{str(uuid.uuid4())}.jpg'
-                    image_path = f'{settings.MEDIA_ROOT}/{image_name}'
-                    preview_image = urlretrieve(art['preview_image'], image_path)
+                    AWS_S3_CREDS = {
+                        "aws_access_key_id": settings.AWS_ACCESS_KEY_ID,
+                        "aws_secret_access_key": settings.AWS_SECRET_ACCESS_KEY,
+                        "region_name": settings.AWS_S3_REGION_NAME,
+                    }
+                    resp = requests.get(art['preview_image'])
+                    s3 = boto3.resource('s3', **AWS_S3_CREDS)
+                    obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, f'media/{image_name}')
+                    obj.put(Body=resp.content)
 
                     article = Article(title=art['title'],
                                       slug=art['slug'],
@@ -46,20 +53,21 @@ def save_articles():
                                       )
 
                     article.save()
-                    print('ok')
                     images = art['images']
                     if images:
                         try:
                             for image in images[1:]:
+                                resp = requests.get(image)
+                                s3 = boto3.resource('s3', **AWS_S3_CREDS)
                                 image_name = f'{str(uuid.uuid4())}.jpg'
-                                image_path = f'{settings.MEDIA_ROOT}/{image_name}'
-                                image_file = urlretrieve(image, image_path)
+                                obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, f'media/{image_name}')
+                                obj.put(Body=resp.content)
                                 new_image = Image(article=article, image=image_name, alt=image_name)
                                 new_image.save()
                         except ValueError:
-                            print('image saving error')
+                            pass
                 except (DatabaseError, UnicodeEncodeError, OSError):
-                    print('not save')
+                    pass
             else:
                 continue
 
@@ -83,8 +91,15 @@ def save_sport_articles():
             if not current_article:
                 try:
                     image_name = f'{str(uuid.uuid4())}.jpg'
-                    image_path = f'{settings.MEDIA_ROOT}/{image_name}'
-                    preview_image = urlretrieve(art['preview_image'], image_path)
+                    AWS_S3_CREDS = {
+                        "aws_access_key_id": settings.AWS_ACCESS_KEY_ID,
+                        "aws_secret_access_key": settings.AWS_SECRET_ACCESS_KEY,
+                        "region_name": settings.AWS_S3_REGION_NAME,
+                    }
+                    resp = requests.get(art['preview_image'])
+                    s3 = boto3.resource('s3', **AWS_S3_CREDS)
+                    obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, f'media/{image_name}')
+                    obj.put(Body=resp.content)
 
                     article = Article(title=art['title'],
                                       slug=art['slug'],

@@ -1,6 +1,6 @@
 import json
 import re
-
+from typing import Union
 import requests
 from bs4 import BeautifulSoup as BS
 from random import randint
@@ -18,14 +18,13 @@ headers = [
     {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv:53.0) Gecko/20100101 Firefox/53.0',
         'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
     ]
-# headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 5.1; rv:47.0) Gecko/20100101 Firefox/47.0',
-#         'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
 url = 'https://itc.ua/news/'
+
 
 ARTICLES = [article.title for article in Article.objects.all()]
 
 
-def get_global_html(url):
+def get_global_html(url) -> list[str]:
     html = []
     html.append(requests.get(url, headers=headers[randint(0, 2)]).text)
     page_number = 2
@@ -44,7 +43,7 @@ def get_global_html(url):
     return html
 
 
-def get_urls():
+def get_urls() -> list:
     response_list = get_global_html(url)
     links_list = []
     for html in response_list:
@@ -56,7 +55,7 @@ def get_urls():
     return urls
 
 
-def get_itc_content():
+def get_itc_content() -> list[dict[str, Union[str, list]]]:
     urls = get_urls()
     articles = []
     for url in urls:
@@ -72,7 +71,6 @@ def get_itc_content():
             image_list = soup.findAll('img')[:-2]
             for im in image_list:
                 images.append(im.get('src'))
-            author = soup.find('span', class_='vcard author part hidden-xs')
             category = soup.find('span', class_='cat part text-uppercase').text
             splitted_url = str(url).split('/')
             slug = re.sub('[!@#&%?/$]', '', splitted_url[-2])

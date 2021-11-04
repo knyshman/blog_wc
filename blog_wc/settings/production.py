@@ -153,8 +153,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
-
 LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Kiev'
@@ -231,6 +229,7 @@ CORS_ALLOW_HEADERS = default_headers + (
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:7000',
     'http://127.0.0.1:7000',
+    'knyshblog.herokuapp.com',
     'https://blogwc.s3.amazonaws.com'
 
 )
@@ -278,13 +277,3 @@ REST_FRAMEWORK = {
         'apps.blog.api.renderers.CustomRenderer',
     ]
 }
-
-# CACHES = {
-#     "default":  {
-#         "BACKEND":  "django_redis.cache.RedisCache",
-#         "LOCATION":  REDIS_URL,
-#         "OPTIONS":  {
-#             "CLIENT_CLASS":  "django_redis.client.DefaultClient",
-#         }
-#     }
-# }
