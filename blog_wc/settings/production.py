@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 load_dotenv()
 AUTH_USER_MODEL = 'accounts.MyUser'
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'django-insecure-s$ppw7s^6et23p@_fs2ff^dub=7#&h1&(b8ylg6o%cz-u6v-!@'
 SECRET_KEY = SECRET_KEY
 DB_NAME = os.environ.get('DB_NAME')
 DB_PASSWORD = os.environ.get('DB_PASSWORD')
