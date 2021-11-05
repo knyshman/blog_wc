@@ -1,8 +1,12 @@
 import os
 from pathlib import Path
+import dj_database_url
+from dotenv import load_dotenv
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-from dotenv import load_dotenv
+
+
 load_dotenv()
 AUTH_USER_MODEL = 'accounts.MyUser'
 
@@ -16,7 +20,6 @@ DB_USER = os.environ.get('DB_USER')
 DEBUG = False
 
 ALLOWED_HOSTS = ['knyshblog.herokuapp.com']
-
 
 INSTALLED_APPS = [
     'modeltranslation',
@@ -66,42 +69,41 @@ ROOT_URLCONF = 'blog_wc.urls'
 
 TEMPLATES = [
     {'BACKEND': 'django_jinja.backend.Jinja2',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': False,
-        'OPTIONS': {
-            'match_extension': '.html',
+     'DIRS': [BASE_DIR / 'templates'],
+     'APP_DIRS': False,
+     'OPTIONS': {
+         'match_extension': '.html',
 
-            'extensions': [
-                "jinja2.ext.do",
-                "jinja2.ext.loopcontrols",
-                'jinja2.ext.i18n',
-                'jinja2.ext.with_',
-                "django_jinja.builtins.extensions.CsrfExtension",
-                'django_jinja.builtins.extensions.CacheExtension',
-                "django_jinja.builtins.extensions.DebugExtension",
-                'django_jinja.builtins.extensions.TimezoneExtension',
-                "django_jinja.builtins.extensions.UrlsExtension",
-                "django_jinja.builtins.extensions.StaticFilesExtension",
-                "django_jinja.builtins.extensions.DjangoFiltersExtension",
+         'extensions': [
+             "jinja2.ext.do",
+             "jinja2.ext.loopcontrols",
+             'jinja2.ext.i18n',
+             'jinja2.ext.with_',
+             "django_jinja.builtins.extensions.CsrfExtension",
+             'django_jinja.builtins.extensions.CacheExtension',
+             "django_jinja.builtins.extensions.DebugExtension",
+             'django_jinja.builtins.extensions.TimezoneExtension',
+             "django_jinja.builtins.extensions.UrlsExtension",
+             "django_jinja.builtins.extensions.StaticFilesExtension",
+             "django_jinja.builtins.extensions.DjangoFiltersExtension",
 
-            ],
-            "globals": {
-                'available_languages': 'blog_wc.jinja2.get_lang_urls',
-                'recommended': 'blog_wc.jinja2.get_new_articles',
-                'str_time': 'blog_wc.jinja2.str_time',
-                'get_header': 'blog_wc.jinja2.get_header',
-                'get_footer': 'blog_wc.jinja2.get_footer',
-                'textpages': 'blog_wc.jinja2.get_textpages',
+         ],
+         "globals": {
+             'available_languages': 'blog_wc.jinja2.get_lang_urls',
+             'recommended': 'blog_wc.jinja2.get_new_articles',
+             'str_time': 'blog_wc.jinja2.str_time',
+             'get_header': 'blog_wc.jinja2.get_header',
+             'get_footer': 'blog_wc.jinja2.get_footer',
+             'textpages': 'blog_wc.jinja2.get_textpages',
 
+         },
+         'context_processors': [
+             'django.contrib.messages.context_processors.messages',
+             'django.template.context_processors.request',
+         ],
 
-            },
-            'context_processors': [
-                'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.request',
-            ],
-
-        },
-    },
+     },
+     },
 
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -121,7 +123,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'blog_wc.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -133,7 +134,7 @@ DATABASES = {
     }
 }
 
-import dj_database_url
+
 db = dj_database_url.config()
 DATABASES['default'].update(db)
 
@@ -152,7 +153,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Kiev'
@@ -163,9 +163,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 ugettext_lazy = lambda s: s
-
 
 LANGUAGES = (
     ('ru', ugettext_lazy('Русский')),
@@ -180,9 +178,7 @@ MODELTRANSLATION_TRANSLATION_FILES = (
 ACCOUNT_ACTIVATION_DAYS = 30
 DEFAULT_CHARSET = 'utf-8'
 
-
 LOCALE_PATHS = (BASE_DIR, 'locale/')
-
 
 ROSETTA_ENABLE_TRANSLATION_SUGGESTIONS = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -193,7 +189,6 @@ INTERNAL_IPS = [
 
 ROSETTA_ACCESS_CONTROL_FUNCTION = lambda x: x.is_superuser
 DJANGO_WYSIWYG_FLAVOR = 'ckeditor'
-
 
 CORS_ALLOW_ALL_ORIGINS = False
 # #AMAZON
@@ -216,7 +211,6 @@ ACCESS_ID = AWS_ACCESS_KEY_ID
 AWS_QUERYSTRING_AUTH = True
 AWS_S3_SECURE_URLS = False
 
-
 from corsheaders.defaults import default_headers
 
 CORS_ALLOW_HEADERS = default_headers + (
@@ -224,7 +218,6 @@ CORS_ALLOW_HEADERS = default_headers + (
     'Access-Control-Allow-Credentials',
     'Access-Control-Allow-Origin',
 )
-
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:7000',
@@ -252,7 +245,6 @@ EMAIL_HOST_USER = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-
 REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6379'
 
@@ -266,7 +258,6 @@ CELERY_TIMEZONE = 'Europe/Kiev'
 CELERY_SEND_EVENTS = True
 CELERY_RESULT_SERIALIZER = 'json'
 MAILQUEUE_CELERY = True
-
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
