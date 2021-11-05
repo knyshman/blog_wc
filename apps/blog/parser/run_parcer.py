@@ -10,7 +10,7 @@ from apps.blog.models import Category, Article, Image
 
 User = get_user_model()
 
-categories = [category.name for category in Category.objects.all()]
+categories = [category.name for category in Category.objects.all() if Category.objects.all()]
 
 
 def save_articles():
