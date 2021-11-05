@@ -17,6 +17,7 @@ class ImagePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = ('image', 'alt', 'article')
+        read_only_fields = ('article',)
 
 
 class ArticleSerializer(serializers.ModelSerializer):
